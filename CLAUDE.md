@@ -18,10 +18,15 @@ not built yet.
 - Tone: clarity first, and never patronise. Headings say plainly what the
   section is ("Searching with AI", not "Four places to ask"). Readers are
   staff who think AI is useless or don't know where to start; don't call
-  them beginners.
-- Tools are listed in two groups: provided by the Guardian (covered by its
-  agreements) and open to anyone. ChatGPT Enterprise is listed, flagged as
-  enterprise accounts only, and has no tips.
+  them beginners. Never work backwards from assumed knowledge: each "why"
+  line says what the thing is before what it's for ("Most AI tools offer
+  more than one model. In Gemini you choose between...").
+- Tools are listed in four groups: inside Google Workspace (apps used as
+  normal, Gemini embedded), general AI tools (Gemini app, Notebook, ChatGPT
+  Enterprise flagged as enterprise accounts only), built by the Guardian
+  (Ask the Guardian, House, Guardian Angles, the two transcription tools)
+  and open to anyone (Google Search, YouTube). Tools with no tips get no
+  filter chip.
 - The "why these" panel says: Workspace gives the same privacy as Drive and
   Gmail; never use free or personal accounts for work; anything you wouldn't
   keep in Drive or email doesn't go into an AI tool; new tools need budget
