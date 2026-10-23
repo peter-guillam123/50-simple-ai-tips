@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>50 simple ways to use AI at work</title>
+<meta name="description" content="Fifty practical things Guardian staff can do today with the AI tools the Guardian already provides, mostly Gemini. Nothing that writes a story.">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23052962'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='17' font-weight='700' fill='%23FFE500'%3E50%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://assets.guim.co.uk" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the tips</a>
+
+<!-- Password gate. Off by default. Switch it on in js/gate.js (GATE.enabled). -->
+<div id="gate" class="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate__card" id="gate-form">
+    <div class="band" aria-hidden="true"><i></i><i></i></div>
+    <p class="eyebrow">50 simple ways to use AI at work</p>
+    <h1 id="gate-title">Enter the <em>password</em>.</h1>
+    <label class="vh" for="gate-input">Password</label>
+    <input id="gate-input" type="password" autocomplete="off" placeholder="Password">
+    <button class="btn" type="submit">Enter</button>
+    <p class="gate__error" id="gate-error" hidden>That's not it. Try again.</p>
+  </form>
+</div>
+
+<header class="topbar">
+  <div class="band" aria-hidden="true"><i></i><i></i></div>
+  <div class="topbar__in">
+    <a class="topbar__mark" href="#top">50 ways</a>
+    <nav class="topbar__nav" aria-label="Sections">
+      <a href="#tools">Tools</a>
+      <a href="#plate-ladder">The ladder</a>
+      <a href="#picker">Start here</a>
+      <a href="#sec-ladder">Pick a tool</a>
+      <a href="#sec-find">Find</a>
+      <a href="#sec-documents">Documents</a>
+      <a href="#sec-av">Video &amp; audio</a>
+      <a href="#sec-numbers">Numbers</a>
+      <a href="#sec-tidy">Tidy</a>
+      <a href="#sec-automate">Automatic</a>
+      <a href="#sources">Sources</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch between light and dark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+    </button>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+<!-- ================================================================ MASTHEAD -->
+<div class="hero wrap" id="top">
+  <div class="hero__in">
+    <p class="eyebrow" id="hero-eyebrow"></p>
+    <h1 id="hero-headline"></h1>
+    <p class="hero__stand" id="hero-stand"></p>
+    <div class="hero__meta">
+      <span class="stamp stamp--live">Correct as of <span data-asof></span></span>
+      <span class="stamp">About <span id="read-mins">25</span> minutes</span>
+      <span class="stamp"><span id="entry-count">50</span> ideas</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ TOOL CARDS -->
+<section class="chapter wrap" id="tools">
+  <div class="prose">
+    <p class="eyebrow">What you can use here</p>
+    <h2>The tools</h2>
+    <p class="lede">Everything approved at the Guardian, and one line on what each is for. Every tip below names one of these.</p>
+  </div>
+  <div class="tools wide" id="tool-cards"></div>
+  <div class="why wide" id="why-these"></div>
+</section>
+
+<!-- ============================================================ THE LADDER -->
+<section class="chapter wrap" id="ladder-intro">
+  <div class="prose">
+    <p class="eyebrow">Before anything else</p>
+    <h2>Four places to ask</h2>
+    <p class="lede">The first decision is not what to type. It is where. Pick an example question and watch which rung lights up.</p>
+  </div>
+
+  <figure class="plate rv" id="plate-ladder" aria-labelledby="ladder-title">
+    <div class="plate__head"><span class="plate__no">Plate 1</span><h3 class="plate__title" id="ladder-title">The tool ladder</h3></div>
+    <div class="plate__body ladder" id="ladder"></div>
+    <figcaption class="plate__cap"><strong>What to notice</strong> <span id="ladder-cap"></span></figcaption>
+  </figure>
+</section>
+
+<!-- ================================================================ PICKER -->
+<section class="chapter wrap" id="picker">
+  <div class="prose">
+    <p class="eyebrow">Start here</p>
+    <h2>What have you got?</h2>
+    <p class="lede">You probably arrived with something in hand rather than a tool in mind. Pick it, and the list below shrinks to what you can do with it.</p>
+  </div>
+  <div class="picker wide" id="picker-grid" role="group" aria-label="Pick what you are starting with"></div>
+</section>
+
+<!-- ============================================================ FILTER BAR -->
+<div class="filterbar" id="filterbar">
+  <div class="filterbar__in">
+    <div class="filterbar__summary">
+      <span class="filterbar__count" id="filter-count" aria-live="polite">Showing all 50</span>
+      <span class="filterbar__active" id="filter-active"></span>
+      <button class="btn btn--ghost btn--small" id="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-groups">Filters</button>
+      <button class="btn btn--small" id="filter-reset" type="button" hidden>Show all 50</button>
+    </div>
+    <div class="filterbar__groups" id="filter-groups">
+      <div class="fgroup" id="fg-job"><span class="fgroup__label">Job</span><div class="fgroup__chips" role="group" aria-label="Filter by job"></div></div>
+      <div class="fgroup" id="fg-tool"><span class="fgroup__label">Tool</span><div class="fgroup__chips" role="group" aria-label="Filter by tool"></div></div>
+      <div class="fgroup" id="fg-material"><span class="fgroup__label">Material</span><div class="fgroup__chips" role="group" aria-label="Filter by what you are starting with"></div></div>
+      <div class="fgroup" id="fg-effort"><span class="fgroup__label">Effort</span><div class="fgroup__chips" role="group" aria-label="Filter by effort"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ THE FIFTY -->
+<div id="entries" class="wrap"></div>
+
+<p class="empty wrap" id="empty" hidden>Nothing matches that mix of filters. <button class="linkbtn" type="button" id="empty-reset">Show all 50</button></p>
+
+<!-- =============================================================== SOURCES -->
+<section class="chapter wrap" id="sources">
+  <div class="wide">
+    <p class="eyebrow">Check our work</p>
+    <h2>Sources</h2>
+    <p style="max-width:var(--measure)">Google renames and moves things often. These are the announcements and help pages each tip rests on, with a note on how far each was checked.</p>
+    <ul class="src-key"><li><span class="chk chk--brief">Checked</span> in the project brief, 22 to 23 October 2026</li><li><span class="chk chk--todo">Still to add</span> from inside the Guardian</li></ul>
+    <ol class="sources" id="sources-list"></ol>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="band" aria-hidden="true"><i></i><i></i></div>
+  <p>50 simple ways to use AI at work. Correct as of <span data-asof></span>. Corrections and better tips welcome. <a href="about.html">About this guide</a>.</p>
+</footer>
+
+<noscript><p class="wrap" style="max-width:40rem;margin:2rem auto">This guide draws its list from a data file with JavaScript. With JavaScript switched off there is nothing to show. Sorry.</p></noscript>
+
+<script src="js/gate.js"></script>
+<script src="js/site.js"></script>
+<script src="js/entries.js"></script>
+<script src="js/sketches.js"></script>
+<script src="js/plates.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
