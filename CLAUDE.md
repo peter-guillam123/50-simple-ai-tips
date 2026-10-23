@@ -22,8 +22,8 @@ not built yet.
   line says what the thing is before what it's for ("Most AI tools offer
   more than one model. In Gemini you choose between...").
 - Tools are listed in four groups: inside Google Workspace (apps used as
-  normal, Gemini embedded), general AI tools (Gemini app, Notebook, ChatGPT
-  Enterprise flagged as enterprise accounts only), built by the Guardian
+  normal, Gemini embedded), general AI tools (Gemini app, Notebook, Gemini
+  in Chrome, ChatGPT Enterprise flagged as enterprise accounts only), built by the Guardian
   (Ask the Guardian, House, Guardian Angles, the two transcription tools)
   and open to anyone (Google Search, YouTube). Tools with no tips get no
   filter chip.
