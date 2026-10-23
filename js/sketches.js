@@ -1,385 +1,432 @@
-/* sketches.js: small static drawings, one per key.
+/* sketches.js: the small drawings beside entries.
  *
- * Each is a function returning an SVG string on a 320 by 180 canvas.
- * They are simplified frames of the tools (a search page, a notebook,
- * a player, a grid), never screenshots and never Google's logos. The
- * colours come from the page's CSS variables, so they follow dark mode.
+ * Ten frames, each a simplified picture of one tool surface, drawn to one
+ * visual system: a 320 by 200 canvas, 1.5px strokes, text shown as rounded
+ * grey bars, one yellow highlight for the thing to notice, one red mark for
+ * a cursor or the current position. No screenshots and no Google logos.
  *
- * Entries point at one with `sketch: 'key'` in js/entries.js.
+ * Entries point at a frame and a variant: sketch: 'chat/file'. Each frame
+ * takes the entry, so it can show the entry's own prompt where that helps.
+ *
+ *   search    overview · aimode · trace
+ *   chat      plain · file · link · image · model · research · browser ·
+ *             translate · notes · schedule · canvas
+ *   notebook  sources · answer · audio · mindmap · cards · video ·
+ *             timeline · questions · beat
+ *   mail      search · thread · space · settings
+ *   drive     find · pdf
+ *   sheet     formula · chart
+ *   doc       table · proof · listen
+ *   player    ask · transcript · live
+ *   meet      notes · ask
+ *   phone     camera · live
  */
 (function () {
   'use strict';
 
-  var W = 320, H = 180;
+  var W = 320, H = 200;
+
+  /* ------------------------------------------------------------ primitives */
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function svg(inner, label) {
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (label || '') + '">' + inner + '</svg>';
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(label) + '">' + inner + '</svg>';
   }
-  /* primitives */
-  function frame(x, y, w, h, r) { return '<rect class="frame" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (r == null ? 6 : r) + '"/>'; }
-  function soft(x, y, w, h, r) { return '<rect class="soft" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (r == null ? 3 : r) + '"/>'; }
-  function hi(x, y, w, h, r) { return '<rect class="hi-soft" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (r == null ? 3 : r) + '"/>'; }
-  function acc(x, y, w, h, r) { return '<rect class="acc" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (r == null ? 3 : r) + '"/>'; }
-  function line(x1, y1, x2, y2, cls) { return '<line class="' + (cls || 'line') + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>'; }
-  /* text lines standing for prose: n lines from (x,y), width w, step s */
-  function lines(x, y, w, n, s, cls) {
-    var out = '';
+  function rect(x, y, w, h, cls, r) {
+    return '<rect class="' + cls + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (r == null ? 4 : r) + '"/>';
+  }
+  /* a window: paper panel with a hairline header */
+  function win(x, y, w, h, title) {
+    return rect(x, y, w, h, 'sk-win', 6) +
+      '<path class="sk-rule" d="M' + x + ' ' + (y + 22) + 'h' + w + '"/>' +
+      (title ? text(x + 10, y + 15, title, 'sk-t sk-t--head') : '');
+  }
+  function text(x, y, s, cls, anchor) {
+    return '<text class="' + (cls || 'sk-t') + '" x="' + x + '" y="' + y + '"' + (anchor ? ' text-anchor="' + anchor + '"' : '') + '>' + esc(s) + '</text>';
+  }
+  /* greeked text: rounded bars standing for lines of prose */
+  var PAT = [1, 0.93, 0.98, 0.88, 0.95, 0.62];
+  function greek(x, y, w, n, opts) {
+    opts = opts || {};
+    var gap = opts.gap || 9, out = '';
     for (var i = 0; i < n; i++) {
-      var ww = i === n - 1 ? w * .6 : w * (0.85 + ((i * 37) % 15) / 100);
-      out += line(x, y + i * (s || 10), x + ww, y + i * (s || 10), cls);
+      var f = (i === n - 1 && n > 1) ? 0.55 : PAT[i % PAT.length];
+      out += '<line class="' + (opts.cls || 'sk-greek') + '" x1="' + x + '" y1="' + (y + i * gap) + '" x2="' + (x + w * f) + '" y2="' + (y + i * gap) + '"/>';
     }
     return out;
   }
-  function t(x, y, s, cls, anchor) { return '<text x="' + x + '" y="' + y + '"' + (cls ? ' class="' + cls + '"' : '') + (anchor ? ' text-anchor="' + anchor + '"' : '') + '>' + s + '</text>'; }
-  function arrow(x1, y1, x2, y2) {
-    var a = Math.atan2(y2 - y1, x2 - x1), L = 7;
-    return '<path class="arrow" d="M' + x1 + ' ' + y1 + 'L' + x2 + ' ' + y2 +
-      'M' + (x2 - L * Math.cos(a - .5)) + ' ' + (y2 - L * Math.sin(a - .5)) + 'L' + x2 + ' ' + y2 + 'L' + (x2 - L * Math.cos(a + .5)) + ' ' + (y2 - L * Math.sin(a + .5)) + '"/>';
+  function chip(x, y, s, hot, cls) {
+    var w = Math.round(s.length * 5.6 + 14);
+    return rect(x, y, w, 16, (hot ? 'sk-hi' : 'sk-soft') + (cls ? ' ' + cls : ''), 8) + text(x + w / 2, y + 11, s, 'sk-t sk-t--chip' + (hot ? ' sk-on-hi' : ''), 'middle');
   }
-  function doc(x, y, w, h) {
-    return frame(x, y, w, h, 3) + '<path class="soft" d="M' + (x + w - 14) + ' ' + y + 'v14h14z"/>' + lines(x + 8, y + 22, w - 16, Math.floor((h - 30) / 9), 9);
+  function chipW(s) { return Math.round(s.length * 5.6 + 14); }
+  function btn(x, y, s, primary) {
+    var w = Math.round(s.length * 6 + 18);
+    return rect(x, y, w, 18, primary ? 'sk-ink' : 'sk-soft', 9) + text(x + w / 2, y + 12, s, primary ? 'sk-t sk-t--onink' : 'sk-t sk-t--chip', 'middle');
   }
-  function searchbar(x, y, w, text) {
-    return '<rect class="frame" x="' + x + '" y="' + y + '" width="' + w + '" height="26" rx="13"/>' +
-      '<circle cx="' + (x + 15) + '" cy="' + (y + 13) + '" r="5" class="acc-stroke" fill="none"/>' +
-      t(x + 28, y + 17, text, 'ser');
+  /* a four-point sparkle, the generic sign for "the AI bit" */
+  function spark(x, y, r) {
+    r = r || 5;
+    return '<path class="sk-spark" d="M' + x + ' ' + (y - r) + 'Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y + 'Q' + x + ' ' + y + ' ' + x + ' ' + (y + r) + 'Q' + x + ' ' + y + ' ' + (x - r) + ' ' + y + 'Q' + x + ' ' + y + ' ' + x + ' ' + (y - r) + 'z"/>';
   }
-  function chip(x, y, w, s, cls) { return '<rect class="' + (cls || 'soft') + '" x="' + x + '" y="' + y + '" width="' + w + '" height="18" rx="9"/>' + t(x + w / 2, y + 12, s, null, 'middle'); }
-  function play(x, y, r) { return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" class="ink"/><path d="M' + (x - r * .3) + ' ' + (y - r * .45) + 'l' + (r * .8) + ' ' + (r * .45) + 'l-' + (r * .8) + ' ' + (r * .45) + 'z" fill="var(--paper)"/>'; }
-  function bubble(x, y, w, h, left) {
-    var r = 8;
-    return '<path class="soft" d="M' + (x + r) + ' ' + y + 'h' + (w - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' ' + r + 'v' + (h - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 -' + r + ' ' + r + 'h-' + (w - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 -' + r + ' -' + r + 'v-' + (h - 2 * r) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' -' + r + 'z"/>' +
-      (left ? '<path class="soft" d="M' + x + ' ' + (y + h - 6) + 'l-6 6 6 0z"/>' : '') + lines(x + 8, y + 10, w - 16, Math.max(1, Math.floor((h - 10) / 9)), 9);
+  function cursor(x, y, h) { return '<rect class="sk-acc" x="' + x + '" y="' + y + '" width="2" height="' + (h || 10) + '"/>'; }
+  function docIcon(x, y, w, h, hot) {
+    return rect(x, y, w, h, hot ? 'sk-hi' : 'sk-card', 2) + '<path class="sk-rule" d="M' + (x + w - 6) + ' ' + y + 'v6h6"/>' + greek(x + 4, y + 11, w - 8, Math.max(1, Math.floor((h - 12) / 5)), { gap: 5, cls: 'sk-greek sk-greek--thin' });
   }
-  function headphones(x, y, s) {
-    return '<path class="acc-stroke" d="M' + (x - s) + ' ' + (y + s * .4) + 'a' + s + ' ' + s + ' 0 0 1 ' + (2 * s) + ' 0" stroke-width="3"/>' +
-      '<rect class="ink" x="' + (x - s - 4) + '" y="' + (y + s * .3) + '" width="10" height="16" rx="3"/>' +
-      '<rect class="ink" x="' + (x + s - 6) + '" y="' + (y + s * .3) + '" width="10" height="16" rx="3"/>';
+  function fileChip(x, y, name, kind) {
+    var w = chipW(name) + 14;
+    return rect(x, y, w, 18, 'sk-card', 4) +
+      (kind === 'link' ? '<path class="sk-stroke" d="M' + (x + 7) + ' ' + (y + 11) + 'a3 3 0 0 1 0-4l2-2a3 3 0 0 1 4 4M' + (x + 15) + ' ' + (y + 7) + 'a3 3 0 0 1 0 4l-2 2a3 3 0 0 1-4-4"/>' :
+        kind === 'image' ? rect(x + 5, y + 4, 10, 10, 'sk-blue', 1) + '<path class="sk-stroke-paper" d="M' + (x + 6) + ' ' + (y + 12) + 'l3-3 2 2 2-3 2 4"/>' :
+        '<path class="sk-acc" d="M' + (x + 5) + ' ' + (y + 4) + 'h6l3 3v7h-9z"/>') +
+      text(x + 20, y + 12, name, 'sk-t sk-t--chip');
   }
-  function wave(x, y, w, n, amp) {
+  function bubbleUser(x, y, w, s, extra) {
+    var lines = wrap(s, Math.floor(w / 5.4)), h = 10 + lines.length * 12 + (extra ? 24 : 0);
+    var out = rect(x, y, w, h, 'sk-bubble', 8);
+    lines.forEach(function (l, i) { out += text(x + 9, y + 15 + i * 12, l, 'sk-t sk-t--body'); });
+    if (extra) out += extra(x + 8, y + 12 + lines.length * 12);
+    return { svg: out, h: h };
+  }
+  function wrap(s, n) {
+    var words = String(s).split(' '), lines = [], cur = '';
+    words.forEach(function (w) { if ((cur + ' ' + w).trim().length > n) { lines.push(cur.trim()); cur = w; } else cur += ' ' + w; });
+    if (cur.trim()) lines.push(cur.trim());
+    if (lines.length > 2) { lines = lines.slice(0, 2); lines[1] = lines[1].replace(/\s*\S*$/, '') + '…'; }
+    return lines;
+  }
+  function short(s, n) { s = String(s || ''); return s.length > n ? s.slice(0, n - 1).replace(/\s*\S*$/, '') + '…' : s; }
+  function answer(x, y, w, n, opts) {
+    return spark(x + 5, y + 2) + greek(x + 16, y + 2, w - 16, n, opts);
+  }
+  function wave(x, y, w, n, amp, cls) {
     var out = '', step = w / n;
     for (var i = 0; i < n; i++) {
-      var h = amp * (0.3 + Math.abs(Math.sin(i * 1.7)) * .7);
-      out += '<line class="line line--ink" x1="' + (x + i * step) + '" y1="' + (y - h) + '" x2="' + (x + i * step) + '" y2="' + (y + h) + '"/>';
+      var h = amp * (0.25 + Math.abs(Math.sin(i * 1.3 + 0.4)) * 0.75);
+      out += '<line class="' + (cls || 'sk-wave') + '" x1="' + (x + i * step) + '" y1="' + (y - h) + '" x2="' + (x + i * step) + '" y2="' + (y + h) + '"/>';
     }
     return out;
   }
-  function grid(x, y, cols, rows, cw, rh, head) {
-    var out = frame(x, y, cols * cw, rows * rh, 2);
-    for (var c = 1; c < cols; c++) out += line(x + c * cw, y, x + c * cw, y + rows * rh, 'line');
-    for (var r = 1; r < rows; r++) out += line(x, y + r * rh, x + cols * cw, y + r * rh, 'line');
-    if (head) out = out.replace(frame(x, y, cols * cw, rows * rh, 2), frame(x, y, cols * cw, rows * rh, 2) + soft(x, y, cols * cw, rh, 0));
+  function play(x, y, r, cls) {
+    return '<circle class="' + (cls || 'sk-ink') + '" cx="' + x + '" cy="' + y + '" r="' + r + '"/><path class="sk-paper" d="M' + (x - r * 0.28) + ' ' + (y - r * 0.42) + 'l' + (r * 0.78) + ' ' + (r * 0.42) + 'l-' + (r * 0.78) + ' ' + (r * 0.42) + 'z"/>';
+  }
+  function grid(x, y, cols, rows, cw, rh) {
+    var out = rect(x, y, cols * cw, rows * rh, 'sk-win', 2) + rect(x, y, cols * cw, rh, 'sk-soft', 0);
+    for (var c = 1; c < cols; c++) out += '<path class="sk-rule" d="M' + (x + c * cw) + ' ' + y + 'v' + (rows * rh) + '"/>';
+    for (var r = 1; r < rows; r++) out += '<path class="sk-rule" d="M' + x + ' ' + (y + r * rh) + 'h' + (cols * cw) + '"/>';
     return out;
   }
-  function phone(x, y, w, h) { return '<rect class="frame" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="10"/>' + '<rect class="soft" x="' + (x + w / 2 - 10) + '" y="' + (y + 6) + '" width="20" height="4" rx="2"/>'; }
-  function calendar(x, y, w, h, n) {
-    var out = frame(x, y, w, h, 3) + soft(x, y, w, 14, 0);
-    var cw = w / n;
-    for (var i = 1; i < n; i++) out += line(x + i * cw, y + 14, x + i * cw, y + h);
-    return out;
+  function person(cx, cy, r) {
+    return '<circle class="sk-soft-fill" cx="' + cx + '" cy="' + (cy - r * 0.35) + '" r="' + (r * 0.42) + '"/><path class="sk-soft-fill" d="M' + (cx - r) + ' ' + (cy + r) + 'a' + r + ' ' + r + ' 0 0 1 ' + (2 * r) + ' 0z"/>';
   }
-  function person(x, y) { return '<circle cx="' + x + '" cy="' + (y - 20) + '" r="6" class="ink"/><path class="line line--ink" d="M' + x + ' ' + (y - 14) + 'v18M' + (x - 8) + ' ' + (y - 4) + 'h16M' + x + ' ' + (y + 4) + 'l-7 12M' + x + ' ' + (y + 4) + 'l7 12"/>'; }
 
-  var S = {};
+  var F = {};
+  var CAP = {};
 
-  S['stopwatch'] = function () {
-    return svg(
-      searchbar(20, 30, 200, 'What is a section 114 notice?') +
-      hi(20, 66, 200, 60, 4) + lines(30, 80, 180, 4, 10) + t(30, 118, 'AI Overview', 'mono') +
-      '<circle cx="268" cy="100" r="34" class="frame"/><rect class="ink" x="262" y="56" width="12" height="8" rx="2"/>' +
-      '<path class="acc-stroke" d="M268 100V78" stroke-width="3"/><path class="acc-stroke" d="M268 100l14 10"/>' +
-      t(268, 150, '2 seconds', 'mono', 'middle') +
-      '<rect class="hi" x="20" y="136" width="200" height="4" rx="2"/>' +
-      lines(20, 150, 200, 2, 10),
-      'A search box with an AI overview at the top of the results, beside a stopwatch reading two seconds');
-  };
-
-  S['fanout'] = function () {
-    var cards = '';
-    for (var i = 0; i < 6; i++) {
-      var cx = 190 + (i % 2) * 64, cy = 22 + Math.floor(i / 2) * 50;
-      cards += frame(cx, cy, 56, 40, 3) + lines(cx + 6, cy + 10, 44, 3, 9);
-      cards += arrow(150, 90, cx - 4, cy + 20);
+  /* ---------------------------------------------------------------- search */
+  CAP['search/overview'] = 'A Google search with the AI Overview at the top of the results';
+  CAP['search/aimode'] = 'AI Mode: one question, answered from many searches at once';
+  CAP['search/trace'] = 'Following a figure back through the reports that repeat it to the document it came from';
+  F.search = function (v, e) {
+    var q = short(e.prompt, 44);
+    var out = rect(16, 16, 288, 26, 'sk-win', 13) + '<circle class="sk-stroke" cx="31" cy="29" r="5"/><path class="sk-stroke" d="M35 33l3 3"/>' + text(44, 33, q, 'sk-t sk-t--body');
+    if (v === 'overview') {
+      out += rect(16, 54, 288, 66, 'sk-hi-soft', 6) + spark(30, 68) + text(40, 72, 'AI Overview', 'sk-t sk-t--head') + greek(28, 86, 262, 3, { gap: 10 });
+      out += rect(16, 130, 288, 1, 'sk-rule-fill', 0) + greek(16, 146, 200, 1, { cls: 'sk-greek sk-greek--blue' }) + greek(16, 158, 288, 2, { gap: 9 }) + greek(16, 184, 180, 1, { cls: 'sk-greek sk-greek--blue' });
+      return svg(out, CAP[v]);
     }
-    return svg(
-      frame(20, 68, 130, 44, 22) + t(85, 95, 'One question', 'ser', 'middle') + cards +
-      t(160, 170, 'many searches at once', 'mono', 'middle'),
-      'One question fanning out into six result cards');
-  };
-
-  S['chat-file'] = function () {
-    return svg(
-      frame(30, 14, 260, 152, 8) +
-      bubble(44, 28, 150, 36, true) +
-      '<rect class="frame" x="44" y="72" width="104" height="22" rx="11"/>' + '<path class="acc" d="M52 77h8l4 4v8h-12z"/>' + t(68, 91, 'budget-2026.pdf', 'mono') +
-      bubble(126, 104, 150, 48, false) +
-      t(160, 164, 'a thread, with a file attached', 'mono', 'middle'),
-      'A chat thread with a PDF file chip attached');
-  };
-
-  S['box'] = function () {
-    return svg(
-      '<path class="soft" d="M60 70l100-24 100 24-100 24z"/>' +
-      '<path class="frame" d="M60 70v70l100 24V94z"/><path class="frame" d="M260 70v70l-100 24V94z"/>' +
-      doc(120, 24, 34, 44) + doc(142, 18, 34, 44) + doc(164, 26, 34, 44) +
-      '<rect class="hi" x="110" y="104" width="100" height="26" rx="4"/>' + t(160, 121, 'the answer', 'ser', 'middle') +
-      t(160, 168, 'only what you put in the box', 'mono', 'middle'),
-      'A closed box of documents with the answer inside it');
-  };
-
-  S['side-by-side'] = function () {
-    return svg(
-      frame(20, 20, 130, 140, 6) + frame(170, 20, 130, 140, 6) +
-      chip(30, 28, 54, 'Flash', 'soft') + chip(180, 28, 70, 'Thinking', 'hi') +
-      lines(30, 60, 110, 3, 10) + lines(180, 60, 110, 7, 10) +
-      t(30, 148, '2s', 'mono') + t(180, 148, '14s, shows the sum', 'mono'),
-      'The same question answered twice, side by side: a short quick answer and a longer worked one');
-  };
-
-  S['inbox-card'] = function () {
-    return svg(
-      searchbar(30, 20, 260, 'When did the press office last send embargoed figures?') +
-      frame(30, 60, 260, 100, 4) +
-      hi(38, 68, 244, 28, 3) + t(46, 86, 'Embargoed: ONS figures, 09:30 Thursday', 'ser') +
-      lines(38, 108, 244, 2, 10) + lines(38, 134, 244, 2, 10),
-      'A question typed into the email search box, with one email surfacing above the rest');
-  };
-
-  S['drive-grid'] = function () {
-    var out = '';
-    for (var i = 0; i < 8; i++) {
-      var x = 30 + (i % 4) * 66, y = 46 + Math.floor(i / 4) * 60;
-      out += (i === 5 ? hi(x - 4, y - 4, 60, 56, 4) : '') + doc(x, y, 52, 48);
+    if (v === 'aimode') {
+      out += text(16, 60, 'All', 'sk-t sk-t--chip') + text(44, 60, 'AI Mode', 'sk-t sk-t--chip sk-t--acc') + '<path class="sk-acc-line" d="M44 64h42"/>';
+      out += answer(16, 80, 160, 5, { gap: 10 });
+      for (var i = 0; i < 4; i++) {
+        var cx = 196 + (i % 2) * 56, cy = 76 + Math.floor(i / 2) * 50;
+        out += rect(cx, cy, 50, 42, 'sk-card', 3) + greek(cx + 6, cy + 10, 38, 3, { gap: 8, cls: 'sk-greek sk-greek--thin' });
+        out += '<path class="sk-dash" d="M' + 176 + ' ' + 96 + 'Q' + (cx - 10) + ' ' + (cy + 20) + ' ' + cx + ' ' + (cy + 20) + '"/>';
+      }
+      out += text(249, 184, 'many searches at once', 'sk-t sk-t--cap', 'middle');
+      return svg(out, CAP[v]);
     }
-    return svg(searchbar(30, 12, 260, 'Find the election-night planning doc') + out, 'A grid of files, one glowing');
+    /* trace */
+    out += rect(236, 62, 68, 30, 'sk-hi', 15) + text(270, 81, '10,000', 'sk-t sk-t--big sk-on-hi', 'middle');
+    out += docIcon(160, 56, 44, 44) + docIcon(160, 112, 44, 44) + docIcon(86, 84, 44, 44) + docIcon(16, 76, 44, 60, true);
+    out += '<path class="sk-arrow" d="M234 74L208 72M234 84L208 128M158 78L134 100M158 134L134 110M84 106L64 106"/>';
+    out += text(38, 150, 'the original', 'sk-t sk-t--cap', 'middle');
+    return svg(out, CAP[v]);
   };
 
-  S['collapse'] = function () {
-    var chain = '';
-    for (var i = 0; i < 9; i++) chain += soft(30, 16 + i * 16, 110, 12, 2);
-    return svg(
-      chain + arrow(150, 88, 184, 88) +
-      frame(190, 54, 110, 70, 4) + '<circle cx="204" cy="72" r="3" class="acc"/>' + line(212, 72, 290, 72) +
-      '<circle cx="204" cy="90" r="3" class="acc"/>' + line(212, 90, 282, 90) + '<circle cx="204" cy="108" r="3" class="acc"/>' + line(212, 108, 270, 108) +
-      t(85, 170, '40 emails', 'mono', 'middle') + t(245, 170, 'three lines', 'mono', 'middle'),
-      'A long email chain collapsing into three bullet points');
+  /* ------------------------------------------------------------------ chat */
+  CAP['chat/plain'] = 'The Gemini app: your question, then the answer';
+  CAP['chat/file'] = 'The Gemini app with a PDF attached to the question';
+  CAP['chat/link'] = 'The Gemini app with a video link pasted into the question';
+  CAP['chat/image'] = 'The Gemini app with a screenshot attached, answering with a table';
+  CAP['chat/model'] = 'The model picker at the top of the Gemini app, with Thinking chosen';
+  CAP['chat/research'] = 'Deep Research reading its sources while you do something else';
+  CAP['chat/browser'] = 'Gemini in Chrome: a side panel that can read the open tabs';
+  CAP['chat/translate'] = 'A translation shown beside the original';
+  CAP['chat/notes'] = 'Your notes pasted in, and the questions they leave open';
+  CAP['chat/schedule'] = 'A scheduled action: the same prompt, run every weekday morning';
+  CAP['chat/canvas'] = 'Canvas: a sentence on the left, a small working app on the right';
+  F.chat = function (v, e) {
+    var q = e.prompt || '';
+    if (v === 'browser') {
+      var out = rect(16, 12, 288, 176, 'sk-win', 6) + rect(16, 12, 288, 20, 'sk-soft', 6) +
+        rect(24, 16, 44, 12, 'sk-win', 3) + rect(72, 16, 44, 12, 'sk-hi', 3) + rect(120, 16, 44, 12, 'sk-win', 3) +
+        greek(28, 48, 150, 11, { gap: 11 }) +
+        rect(192, 40, 104, 140, 'sk-card', 4) + spark(204, 52) + text(212, 56, 'Ask Gemini', 'sk-t sk-t--head') +
+        greek(202, 72, 84, 7, { gap: 10 }) + '<path class="sk-dash" d="M94 28Q150 20 192 60M142 28Q172 24 192 60"/>';
+      return svg(out, CAP['chat/browser']);
+    }
+    if (v === 'canvas') {
+      var o2 = win(16, 12, 288, 176, 'Gemini') + rect(16, 34, 110, 154, 'sk-paper', 0) + '<path class="sk-rule" d="M126 34v154"/>';
+      var b = bubbleUser(24, 44, 94, q); o2 += b.svg + answer(24, 56 + b.h, 94, 3);
+      o2 += rect(140, 46, 150, 128, 'sk-card', 6) + rect(140, 46, 150, 16, 'sk-soft', 6) + text(215, 104, '37', 'sk-t sk-t--huge', 'middle') + text(215, 122, 'working days', 'sk-t sk-t--cap', 'middle') + rect(185, 140, 60, 16, 'sk-ink', 8);
+      return svg(o2, CAP['chat/canvas']);
+    }
+    var head = 'Gemini';
+    var out3 = win(16, 12, 288, 176, head);
+    if (v === 'model') {
+      out3 += rect(196, 16, 98, 16, 'sk-hi', 8) + text(245, 27, 'Thinking ▾', 'sk-t sk-t--chip', 'middle');
+    }
+    var extra = null;
+    if (v === 'file') extra = function (x, y) { return fileChip(x, y, 'budget-2026.pdf', 'file'); };
+    if (v === 'link') extra = function (x, y) { return fileChip(x, y, 'youtu.be/x7k…', 'link'); };
+    if (v === 'image') extra = function (x, y) { return fileChip(x, y, 'table.png', 'image'); };
+    if (v === 'notes') extra = function (x, y) { return fileChip(x, y, 'my notes', 'file'); };
+    var bw = 190;
+    var bub = bubbleUser(304 - 8 - bw, 44, bw, q, extra);
+    out3 += bub.svg;
+    var ay = 44 + bub.h + 12;
+    if (v === 'model') {
+      out3 += rect(24, ay, 272, 178 - ay, 'sk-hi-soft', 6) + spark(36, ay + 14) + text(46, ay + 18, 'Working', 'sk-t sk-t--head') + greek(36, ay + 32, 200, 3, { gap: 10 }) + '<path class="sk-rule" d="M36 ' + (ay + 60) + 'h240"/>' + greek(36, ay + 72, 240, 2, { gap: 10, cls: 'sk-greek sk-greek--ink' });
+    } else if (v === 'research') {
+      out3 += spark(36, ay + 6) + text(46, ay + 10, 'Reading 24 sources', 'sk-t sk-t--head') + rect(36, ay + 20, 240, 5, 'sk-soft', 3) + rect(36, ay + 20, 150, 5, 'sk-acc', 3);
+      for (var i = 0; i < 3; i++) out3 += docIcon(36 + i * 56, ay + 36, 48, 36);
+      out3 += chip(220, ay + 44, '10 min', true);
+    } else if (v === 'image') {
+      out3 += spark(36, ay + 6) + grid(48, ay, 4, 4, 56, 14);
+    } else if (v === 'translate') {
+      out3 += spark(36, ay + 6) + text(48, ay + 10, 'Français', 'sk-t sk-t--cap') + greek(48, ay + 24, 110, 5, { gap: 9 }) + text(174, ay + 10, 'English', 'sk-t sk-t--cap') + greek(174, ay + 24, 110, 5, { gap: 9 }) + rect(48, ay + 38, 80, 6, 'sk-hi', 2) + rect(174, ay + 38, 80, 6, 'sk-hi', 2);
+    } else if (v === 'notes') {
+      out3 += spark(36, ay + 6) + text(48, ay + 10, 'Not answered yet', 'sk-t sk-t--head');
+      for (var k = 0; k < 3; k++) out3 += '<circle class="sk-acc" cx="52" cy="' + (ay + 28 + k * 13) + '" r="2.5"/>' + greek(62, ay + 28 + k * 13, 200 - k * 30, 1);
+    } else if (v === 'schedule') {
+      out3 += rect(24, ay, 272, 60, 'sk-card', 6) + '<circle class="sk-stroke" cx="42" cy="' + (ay + 18) + '" r="8"/><path class="sk-stroke" d="M42 ' + (ay + 13) + 'v5l3 2"/>' + text(56, ay + 15, 'Every weekday, 8am', 'sk-t sk-t--head') + text(56, ay + 27, 'Next run: tomorrow', 'sk-t sk-t--cap') + greek(36, ay + 42, 240, 1) + greek(36, ay + 52, 180, 1);
+    } else {
+      out3 += answer(36, ay + 2, 240, Math.min(5, Math.floor((176 - ay) / 10)), { gap: 10 });
+    }
+    return svg(out3, CAP['chat/' + v] || CAP['chat/plain']);
   };
 
-  S['chat-stack'] = function () {
-    var out = '';
-    for (var i = 0; i < 7; i++) out += bubble(30 + (i % 2) * 20, 10 + i * 22, 90, 16, i % 2 === 0);
-    return svg(out + arrow(160, 90, 190, 90) + hi(196, 60, 104, 60, 4) + lines(206, 76, 84, 4, 10) + t(248, 150, 'decided since Monday', 'mono', 'middle'),
-      'A tall stack of chat bubbles shrinking to one summary card');
-  };
-
-  S['browser-tabs'] = function () {
-    return svg(
-      frame(20, 20, 280, 140, 6) + soft(20, 20, 280, 22, 6) +
-      soft(28, 24, 50, 14, 3) + hi(82, 24, 50, 14, 3) + soft(136, 24, 50, 14, 3) +
-      lines(32, 60, 150, 8, 10) +
-      frame(196, 50, 96, 100, 4) + '<circle cx="208" cy="62" r="4" class="acc"/>' + t(216, 65, 'Ask Gemini', 'mono') + lines(204, 80, 80, 5, 10) +
-      '<path class="dash" d="M132 31Q190 20 244 50M82 31Q150 10 244 50"/>',
-      'A browser with three tabs and a side panel linked to them');
-  };
-
-  S['trace'] = function () {
-    return svg(
-      frame(230, 70, 70, 40, 20) + t(265, 95, '10,000', 'ser', 'middle') +
-      frame(150, 30, 56, 40, 3) + frame(150, 110, 56, 40, 3) + frame(80, 70, 56, 40, 3) + doc(14, 60, 46, 60) +
-      arrow(228, 86, 208, 56) + arrow(228, 96, 208, 126) + arrow(148, 52, 138, 82) + arrow(148, 128, 138, 98) + arrow(78, 90, 62, 90) +
-      t(37, 140, 'the original', 'mono', 'middle'),
-      'A number with arrows running back through articles to one original document');
-  };
-
-  S['report-fan'] = function () {
-    var fan = '';
-    for (var i = 0; i < 5; i++) fan += '<g transform="rotate(' + (-30 + i * 15) + ' 230 150)">' + doc(214, 60, 32, 42) + '</g>';
-    return svg(doc(30, 20, 110, 140) + fan + '<circle cx="90" cy="150" r="0"/>' +
-      '<circle cx="268" cy="40" r="18" class="frame"/><path class="acc-stroke" d="M268 40V28M268 40l8 6"/>' + t(268, 74, '10 min', 'mono', 'middle'),
-      'A report with a fan of source cards behind it, and a timer');
-  };
-
-  S['shrink'] = function () {
-    return svg(doc(30, 14, 110, 150) + t(85, 174, '300 pages', 'mono', 'middle') + arrow(150, 90, 184, 90) +
-      frame(190, 60, 110, 56, 4) + lines(200, 76, 90, 3, 10) + chip(200, 96, 22, '1', 'hi') + chip(226, 96, 22, '2', 'hi'),
-      'A fat report shrinking to a three-line answer with two citation chips');
-  };
-
-  S['pdf-headphones'] = function () {
-    return svg(doc(40, 30, 90, 120) + '<path class="acc" d="M62 86h20l6 6v8h-26z"/>' + t(72, 125, 'PDF', 'mono', 'middle') + arrow(140, 90, 180, 90) +
-      headphones(240, 70, 34) + wave(205, 140, 70, 14, 10) + t(240, 168, '4 min', 'mono', 'middle'),
-      'A PDF icon turning into headphones');
-  };
-
-  S['timeline'] = function () {
-    var out = line(30, 100, 290, 100, 'line line--ink');
-    [40, 95, 150, 205, 260].forEach(function (x, i) {
-      out += '<circle cx="' + x + '" cy="100" r="6" class="' + (i === 2 ? 'acc' : 'ink') + '"/>' + t(x, i % 2 ? 128 : 80, ['Jan', 'Mar', 'Jun', 'Sep', 'Oct'][i], 'mono', 'middle') + chip(x - 14, i % 2 ? 136 : 50, 28, [1, 2, 2, 3, 4][i], 'hi');
+  /* -------------------------------------------------------------- notebook */
+  CAP['notebook/sources'] = 'Gemini Notebook: the sources you added on the left, the chat in the middle';
+  CAP['notebook/answer'] = 'A Notebook answer with its numbered citations';
+  CAP['notebook/audio'] = 'The Studio panel, with an Audio Overview playing';
+  CAP['notebook/mindmap'] = 'A mind map of the report, drawn from its sources';
+  CAP['notebook/cards'] = 'Flashcards made only from the sources in the notebook';
+  CAP['notebook/video'] = 'A video added as a source beside the documents';
+  CAP['notebook/timeline'] = 'A dated timeline built from the cuttings';
+  CAP['notebook/questions'] = 'Interview questions, each with a citation back to a source';
+  CAP['notebook/beat'] = 'A standing notebook, fed week by week';
+  F.notebook = function (v, e) {
+    var out = win(16, 12, 288, 176) + text(26, 27, 'Sources', 'sk-t sk-t--head') + text(118, 27, 'Chat', 'sk-t sk-t--head') + text(238, 27, 'Studio', 'sk-t sk-t--head') +
+      '<path class="sk-rule" d="M108 34v154M228 34v154"/>';
+    /* sources */
+    var srcN = v === 'beat' ? 6 : 3, hot = v === 'sources' || v === 'beat' || v === 'video';
+    for (var i = 0; i < srcN; i++) {
+      var sy = 44 + i * (v === 'beat' ? 22 : 30);
+      if (v === 'video' && i === 2) out += rect(24, sy, 76, 22, 'sk-hi', 3) + play(36, sy + 11, 7) + greek(48, sy + 11, 44, 1, { cls: 'sk-greek sk-greek--thin' });
+      else if (v === 'beat') out += rect(24, sy, 76, 16, i >= 4 ? 'sk-hi' : 'sk-card', 3) + text(30, sy + 11, ['Jan minutes', 'Feb agenda', 'Mar minutes', 'Apr release', 'May minutes', 'Jun agenda'][i], 'sk-t sk-t--chip' + (i >= 4 ? ' sk-on-hi' : ''));
+      else out += rect(24, sy, 76, 22, hot && i === srcN - 1 ? 'sk-hi' : 'sk-card', 3) + '<path class="sk-acc" d="M31 ' + (sy + 6) + 'h6l3 3v7h-9z"/>' + greek(46, sy + 11, 46, 1, { cls: 'sk-greek sk-greek--thin' });
+    }
+    if (v === 'sources') out += btn(24, 150, '+ Add source', true);
+    /* chat column */
+    var q = short(e.prompt, 46);
+    if (v === 'mindmap') {
+      out += rect(140, 96, 56, 16, 'sk-ink', 8) + text(168, 107, 'The report', 'sk-t sk-t--onink', 'middle');
+      [[120, 56], [216, 56], [120, 150], [216, 150], [124, 104], [212, 104]].forEach(function (p) { out += '<path class="sk-dash" d="M168 104Q' + p[0] + ' 104 ' + p[0] + ' ' + p[1] + '"/>' + rect(p[0] - 10, p[1] - 7, 24, 14, 'sk-card', 7); });
+    } else if (v === 'cards') {
+      out += '<g transform="rotate(-4 168 100)">' + rect(128, 70, 80, 56, 'sk-hi', 6) + text(168, 94, 'Voted against', 'sk-t sk-t--body sk-on-hi', 'middle') + text(168, 108, 'in 2023?', 'sk-t sk-t--body sk-on-hi', 'middle') + '</g>' + rect(136, 134, 64, 4, 'sk-soft', 2) + text(168, 158, 'tap to flip', 'sk-t sk-t--cap', 'middle');
+    } else if (v === 'timeline') {
+      out += '<path class="sk-stroke" d="M120 110h96"/>';
+      [124, 146, 168, 190, 212].forEach(function (x, i) { out += '<circle class="' + (i === 2 ? 'sk-acc' : 'sk-ink') + '" cx="' + x + '" cy="110" r="4"/>' + text(x, i % 2 ? 128 : 98, ['Jan', 'Mar', 'Jun', 'Sep', 'Oct'][i], 'sk-t sk-t--cap', 'middle') + rect(x - 7, i % 2 ? 134 : 78, 14, 10, 'sk-hi', 5); });
+    } else if (v === 'audio') {
+      out += wave(126, 100, 84, 16, 22) + play(168, 140, 12) + text(168, 166, '12 min', 'sk-t sk-t--cap', 'middle');
+    } else if (v === 'questions') {
+      out += text(118, 48, 'Questions', 'sk-t sk-t--head');
+      for (var k = 0; k < 4; k++) out += text(118, 68 + k * 22, (k + 1) + '.', 'sk-t sk-t--cap') + greek(130, 66 + k * 22, 60, 1) + rect(196, 60 + k * 22, 14, 10, 'sk-hi', 5);
+    } else {
+      var bq = bubbleUser(116, 44, 104, q); out += bq.svg;
+      var ay = 52 + bq.h;
+      out += answer(116, ay, 104, 4, { gap: 10 });
+      var cy = ay + 46;
+      [1, 2, 3].forEach(function (n, i) { out += rect(128 + i * 24, cy, 18, 14, v === 'answer' ? 'sk-hi' : 'sk-soft', 7) + text(137 + i * 24, cy + 10, String(n), 'sk-t sk-t--chip', 'middle'); });
+      if (v === 'answer') out += '<path class="sk-dash" d="M137 ' + (cy + 14) + 'Q100 ' + (cy + 40) + ' 62 100"/>' + rect(24, 104, 76, 22, 'sk-hi', 3).replace('sk-hi', 'sk-hi-soft');
+    }
+    /* studio */
+    ['Audio', 'Mind map', 'Table', 'Cards'].forEach(function (s, i) {
+      var hotS = (v === 'audio' && i === 0) || (v === 'mindmap' && i === 1) || (v === 'cards' && i === 3);
+      out += rect(236, 44 + i * 26, 60, 18, hotS ? 'sk-hi' : 'sk-card', 9) + text(266, 56 + i * 26, s, 'sk-t sk-t--chip' + (hotS ? ' sk-on-hi' : ''), 'middle');
     });
-    return svg(out, 'A horizontal timeline with dated dots and source tags');
+    return svg(out, CAP['notebook/' + v]);
   };
 
-  S['mindmap'] = function () {
-    var out = '<rect class="ink" x="120" y="78" width="80" height="24" rx="12"/>' + '<text x="160" y="94" class="mono" text-anchor="middle" style="fill:var(--paper)">The report</text>';
-    [[40, 30], [40, 90], [40, 150], [280, 30], [280, 90], [280, 150]].forEach(function (p, i) {
-      out += '<path class="line" d="M' + (p[0] < 160 ? 120 : 200) + ' 90Q' + (p[0] < 160 ? 90 : 230) + ' ' + p[1] + ' ' + p[0] + ' ' + p[1] + '"/>' + soft(p[0] - 30, p[1] - 9, 60, 18, 9);
-      if (i === 1) out += '<path class="line" d="M10 90Q0 70 -10 70"/>';
-    });
-    return svg(out, 'A mind map branching out from the report in the middle');
+  /* ------------------------------------------------------------------ mail */
+  CAP['mail/search'] = 'A question typed into the Gmail search box, with one email found';
+  CAP['mail/thread'] = 'A long thread, summarised in the Gemini side panel';
+  CAP['mail/space'] = 'A busy Chat space, summarised since Monday';
+  CAP['mail/settings'] = 'Standing instructions, set once in the side panel';
+  F.mail = function (v, e) {
+    var out = win(16, 12, 288, 176) + '<path class="sk-rule" d="M60 34v154"/>';
+    for (var i = 0; i < 5; i++) out += rect(24, 44 + i * 16, 28, 6, i === 0 ? 'sk-ink' : 'sk-soft', 3);
+    if (v === 'search') {
+      out += rect(68, 40, 228, 22, 'sk-card', 11) + '<circle class="sk-stroke" cx="80" cy="51" r="4"/>' + text(90, 55, short(e.prompt, 40), 'sk-t sk-t--body');
+      out += rect(68, 72, 228, 24, 'sk-hi', 3) + text(76, 82, 'Press office', 'sk-t sk-t--head sk-on-hi') + text(76, 92, 'Embargoed: ONS figures, 09:30 Thursday', 'sk-t sk-t--cap sk-on-hi');
+      for (var j = 0; j < 4; j++) out += rect(68, 102 + j * 20, 228, 1, 'sk-rule-fill', 0) + greek(76, 112 + j * 20, 60, 1) + greek(146, 112 + j * 20, 140, 1, { cls: 'sk-greek sk-greek--thin' });
+      return svg(out, CAP[v]);
+    }
+    if (v === 'settings') {
+      out += greek(76, 50, 100, 8, { gap: 14, cls: 'sk-greek sk-greek--thin' });
+      out += rect(190, 36, 106, 146, 'sk-card', 4) + spark(202, 48) + text(210, 52, 'Settings', 'sk-t sk-t--head') + text(198, 70, 'Personalisation', 'sk-t sk-t--cap') + rect(198, 76, 90, 54, 'sk-hi-soft', 3) + text(204, 90, 'Always use', 'sk-t sk-t--chip') + text(204, 102, 'British English', 'sk-t sk-t--chip') + text(204, 114, 'and Guardian', 'sk-t sk-t--chip') + text(204, 126, 'style.', 'sk-t sk-t--chip') + btn(198, 140, 'Save', true);
+      return svg(out, CAP[v]);
+    }
+    if (v === 'space') {
+      for (var k = 0; k < 7; k++) out += rect(68 + (k % 2) * 16, 40 + k * 18, 92, 12, 'sk-soft', 6);
+      out += '<path class="sk-arrow" d="M172 100L186 100"/>' + rect(190, 36, 106, 146, 'sk-card', 4) + spark(202, 48) + text(210, 52, 'Since Monday', 'sk-t sk-t--head');
+      for (var m = 0; m < 3; m++) out += '<circle class="sk-acc" cx="204" cy="' + (72 + m * 24) + '" r="2.5"/>' + greek(212, 72 + m * 24, 76, 2, { gap: 8, cls: 'sk-greek sk-greek--thin' });
+      return svg(out, CAP[v]);
+    }
+    /* thread */
+    for (var t = 0; t < 8; t++) out += rect(68, 40 + t * 17, 112, 11, 'sk-soft', 2) + greek(74, 45.5 + t * 17, 60, 1, { cls: 'sk-greek sk-greek--thin' });
+    out += text(124, 184, '40 emails', 'sk-t sk-t--cap', 'middle');
+    out += rect(190, 36, 106, 146, 'sk-card', 4) + spark(202, 48) + text(210, 52, 'Summary', 'sk-t sk-t--head');
+    for (var s = 0; s < 3; s++) out += '<circle class="sk-acc" cx="204" cy="' + (72 + s * 26) + '" r="2.5"/>' + greek(212, 72 + s * 26, 76, 2, { gap: 8, cls: 'sk-greek sk-greek--thin' });
+    return svg(out, CAP[v]);
   };
 
-  S['headphones'] = function () {
-    return svg(headphones(90, 60, 40) + wave(150, 90, 130, 22, 24) + chip(226, 130, 60, '12 min', 'hi') + t(90, 150, 'two voices', 'mono', 'middle'),
-      'Headphones, a waveform and a twelve-minute badge');
+  /* ----------------------------------------------------------------- drive */
+  CAP['drive/find'] = 'Drive, asked for a file by description, with the match highlighted';
+  CAP['drive/pdf'] = 'A PDF open in Drive, with the Audio Overview button and the Gemini panel';
+  F.drive = function (v, e) {
+    var out = win(16, 12, 288, 176);
+    if (v === 'find') {
+      out += rect(24, 32, 272, 20, 'sk-card', 10) + spark(36, 42, 4) + text(46, 46, short(e.prompt, 44), 'sk-t sk-t--body');
+      for (var i = 0; i < 8; i++) { var x = 24 + (i % 4) * 69, y = 62 + Math.floor(i / 4) * 60; out += docIcon(x, y, 60, 50, i === 5); }
+      return svg(out, CAP[v]);
+    }
+    out += rect(16, 12, 288, 22, 'sk-soft', 6) + text(26, 27, 'report.pdf', 'sk-t sk-t--head') + rect(176, 16, 92, 15, 'sk-hi', 7) + play(186, 23.5, 5) + text(196, 27, 'Audio Overview', 'sk-t sk-t--chip sk-on-hi');
+    out += rect(40, 46, 120, 130, 'sk-paper-card', 2) + greek(50, 60, 100, 11, { gap: 10, cls: 'sk-greek sk-greek--thin' });
+    out += rect(190, 44, 106, 134, 'sk-card', 4) + spark(202, 56) + text(210, 60, 'Summary', 'sk-t sk-t--head') + greek(200, 78, 86, 6, { gap: 10, cls: 'sk-greek sk-greek--thin' });
+    return svg(out, CAP[v]);
   };
 
-  S['dossier'] = function () {
-    return svg(doc(24, 30, 50, 64) + doc(40, 40, 50, 64) + doc(56, 50, 50, 64) + arrow(118, 90, 150, 90) +
-      frame(160, 24, 140, 136, 4) + t(170, 42, 'Questions', 'ser') +
-      [0, 1, 2, 3].map(function (i) { return t(170, 66 + i * 24, (i + 1) + '.', 'mono') + line(184, 62 + i * 24, 270, 62 + i * 24) + chip(272, 54 + i * 24, 22, [3, 1, 5, 2][i], 'hi'); }).join(''),
-      'A dossier of sources feeding a numbered list of questions, each with a citation');
+  /* ----------------------------------------------------------------- sheet */
+  CAP['sheet/formula'] = 'A plain English request in the Sheets side panel, and the formula it produces';
+  CAP['sheet/chart'] = 'A question to a spreadsheet, answered with a chart';
+  F.sheet = function (v, e) {
+    var out = win(16, 12, 288, 176) + grid(24, 40, 4, 8, 40, 16);
+    for (var r = 1; r < 8; r++) for (var c = 0; c < 4; c++) out += greek(29 + c * 40, 48 + r * 16, 28 * (0.6 + ((r * c) % 3) * 0.15), 1, { cls: 'sk-greek sk-greek--thin' });
+    out += rect(190, 36, 106, 146, 'sk-card', 4) + spark(202, 48);
+    if (v === 'formula') {
+      out += text(210, 52, 'Gemini', 'sk-t sk-t--head') + rect(198, 62, 90, 40, 'sk-bubble', 6);
+      wrap(short(e.prompt, 60), 18).forEach(function (l, i) { out += text(204, 76 + i * 12, l, 'sk-t sk-t--chip'); });
+      out += rect(198, 112, 90, 20, 'sk-hi', 3) + text(243, 125, '=COUNTIF(C:C,…)', 'sk-t sk-t--mono sk-on-hi', 'middle') + greek(198, 146, 80, 2, { gap: 9, cls: 'sk-greek sk-greek--thin' });
+    } else {
+      out += text(210, 52, 'Gemini', 'sk-t sk-t--head');
+      [34, 50, 42, 66, 28].forEach(function (h, i) { out += rect(202 + i * 17, 150 - h, 11, h, i === 3 ? 'sk-acc' : 'sk-blue', 1); });
+      out += '<path class="sk-stroke" d="M198 150h92"/>' + text(243, 168, 'biggest rise', 'sk-t sk-t--cap', 'middle');
+    }
+    return svg(out, CAP[v]);
   };
 
-  S['flipcard'] = function () {
-    return svg('<g transform="skewY(-6)">' + frame(40, 60, 110, 70, 6) + t(95, 100, 'Voted against,', 'ser', 'middle') + t(95, 114, '2023?', 'ser', 'middle') + '</g>' +
-      arrow(160, 90, 184, 90) + '<g transform="skewY(6)">' + hi(190, 40, 110, 70, 6) + t(245, 72, 'Yes. Hansard,', 'ser', 'middle') + t(245, 86, '14 March, p 12', 'mono', 'middle') + '</g>',
-      'A flashcard flipping from a question to its answer and page reference');
+  /* ------------------------------------------------------------------- doc */
+  CAP['doc/table'] = 'Meeting notes in a Doc, turned into a table by the side panel';
+  CAP['doc/proof'] = 'Proofreading suggestions, one card per change';
+  CAP['doc/listen'] = 'A draft read aloud, with the highlight following the voice';
+  F.doc = function (v, e) {
+    var out = win(16, 12, 288, 176) + rect(36, 40, 130, 140, 'sk-paper-card', 2);
+    if (v === 'table') {
+      out += greek(46, 52, 110, 3, { gap: 9, cls: 'sk-greek sk-greek--thin' }) + grid(46, 86, 3, 5, 36, 14);
+      out += rect(190, 36, 106, 146, 'sk-card', 4) + spark(202, 48) + text(210, 52, 'Gemini', 'sk-t sk-t--head') + rect(198, 62, 90, 44, 'sk-bubble', 6);
+      wrap(short(e.prompt, 56), 18).forEach(function (l, i) { out += text(204, 76 + i * 12, l, 'sk-t sk-t--chip'); });
+      out += btn(198, 118, 'Insert', true);
+    } else if (v === 'proof') {
+      out += greek(46, 54, 110, 11, { gap: 11, cls: 'sk-greek sk-greek--thin' }) + '<path class="sk-acc-dots" d="M62 58h36M46 91h28M80 124h40"/>';
+      [0, 1, 2].forEach(function (i) { out += rect(190, 44 + i * 44, 106, 36, 'sk-card', 4) + text(198, 58 + i * 44, 'Suggestion', 'sk-t sk-t--cap') + greek(198, 70 + i * 44, 86, 1, { cls: 'sk-greek sk-greek--thin' }); });
+    } else {
+      out += greek(46, 54, 110, 11, { gap: 11, cls: 'sk-greek sk-greek--thin' }) + rect(44, 83, 80, 8, 'sk-hi', 2);
+      out += rect(190, 44, 106, 40, 'sk-card', 4) + play(208, 64, 10) + rect(224, 62, 64, 4, 'sk-soft', 2) + rect(224, 62, 28, 4, 'sk-acc', 2) + text(243, 118, 'Listen', 'sk-t sk-t--head', 'middle');
+    }
+    return svg(out, CAP['doc/' + v]);
   };
 
-  S['calendar-notebook'] = function () {
-    var out = calendar(20, 30, 280, 110, 7);
-    for (var i = 0; i < 7; i++) if (i !== 3 && i !== 6) out += doc(26 + i * 40, 60 + (i % 2) * 14, 28, 36);
-    return svg(out + t(160, 164, 'add the week’s papers as they arrive', 'mono', 'middle'), 'A notebook growing across a calendar strip');
+  /* ---------------------------------------------------------------- player */
+  CAP['player/ask'] = 'A video on YouTube, with the Ask button below the player';
+  CAP['player/transcript'] = 'A recording uploaded to the Guardian transcription tool, and the transcript it returns';
+  CAP['player/live'] = 'A briefing playing in one tab, with a live transcript scrolling beside it';
+  F.player = function (v, e) {
+    if (v === 'ask') {
+      var out = rect(16, 16, 288, 118, 'sk-screen', 6) + play(160, 75, 18, 'sk-paper-fill') +
+        rect(16, 128, 288, 4, 'sk-soft', 0) + rect(16, 128, 110, 4, 'sk-acc', 0) +
+        rect(16, 148, 48, 18, 'sk-soft', 9) + text(40, 160, 'Share', 'sk-t sk-t--chip', 'middle') +
+        rect(70, 148, 40, 18, 'sk-hi', 9) + text(90, 160, 'Ask', 'sk-t sk-t--chip sk-on-hi', 'middle') +
+        rect(116, 148, 70, 18, 'sk-soft', 9) + text(151, 160, 'Download', 'sk-t sk-t--chip', 'middle') +
+        '<path class="sk-arrow" d="M90 186L90 170"/>';
+      return svg(out, CAP[v]);
+    }
+    if (v === 'transcript') {
+      var o2 = rect(16, 16, 128, 168, 'sk-card', 6) + wave(30, 90, 100, 18, 28) + rect(52, 140, 56, 18, 'sk-ink', 9) + text(80, 152, 'Upload', 'sk-t sk-t--onink', 'middle') +
+        '<path class="sk-arrow" d="M150 100L164 100"/>' + rect(172, 16, 132, 168, 'sk-win', 6) + text(182, 32, 'Transcript', 'sk-t sk-t--head') +
+        greek(182, 50, 112, 12, { gap: 11, cls: 'sk-greek sk-greek--thin' }) + rect(180, 94, 90, 8, 'sk-hi', 2);
+      return svg(o2, CAP[v]);
+    }
+    var o3 = rect(16, 12, 288, 176, 'sk-win', 6) + rect(16, 12, 288, 20, 'sk-soft', 6) + rect(24, 16, 60, 12, 'sk-win', 3) + rect(88, 16, 44, 12, 'sk-win', 3) +
+      rect(26, 42, 150, 96, 'sk-screen', 4) + play(101, 90, 14, 'sk-paper-fill') + rect(26, 146, 150, 4, 'sk-soft', 0) + rect(26, 146, 90, 4, 'sk-acc', 0) +
+      rect(186, 42, 110, 136, 'sk-card', 4) + text(194, 56, 'Live transcript', 'sk-t sk-t--head') + greek(194, 72, 92, 9, { gap: 11, cls: 'sk-greek sk-greek--thin' }) + cursor(258, 160, 9);
+    return svg(o3, CAP[v]);
   };
 
-  S['player-ask'] = function () {
-    return svg(frame(30, 14, 260, 110, 6) + '<rect class="ink" x="30" y="14" width="260" height="110" rx="6" opacity=".9"/>' + play(160, 69, 18) +
-      soft(30, 134, 48, 20, 10) + t(54, 147, 'Share', null, 'middle') + hi(84, 134, 44, 20, 10) + t(106, 147, 'Ask', null, 'middle') + soft(134, 134, 70, 20, 10) + t(169, 147, 'Download', null, 'middle') +
-      '<circle cx="106" cy="134" r="0"/>' + '<circle cx="106" cy="166" r="3" class="acc"/>' + t(106, 177, 'here', 'mono', 'middle'),
-      'A video player with the Ask button highlighted below it');
+  /* ------------------------------------------------------------------ meet */
+  CAP['meet/notes'] = 'A Meet call with Gemini taking notes in the side panel';
+  CAP['meet/ask'] = 'Joining late: a private question to Gemini, bottom left of the call';
+  F.meet = function (v, e) {
+    var out = rect(16, 12, 288, 176, 'sk-screen', 6);
+    for (var i = 0; i < 4; i++) { var x = 26 + (i % 2) * 78, y = 24 + Math.floor(i / 2) * 64; out += rect(x, y, 72, 58, 'sk-tile', 4) + person(x + 36, y + 30, 14); }
+    if (v === 'notes') {
+      out += rect(186, 22, 108, 156, 'sk-card', 4) + '<path class="sk-stroke" d="M196 40l8-8 4 4-8 8h-4z"/>' + text(210, 38, 'Taking notes', 'sk-t sk-t--head') + greek(196, 56, 88, 9, { gap: 11, cls: 'sk-greek sk-greek--thin' }) + cursor(250, 150, 9);
+    } else {
+      out += rect(186, 22, 108, 60, 'sk-tile', 4) + person(240, 52, 14);
+      out += rect(26, 152, 150, 26, 'sk-card', 13) + spark(40, 165, 4) + text(50, 169, short(e.prompt, 24), 'sk-t sk-t--chip');
+      out += rect(186, 96, 108, 50, 'sk-hi-soft', 6) + text(194, 110, 'Only you see this', 'sk-t sk-t--cap') + greek(194, 124, 90, 2, { gap: 10, cls: 'sk-greek sk-greek--thin' });
+    }
+    return svg(out, CAP['meet/' + v]);
   };
 
-  S['link-drop'] = function () {
-    return svg(frame(30, 110, 260, 44, 22) + t(50, 137, 'Summarise this video and…', 'ser') +
-      frame(90, 20, 140, 34, 17) + t(160, 42, 'youtu.be/x7k…', 'mono', 'middle') + arrow(160, 60, 160, 104),
-      'A video link being dropped into the prompt box');
+  /* ----------------------------------------------------------------- phone */
+  CAP['phone/camera'] = 'The Gemini app on a phone, pointed at a printed page';
+  CAP['phone/live'] = 'Gemini Live on a phone: you talk, it talks back';
+  F.phone = function (v, e) {
+    var out = rect(112, 8, 96, 184, 'sk-win', 14) + rect(146, 14, 28, 4, 'sk-soft', 2);
+    if (v === 'camera') {
+      out += rect(120, 26, 80, 120, 'sk-screen', 4) + rect(134, 40, 52, 92, 'sk-paper-card', 1) + greek(140, 50, 40, 8, { gap: 9, cls: 'sk-greek sk-greek--thin' }) +
+        '<path class="sk-acc-line" d="M126 32h10M126 32v10M194 32h-10M194 32v10M126 140h10M126 140v-10M194 140h-10M194 140v-10"/>' +
+        '<circle class="sk-stroke" cx="160" cy="166" r="11"/><circle class="sk-ink" cx="160" cy="166" r="7"/>';
+      out += '<path class="sk-arrow" d="M212 60L240 60"/>' + greek(246, 50, 60, 6, { gap: 9, cls: 'sk-greek sk-greek--thin' }) + text(276, 112, 'text', 'sk-t sk-t--cap', 'middle');
+    } else {
+      out += wave(126, 90, 70, 12, 26) + rect(140, 130, 40, 16, 'sk-hi', 8) + text(160, 141, 'Live', 'sk-t sk-t--chip sk-on-hi', 'middle') + '<circle class="sk-acc" cx="160" cy="168" r="9"/>';
+      out += '<path class="sk-dash" d="M212 90q20-30 40 0t40 0"/><path class="sk-dash" d="M28 90q20-30 40 0t40 0"/>';
+    }
+    return svg(out, CAP['phone/' + v]);
   };
 
-  S['thumb-drop'] = function () {
-    return svg(frame(20, 20, 110, 140, 6) + t(30, 38, 'Sources', 'ser') + doc(30, 50, 90, 26) + doc(30, 84, 90, 26) + hi(30, 118, 90, 30, 3) + play(50, 133, 8) + t(64, 137, 'hearing.mp4', 'mono') +
-      frame(190, 40, 100, 60, 4) + '<rect class="ink" x="190" y="40" width="100" height="60" rx="4" opacity=".9"/>' + play(240, 70, 12) + arrow(188, 90, 130, 128),
-      'A video thumbnail dropping into the source list of a notebook');
+  /* ------------------------------------------------------------- interface */
+  window.SKETCHES = {
+    draw: function (key, entry) {
+      var parts = String(key || '').split('/');
+      var frame = F[parts[0]];
+      if (!frame) return null;
+      return frame(parts[1] || '', entry || {});
+    },
+    caption: function (key) { return CAP[key] || ''; },
+    has: function (key) { return !!F[String(key || '').split('/')[0]]; },
+    keys: Object.keys(CAP)
   };
-
-  S['waveform-text'] = function () {
-    return svg(wave(30, 60, 120, 20, 28) + arrow(160, 60, 190, 60) + lines(200, 40, 100, 5, 10, 'line line--ink') +
-      '<rect class="hi" x="200" y="56" width="70" height="8" rx="2"/>' + t(160, 150, 'searchable text, with the quote found', 'mono', 'middle'),
-      'A waveform turning into lines of text, with one line highlighted');
-  };
-
-  S['browser-scroll'] = function () {
-    return svg(frame(20, 20, 280, 140, 6) + soft(20, 20, 280, 22, 6) + '<rect class="ink" x="30" y="50" width="150" height="100" rx="4" opacity=".9"/>' + play(105, 100, 14) +
-      frame(190, 50, 100, 100, 4) + lines(198, 66, 84, 7, 11) + '<rect class="hi" x="198" y="120" width="60" height="6" rx="2"/>' + t(240, 165, 'scrolling as they speak', 'mono', 'middle'),
-      'A browser tab playing a briefing with a transcript scrolling beside it');
-  };
-
-  S['notepad-video'] = function () {
-    var out = '';
-    for (var i = 0; i < 4; i++) out += frame(20 + (i % 2) * 66, 30 + Math.floor(i / 2) * 60, 60, 52, 4) + person(50 + (i % 2) * 66, 70 + Math.floor(i / 2) * 60);
-    return svg(out + frame(170, 30, 120, 112, 4) + soft(170, 30, 120, 16, 4) + t(180, 42, 'Notes', 'mono') + lines(180, 62, 100, 6, 11) + '<rect class="acc" x="258" y="112" width="3" height="12"/>',
-      'A notepad writing itself beside four video tiles');
-  };
-
-  S['clock-bubble'] = function () {
-    return svg('<circle cx="90" cy="90" r="46" class="frame"/><path class="acc-stroke" d="M90 90V58M90 90l20 12" stroke-width="3"/>' +
-      bubble(160, 56, 130, 70, true) + t(170, 118, 'only you see this', 'mono'),
-      'A clock and a private summary bubble');
-  };
-
-  S['sentence-formula'] = function () {
-    return svg(frame(20, 40, 280, 36, 18) + t(34, 63, 'Count how many rows in column C mention flooding', 'ser') +
-      arrow(160, 84, 160, 108) + frame(60, 114, 200, 34, 4) + t(160, 136, '=COUNTIF(C:C, "*flooding*")', 'mono', 'middle'),
-      'A plain English sentence turning into a formula');
-  };
-
-  S['grid-chart'] = function () {
-    var out = grid(20, 30, 4, 7, 42, 16, true);
-    [48, 70, 62, 90, 54].forEach(function (h, i) { out += '<rect class="' + (i === 3 ? 'acc' : 'blue') + '" x="' + (206 + i * 18) + '" y="' + (150 - h) + '" width="12" height="' + h + '"/>'; });
-    return svg(out + line(200, 150, 300, 150, 'line line--ink') + t(250, 168, 'biggest rise', 'mono', 'middle'), 'A spreadsheet grid with a bar chart beside it');
-  };
-
-  S['table-before-after'] = function () {
-    return svg(doc(20, 20, 120, 140) + '<rect class="soft" x="34" y="60" width="92" height="60" rx="2"/>' + lines(40, 72, 80, 4, 12, 'line line--ink') +
-      '<path class="acc" d="M118 50h10l4 4v10h-14z"/>' + arrow(150, 90, 184, 90) + grid(190, 50, 3, 5, 36, 18, true),
-      'A locked PDF table becoming a spreadsheet grid');
-  };
-
-  S['phone-paper'] = function () {
-    return svg(phone(40, 20, 80, 140) + lines(52, 50, 56, 7, 12) + doc(190, 50, 100, 110) +
-      '<path class="dash" d="M126 60L188 56M126 150L188 150"/>' + t(160, 174, 'paper to text', 'mono', 'middle'),
-      'A phone photographing a page, with the text appearing on screen');
-  };
-
-  S['notes-table'] = function () {
-    var scribble = '';
-    for (var i = 0; i < 6; i++) scribble += '<path class="line line--ink" d="M30 ' + (40 + i * 18) + 'q20 -8 40 0t40 0t30 -4" transform="rotate(' + ((i % 2) * 2 - 1) + ' 80 ' + (40 + i * 18) + ')"/>';
-    return svg(scribble + arrow(150, 90, 184, 90) + grid(190, 40, 4, 6, 27, 18, true), 'Scribbled notes becoming a neat table');
-  };
-
-  S['doc-underlines'] = function () {
-    return svg(doc(40, 14, 150, 152) + '<path class="acc-stroke" d="M50 54h50M50 90h30M50 126h44" stroke-dasharray="2 3"/>' +
-      frame(200, 40, 100, 44, 4) + t(208, 56, 'Suggestion', 'mono') + line(208, 70, 290, 70) +
-      frame(200, 96, 100, 44, 4) + t(208, 112, 'Suggestion', 'mono') + line(208, 126, 290, 126),
-      'A document with gentle underlines and suggestion cards');
-  };
-
-  S['doc-play'] = function () {
-    return svg(doc(60, 14, 160, 152) + '<rect class="hi" x="68" y="68" width="110" height="10" rx="2"/>' + play(250, 90, 22), 'A document with a play button and a moving highlight');
-  };
-
-  S['jargon'] = function () {
-    var pairs = [['gilt yields', 'the return on lending to the government'], ['basis points', 'hundredths of a per cent'], ['dovish', 'leaning towards lower rates']];
-    var out = '';
-    pairs.forEach(function (p, i) { out += chip(20, 30 + i * 46, 96, p[0], 'soft') + arrow(124, 39 + i * 46, 150, 39 + i * 46) + t(156, 43 + i * 46, p[1], null); });
-    return svg(out, 'Jargon words resolving into plain ones');
-  };
-
-  S['two-columns'] = function () {
-    return svg(frame(20, 20, 130, 140, 4) + t(30, 38, 'Français', 'ser') + lines(30, 56, 110, 8, 11) +
-      frame(170, 20, 130, 140, 4) + t(180, 38, 'English', 'ser') + lines(180, 56, 110, 8, 11) + '<rect class="hi" x="180" y="96" width="90" height="8" rx="2"/>' + '<rect class="hi" x="30" y="96" width="90" height="8" rx="2"/>',
-      'Two columns, French and English, with the matching passage highlighted in each');
-  };
-
-  S['notes-questions'] = function () {
-    var out = doc(70, 14, 150, 152) + lines(82, 40, 120, 10, 11);
-    [50, 95, 140].forEach(function (y) { out += '<rect class="acc" x="218" y="' + y + '" width="30" height="20" rx="3"/>' + '<text x="233" y="' + (y + 14) + '" text-anchor="middle" style="fill:#fff;font-family:var(--f-ui);font-weight:700;font-size:12px">?</text>'; });
-    return svg(out, 'A page of notes with question mark tabs sticking out of the gaps');
-  };
-
-  S['walk'] = function () {
-    return svg(person(80, 110) + headphones(80, 72, 14) + wave(140, 90, 150, 24, 18) + t(215, 140, 'ask me questions', 'mono', 'middle'), 'Someone walking with headphones, a speech wave beside them');
-  };
-
-  S['radiate'] = function () {
-    var apps = ['Gmail', 'Docs', 'Sheets', 'Drive', 'Chat', 'Slides'];
-    var out = hi(100, 66, 120, 48, 6) + t(160, 86, 'British English,', 'ser', 'middle') + t(160, 102, 'Guardian style', 'ser', 'middle');
-    apps.forEach(function (a, i) {
-      var x = 40 + i * 48, y = i % 2 ? 24 : 156;
-      out += '<path class="dash" d="M160 90L' + x + ' ' + y + '"/>' + chip(x - 24, y - 9, 48, a, 'soft');
-    });
-    return svg(out, 'One instruction card radiating to six app icons');
-  };
-
-  S['envelope-calendar'] = function () {
-    return svg(frame(30, 40, 90, 60, 4) + '<path class="line line--ink" d="M30 44l45 34 45-34"/>' + calendar(130, 36, 80, 68, 3) + arrow(160, 112, 200, 132) + arrow(100, 108, 180, 136) +
-      hi(170, 128, 120, 40, 6) + t(230, 146, '8am', 'mono', 'middle') + t(230, 160, 'your morning', 'mono', 'middle'),
-      'An envelope and a calendar merging into one morning card');
-  };
-
-  S['sentence-app'] = function () {
-    return svg(frame(20, 30, 150, 36, 18) + t(30, 53, 'Build me a countdown…', 'ser') + arrow(176, 48, 200, 48) +
-      frame(206, 20, 94, 100, 6) + soft(206, 20, 94, 14, 6) + t(253, 70, '37', 'ser', 'middle').replace('font-size:13px', '') + t(253, 90, 'working days', 'mono', 'middle') + soft(224, 100, 58, 12, 6),
-      'A sentence becoming a small app window showing a countdown');
-  };
-
-  window.SKETCHES = S;
 })();

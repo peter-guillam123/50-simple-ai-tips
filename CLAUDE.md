@@ -45,6 +45,12 @@ not built yet.
 - Entry text 80 to 120 words across why, steps and tip. Three or four steps.
 - Plates and drawings are code, never screenshots, never Google's logos. Their
   text is illustrative and says so.
+- Drawings come from ten frames in `js/sketches.js` (search, chat, notebook,
+  mail, drive, sheet, doc, player, meet, phone), each with variants. An entry
+  points at one with `sketch: 'frame/variant'`. Add a variant to an existing
+  frame rather than a new one-off drawing. Rules: 320 by 200 canvas, 1.5px
+  strokes, text as grey bars, one yellow highlight, one red mark, text on
+  yellow gets `sk-on-hi`. Every drawing has a caption.
 
 ## Where things live
 

@@ -22,7 +22,7 @@
  *   material    exactly one material id
  *   effort      1min, 5min or setup
  *   plate       the id of an interactive plate, or leave out
- *   sketch      the id of a small static drawing (see js/sketches.js), or leave out
+ *   sketch      a frame and variant from js/sketches.js, like chat/file, or leave out
  *   availability  { status: ok | check | todo, note: what to check }
  *   sources     ids from the sources list in js/site.js
  *
@@ -59,7 +59,7 @@ window.ENTRIES = [
     jobs: ['find'],
     material: 'question',
     effort: '1min',
-    sketch: 'stopwatch',
+    sketch: 'search/overview',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -86,7 +86,7 @@ window.ENTRIES = [
     jobs: ['find'],
     material: 'question',
     effort: '1min',
-    sketch: 'fanout',
+    sketch: 'search/aimode',
     availability: { status: 'check', note: 'AI Mode charts started with US finance and sports queries. Do not promise charts unless confirmed in the UK.' },
     sources: ['aimode-charts']
   },
@@ -112,7 +112,7 @@ window.ENTRIES = [
     jobs: ['find', 'interrogate'],
     material: 'question',
     effort: '1min',
-    sketch: 'chat-file',
+    sketch: 'chat/file',
     availability: { status: 'check', note: 'Find one or two common sites that block Gemini so the entry can name them.' },
     sources: []
   },
@@ -139,7 +139,7 @@ window.ENTRIES = [
     jobs: ['interrogate'],
     material: 'document',
     effort: '5min',
-    sketch: 'box',
+    sketch: 'notebook/sources',
     availability: { status: 'ok', note: '' },
     sources: ['notebook-rename']
   },
@@ -166,7 +166,7 @@ window.ENTRIES = [
     jobs: ['count', 'explain'],
     material: 'question',
     effort: '1min',
-    sketch: 'side-by-side',
+    sketch: 'chat/model',
     availability: { status: 'check', note: 'Confirm the model labels staff see in the Guardian picker (brief says Flash 3.6 and Thinking 3.8).' },
     sources: []
   },
@@ -222,7 +222,7 @@ window.ENTRIES = [
     jobs: ['find'],
     material: 'email-chat',
     effort: '1min',
-    sketch: 'inbox-card',
+    sketch: 'mail/search',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -247,7 +247,7 @@ window.ENTRIES = [
     jobs: ['find'],
     material: 'document',
     effort: '1min',
-    sketch: 'drive-grid',
+    sketch: 'drive/find',
     availability: { status: 'ok', note: '' },
     sources: ['ask-gemini-drive']
   },
@@ -272,7 +272,7 @@ window.ENTRIES = [
     jobs: ['catch-up'],
     material: 'email-chat',
     effort: '1min',
-    sketch: 'collapse',
+    sketch: 'mail/thread',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -297,7 +297,7 @@ window.ENTRIES = [
     jobs: ['catch-up'],
     material: 'email-chat',
     effort: '1min',
-    sketch: 'chat-stack',
+    sketch: 'mail/space',
     availability: { status: 'check', note: 'Confirm Ask Gemini in Chat is on for Guardian accounts.' },
     sources: ['chat-data-source']
   },
@@ -322,7 +322,7 @@ window.ENTRIES = [
     jobs: ['interrogate'],
     material: 'web-page',
     effort: '1min',
-    sketch: 'browser-tabs',
+    sketch: 'chat/browser',
     availability: { status: 'check', note: 'Is Gemini in Chrome enabled for Guardian accounts? It rolled out to UK desktop users; admins can switch it off.' },
     sources: ['chrome-uk', 'chrome-admin']
   },
@@ -348,7 +348,7 @@ window.ENTRIES = [
     jobs: ['find'],
     material: 'question',
     effort: '5min',
-    sketch: 'trace',
+    sketch: 'search/trace',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -375,7 +375,7 @@ window.ENTRIES = [
     jobs: ['find', 'prepare'],
     material: 'question',
     effort: '5min',
-    sketch: 'report-fan',
+    sketch: 'chat/research',
     availability: { status: 'check', note: 'The Deep Research quota on our edition.' },
     sources: ['deep-research-limits']
   },
@@ -406,7 +406,7 @@ window.ENTRIES = [
     jobs: ['interrogate'],
     material: 'document',
     effort: '5min',
-    sketch: 'shrink',
+    sketch: 'notebook/answer',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -459,7 +459,7 @@ window.ENTRIES = [
     jobs: ['catch-up', 'interrogate'],
     material: 'document',
     effort: '1min',
-    sketch: 'pdf-headphones',
+    sketch: 'drive/pdf',
     availability: { status: 'check', note: 'English PDFs only at launch. Confirm the button is visible on our tier.' },
     sources: ['drive-audio']
   },
@@ -565,7 +565,7 @@ window.ENTRIES = [
     jobs: ['organise'],
     material: 'document',
     effort: '5min',
-    sketch: 'timeline',
+    sketch: 'notebook/timeline',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -591,7 +591,7 @@ window.ENTRIES = [
     jobs: ['interrogate'],
     material: 'document',
     effort: '1min',
-    sketch: 'mindmap',
+    sketch: 'notebook/mindmap',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -617,7 +617,7 @@ window.ENTRIES = [
     jobs: ['catch-up'],
     material: 'document',
     effort: '5min',
-    sketch: 'headphones',
+    sketch: 'notebook/audio',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -644,7 +644,7 @@ window.ENTRIES = [
     jobs: ['prepare'],
     material: 'document',
     effort: '5min',
-    sketch: 'dossier',
+    sketch: 'notebook/questions',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -670,7 +670,7 @@ window.ENTRIES = [
     jobs: ['prepare'],
     material: 'document',
     effort: '5min',
-    sketch: 'flipcard',
+    sketch: 'notebook/cards',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -696,7 +696,7 @@ window.ENTRIES = [
     jobs: ['prepare', 'find'],
     material: 'document',
     effort: 'setup',
-    sketch: 'calendar-notebook',
+    sketch: 'notebook/beat',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -726,7 +726,7 @@ window.ENTRIES = [
     jobs: ['catch-up'],
     material: 'video-audio',
     effort: '1min',
-    sketch: 'player-ask',
+    sketch: 'player/ask',
     availability: { status: 'check', note: 'Confirm the Ask button appears for UK staff on desktop.' },
     sources: ['youtube-ask', 'youtube-ask-search-us']
   },
@@ -778,7 +778,7 @@ window.ENTRIES = [
     jobs: ['catch-up'],
     material: 'video-audio',
     effort: '1min',
-    sketch: 'link-drop',
+    sketch: 'chat/link',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -805,7 +805,7 @@ window.ENTRIES = [
     jobs: ['interrogate'],
     material: 'video-audio',
     effort: '5min',
-    sketch: 'thumb-drop',
+    sketch: 'notebook/video',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -831,7 +831,7 @@ window.ENTRIES = [
     jobs: ['transcribe'],
     material: 'video-audio',
     effort: '5min',
-    sketch: 'waveform-text',
+    sketch: 'player/transcript',
     availability: { status: 'todo', note: 'Name, link, access route, upload steps, and any file-size or language limits.' },
     sources: ['transcription-tool']
   },
@@ -857,7 +857,7 @@ window.ENTRIES = [
     jobs: ['transcribe'],
     material: 'video-audio',
     effort: 'setup',
-    sketch: 'browser-scroll',
+    sketch: 'player/live',
     availability: { status: 'todo', note: 'Name, install route, which sites it works on.' },
     sources: ['live-transcription-tool']
   },
@@ -883,7 +883,7 @@ window.ENTRIES = [
     jobs: ['transcribe', 'catch-up'],
     material: 'meeting',
     effort: '1min',
-    sketch: 'notepad-video',
+    sketch: 'meet/notes',
     availability: { status: 'check', note: 'Depends on edition. Confirm on a normal staff account.' },
     sources: ['ask-gemini-meet']
   },
@@ -908,7 +908,7 @@ window.ENTRIES = [
     jobs: ['catch-up'],
     material: 'meeting',
     effort: '1min',
-    sketch: 'clock-bubble',
+    sketch: 'meet/ask',
     availability: { status: 'check', note: 'Depends on edition. Hosts can switch it off.' },
     sources: ['ask-gemini-meet']
   },
@@ -963,7 +963,7 @@ window.ENTRIES = [
     jobs: ['count'],
     material: 'spreadsheet',
     effort: '1min',
-    sketch: 'sentence-formula',
+    sketch: 'sheet/formula',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -989,7 +989,7 @@ window.ENTRIES = [
     jobs: ['count'],
     material: 'spreadsheet',
     effort: '1min',
-    sketch: 'grid-chart',
+    sketch: 'sheet/chart',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1016,7 +1016,7 @@ window.ENTRIES = [
     jobs: ['organise'],
     material: 'photo',
     effort: '1min',
-    sketch: 'table-before-after',
+    sketch: 'chat/image',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1047,7 +1047,7 @@ window.ENTRIES = [
     jobs: ['transcribe', 'organise'],
     material: 'photo',
     effort: '1min',
-    sketch: 'phone-paper',
+    sketch: 'phone/camera',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1073,7 +1073,7 @@ window.ENTRIES = [
     jobs: ['organise'],
     material: 'notes',
     effort: '1min',
-    sketch: 'notes-table',
+    sketch: 'doc/table',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1098,7 +1098,7 @@ window.ENTRIES = [
     jobs: ['organise'],
     material: 'notes',
     effort: '1min',
-    sketch: 'doc-underlines',
+    sketch: 'doc/proof',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1123,7 +1123,7 @@ window.ENTRIES = [
     jobs: ['organise'],
     material: 'notes',
     effort: '1min',
-    sketch: 'doc-play',
+    sketch: 'doc/listen',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1150,7 +1150,7 @@ window.ENTRIES = [
     jobs: ['explain'],
     material: 'question',
     effort: '1min',
-    sketch: 'jargon',
+    sketch: 'chat/plain',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1176,7 +1176,7 @@ window.ENTRIES = [
     jobs: ['explain'],
     material: 'document',
     effort: '1min',
-    sketch: 'two-columns',
+    sketch: 'chat/translate',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1202,7 +1202,7 @@ window.ENTRIES = [
     jobs: ['prepare'],
     material: 'notes',
     effort: '1min',
-    sketch: 'notes-questions',
+    sketch: 'chat/notes',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1229,7 +1229,7 @@ window.ENTRIES = [
     jobs: ['prepare'],
     material: 'question',
     effort: '5min',
-    sketch: 'walk',
+    sketch: 'phone/live',
     availability: { status: 'ok', note: '' },
     sources: []
   },
@@ -1259,7 +1259,7 @@ window.ENTRIES = [
     jobs: ['automate'],
     material: 'question',
     effort: 'setup',
-    sketch: 'radiate',
+    sketch: 'mail/settings',
     availability: { status: 'check', note: 'Custom instructions in Workspace rolled out from 2 September 2026. Confirm on a staff account. Also decide whether this entry should use a new “workspace” tool value.' },
     sources: ['custom-instructions']
   },
@@ -1339,7 +1339,7 @@ window.ENTRIES = [
     jobs: ['automate', 'catch-up'],
     material: 'email-chat',
     effort: 'setup',
-    sketch: 'envelope-calendar',
+    sketch: 'chat/schedule',
     availability: { status: 'check', note: 'Same check as tip 48.' },
     sources: ['scheduled-actions']
   },
@@ -1366,7 +1366,7 @@ window.ENTRIES = [
     jobs: ['automate'],
     material: 'question',
     effort: '5min',
-    sketch: 'sentence-app',
+    sketch: 'chat/canvas',
     availability: { status: 'ok', note: '' },
     sources: ['vibecoding-deck']
   }

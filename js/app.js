@@ -314,7 +314,7 @@
   function renderEntry(entry, sec) {
     var tool = byId(S.tools || [], entry.tool) || { label: entry.tool };
     var effort = byId(S.efforts || [], entry.effort) || { label: entry.effort };
-    var hasArt = !!(entry.plate && PL[entry.plate]) || !!(entry.sketch && SK[entry.sketch]);
+    var hasArt = !!(entry.plate && PL[entry.plate]) || !!(entry.sketch && SK.has && SK.has(entry.sketch));
     var art = h('article', { class: 'tip' + (hasArt ? '' : ' tip--noart'), id: entry.id, 'data-number': entry.number, style: '--sec: var(--s-' + sec.id + ')' });
 
     var main = h('div', { class: 'tip__main' });
@@ -360,9 +360,14 @@
         fig.appendChild(cap);
         side.appendChild(fig);
         try { PL[entry.plate](body, { reduced: reduced, site: S, entry: entry }); } catch (e) { if (window.console) console.error('Plate failed:', entry.plate, e); }
-      } else if (entry.sketch && SK[entry.sketch]) {
-        var sk = h('div', { class: 'sketch', 'aria-hidden': 'false' }, SK[entry.sketch]());
-        side.appendChild(sk);
+      } else if (entry.sketch && SK.has(entry.sketch)) {
+        var drawn = SK.draw(entry.sketch, entry);
+        if (drawn) {
+          var sk = h('div', { class: 'sketch' }, drawn);
+          var capText = SK.caption(entry.sketch);
+          if (capText) sk.appendChild(h('p', { class: 'sketch__cap', text: capText }));
+          side.appendChild(sk);
+        }
       }
       art.appendChild(side);
     }
