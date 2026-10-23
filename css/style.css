@@ -381,7 +381,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--red); }
 .prompt__head { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .5rem .9rem; border-bottom: 1px solid var(--rule-soft); background: color-mix(in srgb, var(--paper-2) 60%, transparent); }
 .prompt__label { font-family: var(--f-ui); font-weight: 700; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin: 0; }
 .prompt__hint { font-family: var(--f-ui); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
-.prompt__text { font-family: var(--f-text); font-size: .98rem; line-height: 1.5; margin: 0; padding: .8rem .9rem .9rem; color: var(--ink); overflow-wrap: anywhere; }
+.prompt__text { display: block; font-family: var(--f-text); font-size: .98rem; line-height: 1.5; margin: 0; padding: .8rem .9rem .9rem; color: var(--ink); overflow-wrap: anywhere; }
 .prompt--code .prompt__text { font-family: var(--f-mono); font-size: .86rem; }
 .copy-badge { position: absolute; top: 8px; right: 10px; font-family: var(--f-ui); font-weight: 700; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: #fff; background: var(--green); padding: .3rem .6rem; border-radius: 3px; opacity: 0; transition: opacity .2s; pointer-events: none; }
 :root[data-theme="dark"] .copy-badge, :root:not([data-theme="light"]) .copy-badge { color: #121212; }
