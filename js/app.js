@@ -90,16 +90,30 @@
   /* ------------------------------------------------------------ tool cards */
   function renderTools() {
     var wrap = $('#tool-cards');
-    if (wrap) (S.tools || []).forEach(function (t) {
-      var n = E.filter(function (e) { return e.tool === t.id; }).length;
-      var card = h('div', { class: 'tool-card' });
-      card.innerHTML = '<b>' + rich(t.label) + '</b><span>' + rich(t.line) + '</span><span class="k">' + n + (n === 1 ? ' tip' : ' tips') + '</span>';
-      wrap.appendChild(card);
+    if (wrap) (S.toolGroups || [{ id: null }]).forEach(function (g) {
+      var mine = (S.tools || []).filter(function (t) { return !g.id || t.group === g.id; });
+      if (!mine.length) return;
+      if (g.id) {
+        var head = h('div', { class: 'tools__head' });
+        head.innerHTML = '<h3>' + esc(g.title) + '</h3>' + (g.line ? '<p>' + esc(g.line) + '</p>' : '');
+        wrap.appendChild(head);
+      }
+      var grid = h('div', { class: 'tools' });
+      mine.forEach(function (t) {
+        var n = E.filter(function (e) { return e.tool === t.id; }).length;
+        var card = h('div', { class: 'tool-card' });
+        card.innerHTML = '<b>' + rich(t.label) + '</b>' +
+          (t.access ? '<span class="tool-card__access">' + rich(t.access) + '</span>' : '') +
+          '<span>' + rich(t.line) + '</span>' +
+          '<span class="k">' + (n ? n + (n === 1 ? ' tip' : ' tips') : 'No tips yet') + '</span>';
+        grid.appendChild(card);
+      });
+      wrap.appendChild(grid);
     });
     var why = $('#why-these');
     var W = S.whyThese;
     if (why && W) {
-      why.innerHTML = '<span class="k">Why these, and not others</span>' + (W.use || ['A']).map(function (k) { return '<p>' + rich(W[k] || '') + '</p>'; }).join('');
+      why.innerHTML = '<span class="k">' + esc(W.title || 'Why these, and not others') + '</span>' + (W.paragraphs || []).map(function (p) { return '<p>' + rich(p) + '</p>'; }).join('');
     }
   }
 
@@ -158,6 +172,8 @@
       var wrap = $('#fg-' + f + ' .fgroup__chips');
       if (!wrap) return;
       (lists[f] || []).forEach(function (v) {
+        /* No chip for a tool no entry uses (ChatGPT Enterprise is listed, not taught). */
+        if (f === 'tool' && !E.some(function (e) { return e.tool === v.id; })) return;
         var b = h('button', { class: 'fchip', type: 'button', 'aria-pressed': 'false', 'data-id': v.id });
         b.innerHTML = '<span>' + esc(plain(v.label)) + '</span><span class="n">0</span>';
         b.addEventListener('click', function () { toggle(f, v.id); });

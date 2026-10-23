@@ -15,6 +15,17 @@ not built yet.
 
 ## The rules that matter
 
+- Tone: clarity first, and never patronise. Headings say plainly what the
+  section is ("Searching with AI", not "Four places to ask"). Readers are
+  staff who think AI is useless or don't know where to start; don't call
+  them beginners.
+- Tools are listed in two groups: provided by the Guardian (covered by its
+  agreements) and open to anyone. ChatGPT Enterprise is listed, flagged as
+  enterprise accounts only, and has no tips.
+- The "why these" panel says: Workspace gives the same privacy as Drive and
+  Gmail; never use free or personal accounts for work; anything you wouldn't
+  keep in Drive or email doesn't go into an AI tool; new tools need budget
+  and Tech Council approval.
 - Nothing that writes articles or publishable copy. Nothing that raises
   responsible-use questions (images of real people, voice cloning,
   confidential source material in external tools).
@@ -43,5 +54,6 @@ not built yet.
 
 - Hosting: public Pages, the password gate (built, off) or internal.
 - Transcription tools (entries 30, 31): names, links, steps.
-- The "why these" panel uses tones A, B and C in that order; C needs a contact.
+- The "why these" panel needs a Tech Council link or contact. ChatGPT
+  Enterprise card needs how to check you're on the list.
 - Availability checks listed under `?review`.

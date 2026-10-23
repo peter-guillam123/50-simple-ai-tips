@@ -15,20 +15,22 @@ window.SITE = {
 
   /* ------------------------------------------------------------ masthead */
   masthead: {
-    eyebrow: 'A field guide for people who’ve barely touched AI',
+    eyebrow: 'A practical guide for Guardian staff',
     headline: '50 simple ways to use AI at work',
     accent: 'AI',
-    standfirst: 'Fifty things you can do today with the tools the Guardian already gives you, mostly Gemini. Nothing here writes a story. Each one takes a minute or five, and you can check every answer.'
+    standfirst: 'Fifty practical things you can do with the AI tools the Guardian already provides, most of them inside Google Workspace. None of them writes a story. Most take a minute or two, and every answer can be checked.'
   },
 
   /* ------------------------------------------------------------ why these
-     Three tones. A is live. B and C are kept so Chris can swap. The page
-     uses whichever is in `whyThese.use`. */
+     The panel under the tool cards. Plain paragraphs, in order. */
   whyThese: {
-    use: ['A', 'B', 'C'],
-    A: 'Everything here runs inside the Guardian’s agreement with Google, so what you put in stays ours. That’s why we start here.',
-    B: 'These tools can already see your Drive, inbox and calendar. There’s nothing to install, nothing to expense and nothing to learn twice.',
-    C: 'If a tool isn’t on this list, check before you paste anything into it [TODO: name the team or contact to check with].'
+    title: 'Why these tools, and not others',
+    paragraphs: [
+      'The point of Google Workspace is privacy. It gives you a place to work on your documents and emails with an AI model under the same terms that already cover Drive and Gmail. What you put in stays the Guardian’s and is not used to train the model.',
+      'Do not use free or personal accounts for work: no free Claude, no personal ChatGPT, no Gemini on a private Google account. They sit outside the Guardian’s agreements, and what you paste in may be kept and used for training.',
+      'The usual rule still applies. If you would not store something in Drive or send it by email (a confidential source, a sensitive document), do not put it into an AI tool either.',
+      'If you want a tool that is not on this list, you need budget for it and approval through Tech Council before you use it with Guardian material [TODO: link or contact for Tech Council].'
+    ]
   },
 
   /* ------------------------------------------------------------ taxonomy */
@@ -44,20 +46,29 @@ window.SITE = {
     { id: 'automate', label: 'Make it automatic' }
   ],
 
+  /* `group` is 'guardian' (provided by the Guardian, covered by its agreements)
+     or 'anyone' (open to anyone, no account needed). `access` is a short note
+     shown on the card when a tool is not available to everyone. */
+  toolGroups: [
+    { id: 'guardian', title: 'Provided by the Guardian', line: 'Covered by the Guardian’s agreements. Signed in with your Guardian account.' },
+    { id: 'anyone', title: 'Open to anyone', line: 'Public tools that need no Guardian account. Fine for public material.' }
+  ],
+
   tools: [
-    { id: 'search', label: 'Google Search', line: 'AI Overviews for a quick look, AI Mode for a proper question.' },
-    { id: 'gemini', label: 'Gemini app', line: 'The chat. Your files, your Workspace, Deep Research, Canvas and Live.' },
-    { id: 'notebook', label: 'Gemini Notebook', line: 'Answers only from the sources you give it, every one footnoted. Was NotebookLM.' },
-    { id: 'gmail', label: 'Gmail', line: 'Ask your inbox a question. Summarise a thread.' },
-    { id: 'drive', label: 'Drive', line: 'Find a file by describing it. Summarise a PDF where it sits.' },
-    { id: 'docs', label: 'Docs', line: 'Tidy notes into tables. Proofread. Listen to your draft.' },
-    { id: 'sheets', label: 'Sheets', line: 'Formulas in plain English. Tag 500 rows at once.' },
-    { id: 'meet', label: 'Meet', line: 'Notes taken for you. Catch up when you join late.' },
-    { id: 'chat', label: 'Google Chat', line: 'Summarise a busy space.' },
-    { id: 'chrome', label: 'Gemini in Chrome', line: 'Ask the page you’re on. Compare open tabs.' },
-    { id: 'youtube', label: 'YouTube', line: 'The Ask button: summarise a video, jump to the moment.' },
-    { id: 'transcription', label: 'Guardian transcription tool [TODO: real name]', line: 'The Guardian’s own transcription. First stop for any recording. [TODO: link and access route]' },
-    { id: 'live-transcription', label: 'Live transcription extension [TODO: real name]', line: 'A live transcript of anything playing in your browser. [TODO: install link]' }
+    { id: 'gemini', group: 'guardian', label: 'Gemini app', line: 'The chat. Your files, your Workspace, Deep Research, Canvas and Live.' },
+    { id: 'notebook', group: 'guardian', label: 'Gemini Notebook', line: 'Answers only from the sources you give it, every one footnoted. Was NotebookLM.' },
+    { id: 'gmail', group: 'guardian', label: 'Gmail', line: 'Ask your inbox a question. Summarise a thread.' },
+    { id: 'drive', group: 'guardian', label: 'Drive', line: 'Find a file by describing it. Summarise a PDF where it sits.' },
+    { id: 'docs', group: 'guardian', label: 'Docs', line: 'Tidy notes into tables. Proofread. Listen to your draft.' },
+    { id: 'sheets', group: 'guardian', label: 'Sheets', line: 'Formulas in plain English. Tag 500 rows at once.' },
+    { id: 'meet', group: 'guardian', label: 'Meet', line: 'Notes taken for you. Catch up when you join late.' },
+    { id: 'chat', group: 'guardian', label: 'Google Chat', line: 'Summarise a busy space.' },
+    { id: 'chrome', group: 'guardian', label: 'Gemini in Chrome', line: 'Ask the page you’re on. Compare open tabs.' },
+    { id: 'transcription', group: 'guardian', label: 'Guardian transcription tool [TODO: real name]', line: 'The Guardian’s own transcription. First stop for any recording. [TODO: link and access route]' },
+    { id: 'live-transcription', group: 'guardian', label: 'Live transcription extension [TODO: real name]', line: 'A live transcript of anything playing in your browser. [TODO: install link]' },
+    { id: 'chatgpt', group: 'guardian', label: 'ChatGPT Enterprise', line: 'A general-purpose chat, on the Guardian’s enterprise terms. Not covered by these tips.', access: 'Enterprise accounts only, for staff on the list [TODO: how to check, who to ask]' },
+    { id: 'search', group: 'anyone', label: 'Google Search', line: 'AI Overviews for a quick look, AI Mode for a proper question.' },
+    { id: 'youtube', group: 'anyone', label: 'YouTube', line: 'The Ask button: summarise a video, jump to the moment.' }
   ],
 
   materials: [
@@ -82,7 +93,7 @@ window.SITE = {
      Reading order. Each has a two-sentence intro and a colour family. */
   sections: [
     { id: 'ladder', title: 'Pick the right tool', eyebrow: 'Part one',
-      intro: 'There are four places to ask a question, and they read different things. The narrower what the tool reads, the easier it is to check what it says.' },
+      intro: 'There are four places to ask an AI a question, and they read different things. The less a tool reads, the easier it is to check what it says.' },
     { id: 'find', title: 'Find anything', eyebrow: 'Part two',
       intro: 'Most of what you need is already in your inbox, your Drive or on a page you have open. These tips find it by description rather than by keyword.' },
     { id: 'documents', title: 'Get through documents', eyebrow: 'Part three',
