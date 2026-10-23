@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About · 50 simple ways to use AI at work</title>
+<meta name="description" content="What the guide is, how it was made, what to distrust, and a diary of what changed and why.">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23052962'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='17' font-weight='700' fill='%23FFE500'%3E50%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://assets.guim.co.uk" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the text</a>
+
+<header class="topbar">
+  <div class="band" aria-hidden="true"><i></i><i></i></div>
+  <div class="topbar__in">
+    <a class="topbar__mark" href="index.html">50 ways</a>
+    <nav class="topbar__nav" aria-label="Sections">
+      <a href="index.html">The guide</a>
+      <a href="#what">What this is</a>
+      <a href="#how">How it was made</a>
+      <a href="#distrust">What to distrust</a>
+      <a href="#diary">Diary</a>
+    </nav>
+    <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch between light and dark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="about wrap">
+  <div class="prose">
+    <p class="eyebrow">About this guide</p>
+    <h1 style="font-size:clamp(2.2rem,1.4rem+4vw,4rem);line-height:1;margin-bottom:1rem">How this was <em>made</em>, and what to distrust</h1>
+    <p class="lede">A page for anyone who wants to know where the 50 tips came from, how far each has been checked, and how to change them.</p>
+
+    <h2 id="what">What this is</h2>
+    <p>A field guide for Guardian staff who have barely used AI. It lists 50 small, practical things you can do with the tools the Guardian already provides, mostly Gemini inside Google Workspace. Each tip says where the feature lives, gives three or four steps, and where it helps, a prompt you can copy. Nothing in it writes a story or produces copy for publication.</p>
+    <p>It reads top to bottom like a long list piece, and it can be cut down. Pick what you are holding (a PDF, a spreadsheet, a video) and the list shrinks to what you can do with it. Filters live in the address, so a trainer can send a desk a link to "the five spreadsheet tips". Every tip has its own anchor.</p>
+
+    <h2 id="how">How it was made</h2>
+    <p>Chris Moran, the Guardian's head of editorial innovation and AI, wrote the brief and chose the 50. The page was built from that brief by Claude, an AI model made by Anthropic, under his direction. He is not a programmer: he describes what he wants and the model does the typing. This page is part of that arrangement.</p>
+    <p>The guide is a static page: plain HTML, CSS and JavaScript, no build step. All 50 entries live in one readable data file, <code>js/entries.js</code>, and the page draws everything from it: the list, the filters, the counts. The fixed text (the tool cards, the section introductions, the habits between sections, the sources) lives in <code>js/site.js</code>. The interactive plates are drawn by code, not screenshots, so they stay sharp and date more slowly, and none of them reproduces Google's logos.</p>
+    <p>The look borrows from two earlier pages: the structure of the <a href="https://peter-guillam123.github.io/ai-risk-field-guide/">AI risk field guide</a> (sticky section nav, numbered plates with a "what to notice" box, a sources list with a status on each link, light and dark mode) and the type and colours of the Guardian deck kit behind the <a href="https://peter-guillam123.github.io/vibecoding-workshop/">vibecoding workshop</a>.</p>
+
+    <h2 id="distrust">What to distrust</h2>
+    <p><b>The steps were drafted from Google's announcements, not clicked through on a Guardian account.</b> Google renames and moves buttons often. Where a label could not be confirmed, the text carries a marker that readers never see. Add <code>?review</code> to the page address and every marker shows in yellow or red, along with a note on each tip about what still needs checking on a staff account.</p>
+    <p><b>Two tips are placeholders.</b> The Guardian's own transcription tool (tip 30) and the live transcription extension (tip 31) need their real names, links and steps. They are marked to do.</p>
+    <p><b>The plates are illustrations.</b> Every passage, timestamp, planning application and council plan in them is made up to show the mechanism, and each plate says so. None is from a real document.</p>
+    <p><b>The sources were checked in the brief, not by the page.</b> The sources list marks each link as checked in the project brief on 22 and 23 October 2026, or still to add. The page itself has not followed them.</p>
+    <p><b>Availability varies.</b> Some features depend on the Workspace edition, admin settings or a rollout that was still under way when this was written. The review view lists the checks that remain.</p>
+
+    <h2 id="diary">Diary</h2>
+    <p>What changed and why, newest first, in Chris's voice.</p>
+    <ul class="diary">
+      <li>
+        <div class="when"><span>23 October 2026</span><span class="ms">Milestone</span></div>
+        <p>First full build. All 50 entries are in, with steps, prompts and the taxonomy from the brief: nine jobs, 13 tools, nine materials, three levels of effort. The page reads top to bottom, filters by any mix of those, and keeps the filters in the address so a link can carry them. Every tip has an anchor and a click-to-copy prompt.</p>
+        <p>Nine interactive plates: the tool ladder at the top, then one each for finding everything on a topic, the citation receipt, document to data table, what changed between versions, jumping to a moment in a video, filling a column with one formula, a skill reused all week, and the morning digest. The other entries get a small drawing, 41 in all, or nothing. I'd rather a tip had no picture than a bad one.</p>
+        <p>A review mode (<code>?review</code>) shows the markers where I couldn't confirm a button name, and the availability note on each tip. Readers never see them. The password gate from the deck is built in but off, and hosting is still an open question. The transcription tools are placeholders until I fill in their names.</p>
+        <p>Not done: the presenter view for workshops, and the real word count for the Burnham speech in tip 18, which should be generated from the actual speech and date-stamped rather than invented.</p>
+      </li>
+    </ul>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="band" aria-hidden="true"><i></i><i></i></div>
+  <p>50 simple ways to use AI at work. <a href="index.html">Back to the guide</a>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement, btn = document.getElementById('theme-btn');
+  try { var s = localStorage.getItem('fifty-theme'); if (s === 'dark' || s === 'light') root.setAttribute('data-theme', s); } catch (e) {}
+  if (btn) btn.addEventListener('click', function () {
+    var cur = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('fifty-theme', next); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>
