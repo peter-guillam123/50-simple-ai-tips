@@ -50,23 +50,28 @@ window.SITE = {
      or 'anyone' (open to anyone, no account needed). `access` is a short note
      shown on the card when a tool is not available to everyone. */
   toolGroups: [
-    { id: 'guardian', title: 'Provided by the Guardian', line: 'Covered by the Guardian’s agreements. Signed in with your Guardian account.' },
-    { id: 'anyone', title: 'Open to anyone', line: 'Public tools that need no Guardian account. Fine for public material.' }
+    { id: 'workspace', title: 'Inside Google Workspace', line: 'The apps you already use, working as normal. Gemini is built into each one, usually as a side panel (the star icon, top right) or a button. Same account, same privacy as the app itself.' },
+    { id: 'general', title: 'General AI tools', line: 'Chat and research tools that are not tied to one app. The Gemini ones are under the Guardian’s Google agreement; ChatGPT Enterprise under its own.' },
+    { id: 'guardian', title: 'Built by the Guardian', line: 'Our own tools, made for our work. Where one of these does the job, it is the one to use.' },
+    { id: 'anyone', title: 'Open to anyone', line: 'Public tools that need no Guardian account. Fine for public material only.' }
   ],
 
   tools: [
-    { id: 'gemini', group: 'guardian', label: 'Gemini app', line: 'The chat. Your files, your Workspace, Deep Research, Canvas and Live.' },
-    { id: 'notebook', group: 'guardian', label: 'Gemini Notebook', line: 'Answers only from the sources you give it, every one footnoted. Was NotebookLM.' },
-    { id: 'gmail', group: 'guardian', label: 'Gmail', line: 'Ask your inbox a question. Summarise a thread.' },
-    { id: 'drive', group: 'guardian', label: 'Drive', line: 'Find a file by describing it. Summarise a PDF where it sits.' },
-    { id: 'docs', group: 'guardian', label: 'Docs', line: 'Tidy notes into tables. Proofread. Listen to your draft.' },
-    { id: 'sheets', group: 'guardian', label: 'Sheets', line: 'Formulas in plain English. Tag 500 rows at once.' },
-    { id: 'meet', group: 'guardian', label: 'Meet', line: 'Notes taken for you. Catch up when you join late.' },
-    { id: 'chat', group: 'guardian', label: 'Google Chat', line: 'Summarise a busy space.' },
-    { id: 'chrome', group: 'guardian', label: 'Gemini in Chrome', line: 'Ask the page you’re on. Compare open tabs.' },
+    { id: 'gmail', group: 'workspace', label: 'Gmail', line: 'Ask your inbox a question. Summarise a thread.' },
+    { id: 'drive', group: 'workspace', label: 'Drive', line: 'Find a file by describing it. Summarise a PDF where it sits.' },
+    { id: 'docs', group: 'workspace', label: 'Docs', line: 'Tidy notes into tables. Proofread. Listen to your draft.' },
+    { id: 'sheets', group: 'workspace', label: 'Sheets', line: 'Formulas in plain English. Tag 500 rows at once.' },
+    { id: 'meet', group: 'workspace', label: 'Meet', line: 'Notes taken for you. Catch up when you join late.' },
+    { id: 'chat', group: 'workspace', label: 'Google Chat', line: 'Summarise a busy space.' },
+    { id: 'chrome', group: 'workspace', label: 'Chrome', line: 'Gemini in the browser: ask the page you’re on, compare open tabs.' },
+    { id: 'gemini', group: 'general', label: 'Gemini app', line: 'The chat. Your files, your Workspace, Deep Research, Canvas and Live.' },
+    { id: 'notebook', group: 'general', label: 'Gemini Notebook', line: 'Answers only from the sources you give it, every one footnoted. Was NotebookLM.' },
+    { id: 'chatgpt', group: 'general', label: 'ChatGPT Enterprise', line: 'A general-purpose chat on the Guardian’s enterprise terms. Not covered by these tips.', access: 'Enterprise accounts only, for staff on the list [TODO: how to check, who to ask]' },
+    { id: 'ask-the-guardian', group: 'guardian', label: 'Ask the Guardian', line: 'A simple search of the Guardian archive: ask a question, get what we have published. [TODO: link]' },
+    { id: 'house', group: 'guardian', label: 'House', line: 'Search parliamentary and congressional records in the UK, Australia and the US. [TODO: link]' },
+    { id: 'guardian-angles', group: 'guardian', label: 'Guardian Angles', line: 'See how the Guardian has covered a topic over time, and from which angles. [TODO: link]' },
     { id: 'transcription', group: 'guardian', label: 'Guardian transcription tool [TODO: real name]', line: 'The Guardian’s own transcription. First stop for any recording. [TODO: link and access route]' },
     { id: 'live-transcription', group: 'guardian', label: 'Live transcription extension [TODO: real name]', line: 'A live transcript of anything playing in your browser. [TODO: install link]' },
-    { id: 'chatgpt', group: 'guardian', label: 'ChatGPT Enterprise', line: 'A general-purpose chat, on the Guardian’s enterprise terms. Not covered by these tips.', access: 'Enterprise accounts only, for staff on the list [TODO: how to check, who to ask]' },
     { id: 'search', group: 'anyone', label: 'Google Search', line: 'AI Overviews for a quick look, AI Mode for a proper question.' },
     { id: 'youtube', group: 'anyone', label: 'YouTube', line: 'The Ask button: summarise a video, jump to the moment.' }
   ],
