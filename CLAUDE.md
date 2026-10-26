@@ -1,4 +1,4 @@
-# 50 simple ways to use AI at work
+# Simple ways to use AI at work
 
 Kind: Work
 Audience: Guardian journalists and editorial staff who rarely use AI; non-editorial staff second
@@ -7,10 +7,11 @@ Design: Guardian (fonts from assets.guim.co.uk, cream paper, Guardian blue, yell
 
 ## What this is
 
-A static, article-style guide of 50 practical tips for using the AI tools the
-Guardian already provides, mostly Gemini in Google Workspace. Reads top to
-bottom, filters by job, tool, material and effort, and carries the filters in
-the address. Nine interactive plates. Phase 2 is a presenter view (`?present`),
+A static, article-style guide of practical tips (74 at last count) for using
+the AI tools the Guardian already provides, mostly Gemini in Google Workspace.
+No number in the title: the count changes. Reads top to bottom, filters by job,
+tool, material and effort, and carries the filters in the address. The main
+way in is nine job tiles; "Or start with what you have" (materials) is second. Nine interactive plates. Phase 2 is a presenter view (`?present`),
 not built yet.
 
 ## The rules that matter
@@ -87,9 +88,25 @@ not built yet.
   strokes, text as grey bars, one yellow highlight, one red mark, text on
   yellow gets `sk-on-hi`. Every drawing has a caption.
 
+- Nine jobs, which are also the sections after "Searching with AI", in this
+  order: Find a story, Research a subject, Get through documents, Work with
+  numbers, Interviews and recordings, Check and verify, Organise your work,
+  Before you file, Make it routine. An entry's first job is its section.
+- Checking: one "Check everything" rule sits above the list (`checkRule` in
+  site.js). Inside a tip, give only checks particular to that job (quote
+  against the recording, figure against the document, place against a map).
+- Unpublished work: any tip where you paste a draft, notes or a story into the
+  Gemini app carries `care: CARE` ("The usual rules apply. If the story is
+  highly sensitive and must not leak before publication, be careful what you
+  paste in.").
+- Cross-references use `{tip:entry-id}`, never a typed number, so renumbering
+  is safe. Panels attach by entry id (`after: 'ai-overviews'`).
+- The bespoke Guardian tools (Ask the Guardian, House, Guardian Angles) keep
+  their tool cards but have no tips yet. Chris will come back to them.
+
 ## Where things live
 
-- `js/entries.js`: the 50 entries. Chris edits this directly; keep it readable.
+- `js/entries.js`: the entries. Chris edits this directly; keep it readable.
 - `js/site.js`: taxonomy, tools, sections, habits, ladder, "why these", sources.
 - `js/app.js`, `js/plates.js`, `js/sketches.js`, `js/gate.js`, `css/style.css`.
 - `about.html`: About page with the diary. Add an entry with each significant
@@ -99,7 +116,8 @@ not built yet.
 ## Open with Chris
 
 - Hosting: public Pages, the password gate (built, off) or internal.
-- Transcription tools (entries 30, 31): names, links, steps.
+- Transcription tools (`transcribe-a-recording`, `live-transcript`): names, links, steps.
+- Tips for Ask the Guardian, House and Guardian Angles.
 - The "why these" panel needs a Tech Council link or contact. ChatGPT
   Enterprise card needs how to check you're on the list.
 - Availability checks listed under `?review`.

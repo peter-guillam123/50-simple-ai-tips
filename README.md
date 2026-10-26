@@ -1,14 +1,14 @@
-# 50 simple ways to use AI at work
+# Simple ways to use AI at work
 
-A field guide for Guardian staff who have barely used AI: 50 small, practical things you can do with the tools the Guardian already provides, mostly Gemini in Google Workspace. Nothing in it writes a story.
+A practical guide for Guardian staff: small, useful things you can do with the AI tools the Guardian already provides, mostly Gemini in Google Workspace, sorted by the job in front of you. Nothing in it writes a story.
 
 Built by Chris Moran with Claude, an AI model made by Anthropic. The About page says what that means and what to distrust.
 
 ## What's here
 
 - `index.html`, `css/`, `js/`: the guide. Plain HTML, CSS and JavaScript. No build step, no dependencies.
-  - `js/entries.js`: the 50 entries. This is the file to edit.
-  - `js/site.js`: everything else that is words: the masthead, tool cards, taxonomy, section intros, habits, the ladder and the sources.
+  - `js/entries.js`: the tips. This is the file to edit.
+  - `js/site.js`: everything else that is words: the masthead, tool cards, the nine jobs, section intros, habits, the check-everything rule, the ladder and the sources.
   - `js/app.js`: draws the page, runs the filters, keeps them in the address, copies prompts.
   - `js/plates.js`: the nine interactive plates.
   - `js/sketches.js`: the small static drawings.
@@ -36,7 +36,7 @@ This shows every `[VERIFY]` and `[TODO]` marker in the text, plus an availabilit
 
 ## Edit the entries
 
-Open `js/entries.js`. Each entry is a block of plain fields with a comment at the top of the file explaining them. Keep the `jobs`, `tool`, `material` and `effort` ids to the lists in `js/site.js`. Leave `[VERIFY]` in any step where you are not sure of a button name, and `[TODO: what is needed]` for anything still to be supplied.
+Open `js/entries.js`. Each entry is a block of plain fields with a comment at the top of the file explaining them. Keep the `jobs`, `tool`, `material` and `effort` ids to the lists in `js/site.js`. Leave `[VERIFY]` in any step where you are not sure of a button name, and `[TODO: what is needed]` for anything still to be supplied. To point at another tip, write `{tip:its-id}`; the page fills in the number.
 
 ## Send a filtered link
 
@@ -45,7 +45,8 @@ Filters live in the address, so you can send a desk a cut-down list:
 ```
 ?tool=sheets
 ?material=spreadsheet
-?job=find,catch-up&effort=1min
+?job=verify
+?job=interviews&effort=1min
 ```
 
 Every entry also has an anchor, for example `#sort-500-rows`.
