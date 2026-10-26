@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>50 simple ways to use AI at work</title>
-<meta name="description" content="Fifty practical things Guardian staff can do today with the AI tools the Guardian already provides, mostly Gemini. Nothing that writes a story.">
+<title>Simple ways to use AI at work</title>
+<meta name="description" content="Practical things Guardian staff can do today with the AI tools the Guardian already provides, mostly Gemini, sorted by job. Nothing that writes a story.">
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23052962'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='17' font-weight='700' fill='%23FFE500'%3E50%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23052962'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-weight='700' fill='%23FFE500'%3EAI%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://assets.guim.co.uk" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -18,7 +18,7 @@
 <div id="gate" class="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <form class="gate__card" id="gate-form">
     <div class="band" aria-hidden="true"><i></i><i></i></div>
-    <p class="eyebrow">50 simple ways to use AI at work</p>
+    <p class="eyebrow">Simple ways to use AI at work</p>
     <h1 id="gate-title">Enter the <em>password</em>.</h1>
     <label class="vh" for="gate-input">Password</label>
     <input id="gate-input" type="password" autocomplete="off" placeholder="Password">
@@ -30,17 +30,20 @@
 <header class="topbar">
   <div class="band" aria-hidden="true"><i></i><i></i></div>
   <div class="topbar__in">
-    <a class="topbar__mark" href="#top">50 ways</a>
+    <a class="topbar__mark" href="#top">AI at work</a>
     <nav class="topbar__nav" aria-label="Sections">
       <a href="#tools">Tools</a>
-      <a href="#picker">Start</a>
+      <a href="#picker">Jobs</a>
       <a href="#sec-ladder">Searching</a>
-      <a href="#sec-find">Find</a>
+      <a href="#sec-find-story">Find a story</a>
+      <a href="#sec-research">Research</a>
       <a href="#sec-documents">Documents</a>
-      <a href="#sec-av">Video &amp; audio</a>
       <a href="#sec-numbers">Numbers</a>
-      <a href="#sec-tidy">Tidy</a>
-      <a href="#sec-automate">Automatic</a>
+      <a href="#sec-interviews">Interviews</a>
+      <a href="#sec-verify">Verify</a>
+      <a href="#sec-organise">Organise</a>
+      <a href="#sec-before-filing">Before you file</a>
+      <a href="#sec-routine">Routine</a>
       <a href="#sources">Sources</a>
       <a href="about.html">About</a>
     </nav>
@@ -62,7 +65,7 @@
     <div class="hero__meta">
       <span class="stamp stamp--live">Correct as of <span data-asof></span></span>
       <span class="stamp">About <span id="read-mins">25</span> minutes</span>
-      <span class="stamp"><span id="entry-count">50</span> ideas</span>
+      <span class="stamp"><span id="entry-count"></span> tips</span>
     </div>
   </div>
 </div>
@@ -82,20 +85,25 @@
 <section class="chapter wrap" id="picker">
   <div class="prose">
     <p class="eyebrow">Start here</p>
-    <h2>Start with what you have</h2>
-    <p class="lede">Most people arrive with a document, a recording or a spreadsheet rather than a tool in mind. Pick what you have, and the list below shrinks to what you can do with it.</p>
+    <h2>What are you trying to do?</h2>
+    <p class="lede">Pick a job and the list below shows only the tips for it. Pick it again to see everything.</p>
   </div>
-  <div class="picker wide" id="picker-grid" role="group" aria-label="Pick what you are starting with"></div>
+  <div class="jobs wide" id="jobs-grid" role="group" aria-label="Pick a job"></div>
+  <div class="wide">
+    <h3 class="picker__sub">Or start with what you have</h3>
+  </div>
+  <div class="picker picker--small wide" id="picker-grid" role="group" aria-label="Pick what you are starting with"></div>
+  <section class="check wide" id="check-rule" aria-labelledby="check-rule-title"></section>
 </section>
 
 <!-- ============================================================ FILTER BAR -->
 <div class="filterbar" id="filterbar">
   <div class="filterbar__in">
     <div class="filterbar__summary">
-      <span class="filterbar__count" id="filter-count" aria-live="polite">Showing all 50</span>
+      <span class="filterbar__count" id="filter-count" aria-live="polite">Showing all</span>
       <span class="filterbar__active" id="filter-active"></span>
       <button class="btn btn--ghost btn--small" id="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-groups">Filters</button>
-      <button class="btn btn--small" id="filter-reset" type="button" hidden>Show all 50</button>
+      <button class="btn btn--small" id="filter-reset" type="button" hidden>Show all</button>
     </div>
     <div class="filterbar__groups" id="filter-groups">
       <div class="fgroup" id="fg-job"><span class="fgroup__label">Job</span><div class="fgroup__chips" role="group" aria-label="Filter by job"></div></div>
@@ -106,10 +114,10 @@
   </div>
 </div>
 
-<!-- ============================================================ THE FIFTY -->
+<!-- ============================================================ THE TIPS -->
 <div id="entries" class="wrap"></div>
 
-<p class="empty wrap" id="empty" hidden>Nothing matches that mix of filters. <button class="linkbtn" type="button" id="empty-reset">Show all 50</button></p>
+<p class="empty wrap" id="empty" hidden>Nothing matches that mix of filters. <button class="linkbtn" type="button" id="empty-reset">Show all</button></p>
 
 <!-- =============================================================== SOURCES -->
 <section class="chapter wrap" id="sources">
@@ -117,7 +125,7 @@
     <p class="eyebrow">Check our work</p>
     <h2>Sources</h2>
     <p style="max-width:var(--measure)">Google renames and moves things often. These are the announcements and help pages each tip rests on, with a note on how far each was checked.</p>
-    <ul class="src-key"><li><span class="chk chk--brief">Checked</span> in the project brief, 22 to 23 October 2026</li><li><span class="chk chk--guardian">From the Gemini FAQ</span> the Guardian’s internal guidance</li><li><span class="chk chk--deck">Read for the AI working group deck</span> and reused here</li><li><span class="chk chk--todo">Still to add</span> from inside the Guardian</li></ul>
+    <ul class="src-key"><li><span class="chk chk--brief">Checked</span> in the project brief, 22 to 23 October 2026</li><li><span class="chk chk--guardian">From the Gemini FAQ</span> the Guardian’s internal guidance</li><li><span class="chk chk--deck">Read for the AI working group deck</span> and reused here</li><li><span class="chk chk--research">Found for the research list</span> on 26 October 2026, mostly read through search summaries</li><li><span class="chk chk--todo">Still to add</span> from inside the Guardian</li></ul>
     <ol class="sources" id="sources-list"></ol>
   </div>
 </section>
@@ -126,7 +134,7 @@
 
 <footer class="foot">
   <div class="band" aria-hidden="true"><i></i><i></i></div>
-  <p>50 simple ways to use AI at work. Correct as of <span data-asof></span>. Corrections and better tips welcome. <a href="about.html">About this guide</a>.</p>
+  <p>Simple ways to use AI at work. Correct as of <span data-asof></span>. Corrections and better tips welcome. <a href="about.html">About this guide</a>.</p>
 </footer>
 
 <noscript><p class="wrap" style="max-width:40rem;margin:2rem auto">This guide draws its list from a data file with JavaScript. With JavaScript switched off there is nothing to show. Sorry.</p></noscript>

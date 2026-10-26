@@ -5,7 +5,7 @@
  * interactive plates from js/plates.js.
  *
  * Address options:
- *   ?job=find,catch-up&tool=gmail&material=email-chat&effort=1min
+ *   ?job=find-story,verify&tool=gmail&material=email-chat&effort=1min
  *       filters. OR within a facet, AND across facets.
  *   ?review
  *       shows the [VERIFY] and [TODO] markers and each entry's availability
@@ -41,15 +41,22 @@
   }
   function byId(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
 
+  /* Cross-references. {tip:some-id} becomes "tip 12", linked, numbered from
+     the entry so renumbering never breaks it. */
+  function tipNo(id) { for (var i = 0; i < E.length; i++) if (E[i].id === id) return E[i].number; return null; }
+  function tipRefs(s) {
+    return s.replace(/\{tip:([a-z0-9-]+)\}/g, function (_, id) { var n = tipNo(id); return n ? '<a class="tipref" href="#' + id + '">tip ' + n + '</a>' : ''; });
+  }
+
   /* Markers. [VERIFY] and [TODO: ...] become spans that only show in review
      mode. Everything else is escaped. */
   function rich(s) {
-    return esc(s)
+    return tipRefs(esc(s))
       .replace(/\s*\[VERIFY(?::?\s*([^\]]*))?\]/g, function (_, note) { return '<span class="mark mark--verify">Verify' + (note ? ': ' + note : '') + '</span>'; })
       .replace(/\s*\[TODO:?\s*([^\]]*)\]/g, function (_, note) { return '<span class="mark mark--todo">To do' + (note ? ': ' + note : '') + '</span>'; });
   }
   /* The same text with markers removed, for places that need plain text. */
-  function plain(s) { return String(s == null ? '' : s).replace(/\s*\[VERIFY[^\]]*\]/g, '').replace(/\s*\[TODO[^\]]*\]/g, '').replace(/\s+([.,])/g, '$1').trim(); }
+  function plain(s) { return String(s == null ? '' : s).replace(/\{tip:([a-z0-9-]+)\}/g, function (_, id) { return 'tip ' + tipNo(id); }).replace(/\s*\[VERIFY[^\]]*\]/g, '').replace(/\s*\[TODO[^\]]*\]/g, '').replace(/\s+([.,])/g, '$1').trim(); }
   function hasMarkers(s) { return /\[(VERIFY|TODO)/.test(String(s || '')); }
 
   /* Title with the accent phrase in italics. */
@@ -78,7 +85,7 @@
     $$('[data-asof]').forEach(function (el) { el.textContent = S.asOf || ''; });
     var words = 0;
     function count(s) { words += plain(s).split(/\s+/).filter(Boolean).length; }
-    E.forEach(function (e) { count(e.title); count(e.why); count(e.where); (e.steps || []).forEach(count); count(e.prompt); count(e.alsoWorks); count(e.tip); });
+    E.forEach(function (e) { count(e.title); count(e.why); count(e.where); (e.steps || []).forEach(count); count(e.prompt); count(e.alsoWorks); count(e.tip); count(e.care); });
     (S.sections || []).forEach(function (s) { count(s.title); count(s.intro); });
     (S.habits || []).forEach(function (x) { count(x.b); count(x.t); });
     var mins = Math.max(1, Math.round(words / 200));
@@ -258,6 +265,12 @@
         if (n === 0 && state[f].indexOf(id) === -1) b.setAttribute('data-zero', ''); else b.removeAttribute('data-zero');
       });
     });
+    $$('.job').forEach(function (b) {
+      var id = b.dataset.id;
+      b.setAttribute('aria-pressed', String(state.job.indexOf(id) !== -1));
+      var n = E.filter(function (e) { return (e.jobs || []).indexOf(id) !== -1 && matchesExcept(e, 'job'); }).length;
+      b.querySelector('.n').textContent = n + (n === 1 ? ' tip' : ' tips');
+    });
     $$('.pick').forEach(function (b) {
       var id = b.dataset.id;
       b.setAttribute('aria-pressed', String(state.material.indexOf(id) !== -1));
@@ -297,6 +310,49 @@
     photo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
     meeting: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5M10.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg>'
   };
+  var JICONS = {
+    'find-story': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M8 10.5h5M10.5 8v5"/></svg>',
+    research: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c3-1.5 6-1.5 9 0v14c-3-1.5-6-1.5-9 0zM21 5.5c-3-1.5-6-1.5-9 0v14c3-1.5 6-1.5 9 0z"/></svg>',
+    documents: ICONS.document,
+    numbers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+    interviews: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>',
+    verify: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8-7.5 9.5-4.3-1.5-7.5-5-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+    organise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h6l2 2h10v10H3z"/><path d="M3 7V5h6l2 2"/></svg>',
+    'before-filing': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 15l2 2 4-4.5"/></svg>',
+    routine: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>'
+  };
+
+  /* The way in: nine job tiles, each filtering the list to that job. */
+  function renderJobs() {
+    var grid = $('#jobs-grid');
+    if (!grid) return;
+    (S.jobs || []).forEach(function (j) {
+      var b = h('button', { class: 'job', type: 'button', 'aria-pressed': 'false', 'data-id': j.id });
+      b.innerHTML = (JICONS[j.icon] || '') + '<b>' + esc(j.label) + '</b><span class="job__line">' + esc(j.line || '') + '</span><span class="n"></span>';
+      b.addEventListener('click', function () {
+        state.job = state.job.length === 1 && state.job[0] === j.id ? [] : [j.id];
+        apply();
+        if (state.job.length) scrollToList();
+      });
+      grid.appendChild(b);
+    });
+  }
+  function scrollToList() {
+    var target = $('#entries');
+    var y = target.getBoundingClientRect().top + window.scrollY - 150;
+    window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' });
+  }
+
+  /* The rule above the list. */
+  function renderCheckRule() {
+    var el = $('#check-rule'), C = S.checkRule;
+    if (!el || !C) return;
+    el.innerHTML = '<p class="eyebrow">' + esc(C.eyebrow || '') + '</p><h2 id="check-rule-title">' + esc(C.title) + '</h2>' +
+      '<p class="check__lede">' + rich(C.lede) + '</p>' +
+      '<ul class="check__points">' + (C.points || []).map(function (x) { return '<li>' + rich(x) + '</li>'; }).join('') + '</ul>' +
+      (C.close ? '<p class="check__close">' + rich(C.close) + '</p>' : '');
+  }
+
   function renderPicker() {
     var grid = $('#picker-grid');
     if (!grid) return;
@@ -306,11 +362,7 @@
       b.addEventListener('click', function () {
         state.material = state.material.indexOf(m.id) === -1 ? [m.id] : [];
         apply();
-        if (state.material.length) {
-          var target = $('#entries');
-          var y = target.getBoundingClientRect().top + window.scrollY - 150;
-          window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' });
-        }
+        if (state.material.length) scrollToList();
       });
       grid.appendChild(b);
     });
@@ -382,6 +434,7 @@
     if (entry.prompt) main.appendChild(promptCard(entry));
     if (entry.alsoWorks) main.appendChild(h('p', { class: 'tip__also' }, '<span class="k">Also works</span><span>' + rich(entry.alsoWorks) + '</span>'));
     if (entry.tip) main.appendChild(h('p', { class: 'tip__tip' }, '<span class="k">Tip</span><span>' + rich(entry.tip) + '</span>'));
+    if (entry.care) main.appendChild(h('p', { class: 'tip__care' }, '<span class="k">Take care</span><span>' + rich(entry.care) + '</span>'));
 
     if (entry.availability) {
       var a = entry.availability;
@@ -452,7 +505,7 @@
       }
       mine.forEach(function (e) {
         var el = renderEntry(e, sec); e._el = el; section.appendChild(el);
-        (S.panels || []).forEach(function (p) { if (p.after === e.number) { var pe = renderPanel(p, sec); e._panel = pe; section.appendChild(pe); } });
+        (S.panels || []).forEach(function (p) { if (p.after === e.id) { var pe = renderPanel(p, sec); e._panel = pe; section.appendChild(pe); } });
       });
       sec._el = section;
       wrap.appendChild(section);
@@ -473,10 +526,10 @@
     var order = [];
     E.forEach(function (e) {
       (e.sources || []).forEach(function (id) { if (order.indexOf(id) === -1) order.push(id); });
-      (S.panels || []).forEach(function (p) { if (p.after === e.number) { (p.figures || []).map(function (f) { return f.link; }).concat(p.links || []).forEach(function (id) { if (id && order.indexOf(id) === -1) order.push(id); }); } });
+      (S.panels || []).forEach(function (p) { if (p.after === e.id) { (p.figures || []).map(function (f) { return f.link; }).concat(p.links || []).forEach(function (id) { if (id && order.indexOf(id) === -1) order.push(id); }); } });
     });
     Object.keys(S.sources).forEach(function (id) { if (order.indexOf(id) === -1) order.push(id); });
-    var labels = { brief: 'Checked', guardian: 'From the Gemini FAQ', deck: 'Read for the AI working group deck', todo: 'Still to add' };
+    var labels = { brief: 'Checked', guardian: 'From the Gemini FAQ', deck: 'Read for the AI working group deck', research: 'Found for the research list', todo: 'Still to add' };
     order.forEach(function (id, i) {
       var s = S.sources[id];
       if (!s) return;
@@ -542,7 +595,9 @@
     initTheme();
     renderMasthead();
     renderTools();
+    renderJobs();
     renderPicker();
+    renderCheckRule();
     buildChips();
     renderEntries();
     renderSources();

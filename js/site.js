@@ -1,24 +1,24 @@
-/* 50 simple ways to use AI at work: everything that is not an entry.
+/* Simple ways to use AI at work: everything that is not an entry.
  *
  * Taxonomy, tool cards, sections, the habit interstitials, the ladder,
- * the "why these" panel and the sources. Edit copy here; edit the 50
- * entries in js/entries.js.
+ * the "why these" panel, the check-everything rule and the sources. Edit
+ * copy here; edit the entries in js/entries.js.
  *
  * The taxonomy ids are fixed. Do not add values without asking Chris.
  */
 
 window.SITE = {
 
-  asOf: '23 October 2026',
+  asOf: '26 October 2026',
 
-  title: '50 simple ways to use AI at work',
+  title: 'Simple ways to use AI at work',
 
   /* ------------------------------------------------------------ masthead */
   masthead: {
     eyebrow: 'A practical guide for Guardian staff',
-    headline: '50 simple ways to use AI at work',
+    headline: 'Simple ways to use AI at work',
     accent: 'AI',
-    standfirst: 'Fifty practical things you can do with the AI tools the Guardian already provides, most of them inside Google Workspace. None of them writes a story. Most take a minute or two, and every answer can be checked.'
+    standfirst: 'Practical things you can do with the AI tools the Guardian already provides, most of them inside Google Workspace, sorted by the job in front of you. None of them writes a story. Most take a minute or two.'
   },
 
   /* ------------------------------------------------------------ why these
@@ -52,16 +52,18 @@ window.SITE = {
   },
 
   /* ------------------------------------------------------------ taxonomy */
+  /* The nine jobs. Each is also a section of the list, in this order,
+     after "Searching with AI". `line` shows on the job tile at the top. */
   jobs: [
-    { id: 'find', label: 'Find' },
-    { id: 'interrogate', label: 'Interrogate documents' },
-    { id: 'catch-up', label: 'Catch up' },
-    { id: 'transcribe', label: 'Transcribe & capture' },
-    { id: 'organise', label: 'Organise & tidy' },
-    { id: 'count', label: 'Count & chart' },
-    { id: 'explain', label: 'Translate & explain' },
-    { id: 'prepare', label: 'Prepare' },
-    { id: 'automate', label: 'Make it automatic' }
+    { id: 'find-story', label: 'Find a story', icon: 'find-story', line: 'Reports, agendas, meetings and releases, read for what matters.' },
+    { id: 'research', label: 'Research a subject', icon: 'research', line: 'Get up to speed: judgments, papers, filings, a new beat.' },
+    { id: 'documents', label: 'Get through documents', icon: 'documents', line: 'Long reports, piles of files, FOI responses.' },
+    { id: 'numbers', label: 'Work with numbers', icon: 'numbers', line: 'Formulas, messy data, tables trapped in PDFs, sums.' },
+    { id: 'interviews', label: 'Interviews and recordings', icon: 'interviews', line: 'Prepare, transcribe, find the moment, pull the quotes.' },
+    { id: 'verify', label: 'Check and verify', icon: 'verify', line: 'Trace a figure, test a photo, check a quote.' },
+    { id: 'organise', label: 'Organise your work', icon: 'organise', line: 'Inbox, Drive, notes, FOI requests, meetings.' },
+    { id: 'before-filing', label: 'Before you file', icon: 'before-filing', line: 'Gaps, typos, clunky sentences, house style.' },
+    { id: 'routine', label: 'Make it routine', icon: 'routine', line: 'Standing instructions, skills and digests that run themselves.' }
   ],
 
   /* `group` is 'guardian' (provided by the Guardian, covered by its agreements)
@@ -118,17 +120,23 @@ window.SITE = {
     { id: 'ladder', title: 'Searching with AI', eyebrow: 'Part one',
       intro: 'You can ask an AI a question in four places. AI Overviews and AI Mode start from the web. Gemini Notebook starts from sources you give it, such as documents, web pages and videos, and stays there, so its answers are the easiest to check. The Gemini app starts anywhere and does the most. All four take a picture as well as words. Pick a question below to see which fits; tips 1 to 5 take each in turn.',
       plate: 'ladder', plateTitle: 'Which tool reads what' },
-    { id: 'find', title: 'Find anything', eyebrow: 'Part two',
-      intro: 'Most of what you need is already in your inbox, your Drive or on a page you have open. These tips find it by description rather than by keyword.' },
-    { id: 'documents', title: 'Get through documents', eyebrow: 'Part three',
-      intro: 'A 300-page report is no longer a weekend. Load it, ask it questions, and check the answers against the page it cites.' },
-    { id: 'av', title: 'Video, audio and meetings', eyebrow: 'Part four',
-      intro: 'Hearings, press conferences and recordings can be searched like text. For your own recordings, the Guardian’s own tool comes first.' },
-    { id: 'numbers', title: 'Numbers and spreadsheets', eyebrow: 'Part five',
-      intro: 'You describe the result. Gemini writes the formula, tags the rows or draws the chart. You check a few by hand.' },
-    { id: 'tidy', title: 'Tidy, translate and explain', eyebrow: 'Part six',
-      intro: 'Small jobs that eat an afternoon: notes into tables, a photo into text, jargon into English. None of them touch the copy you file.' },
-    { id: 'automate', title: 'Make it automatic', eyebrow: 'Part seven',
+    { id: 'find-story', title: 'Find a story', eyebrow: 'Part two',
+      intro: 'Reports, agendas and meetings land faster than anyone can read them. These tips point you to the parts worth reading. You still read them.' },
+    { id: 'research', title: 'Research a subject', eyebrow: 'Part three',
+      intro: 'Getting up to speed on a judgment, a study, a company or a new beat. Each tip says where the answer came from, so you can go and read it.' },
+    { id: 'documents', title: 'Get through documents', eyebrow: 'Part four',
+      intro: 'A 300-page report is no longer a weekend. Load it, ask it questions, and read the passage each answer cites.' },
+    { id: 'numbers', title: 'Work with numbers', eyebrow: 'Part five',
+      intro: 'You describe the result. Gemini writes the formula, cleans the column or shows the working. You check a few by hand.' },
+    { id: 'interviews', title: 'Interviews and recordings', eyebrow: 'Part six',
+      intro: 'Before, during and after an interview. For your own recordings, the Guardian’s own transcription tool comes first.' },
+    { id: 'verify', title: 'Check and verify', eyebrow: 'Part seven',
+      intro: 'AI can speed up checking, and it can be wrong while it does it. These tips give you leads and the page to check them against.' },
+    { id: 'organise', title: 'Organise your work', eyebrow: 'Part eight',
+      intro: 'Most of what you need is already in your inbox, your Drive or your notes. These tips find it and put it in order.' },
+    { id: 'before-filing', title: 'Before you file', eyebrow: 'Part nine',
+      intro: 'A last look at your own copy. None of these writes it for you; they find what you missed.' },
+    { id: 'routine', title: 'Make it routine', eyebrow: 'Part ten',
       intro: 'Once a job works, make it run on its own. Standing instructions, saved skills and a digest that arrives before you do.' }
   ],
 
@@ -138,7 +146,7 @@ window.SITE = {
   panels: [
     {
       id: 'aio-reliability',
-      after: 1,
+      after: 'ai-overviews',
       eyebrow: 'The evidence',
       title: 'How reliable are AI Overviews?',
       intro: 'Nobody outside Google has a full answer, and Google has never published an error rate. Two independent tests give a rough shape.',
@@ -147,7 +155,7 @@ window.SITE = {
         { n: '56%', t: 'of those right answers linked to sources that did not fully back them up.', src: 'Same study.', link: 'oumi-nyt' },
         { n: '89%', t: 'of 98,000 claims from trending US searches matched the pages cited. 2.7% were contradicted by them.', src: 'Washington University in St Louis, May 2026, not yet peer reviewed.', link: 'wustl-aio' }
       ],
-      outro: 'A Guardian investigation in January 2026 found health overviews giving advice the opposite of expert guidance. So: fine for orientation on a general question, not a source. Click through before you rely on anything, and for anything that matters, use a tool that shows you the page an answer came from, such as Gemini Notebook (tip 3).',
+      outro: 'A Guardian investigation in January 2026 found health overviews giving advice the opposite of expert guidance. So: fine for orientation on a general question, not a source. Click through before you rely on anything, and for anything that matters, use a tool that shows you the page an answer came from, such as Gemini Notebook ({tip:gemini-notebook}).',
       links: ['guardian-aio-health', 'ai-working-group']
     }
   ],
@@ -160,9 +168,28 @@ window.SITE = {
     { k: 'Habit', b: 'Say who it’s for.', t: '“For a reader with two minutes” changes the answer more than any other words you add.' },
     { k: 'Habit', b: 'Ask for a table.', t: 'Tables are easier to check than prose, and they paste straight into Sheets.' },
     { k: 'Habit', b: 'Paste the source in.', t: 'Don’t ask from memory. Give it the document and it answers about that, not about the world.' },
+    { k: 'Habit', b: 'Ask where it found it.', t: '“Give the page for each point” or “link the source” turns an answer into something you can check.' },
     { k: 'Habit', b: 'If it goes wrong, start again.', t: 'Don’t argue with a bad answer. New chat, better question.' },
-    { k: 'Habit', b: 'Check one thing.', t: 'Before you rely on an answer, test one fact in it against the source. If that’s wrong, assume the rest is.' }
+    { k: 'Habit', b: 'Say what you don’t want.', t: '“No rewriting”, “data only”, “under 100 words”. Limits get you a tighter answer.' },
+    { k: 'Habit', b: 'Push back.', t: 'Ask “what would someone who disagrees say?” or “what are you least sure of?”. The second answer is often the useful one.' },
+    { k: 'Habit', b: 'Keep a prompt that works.', t: 'Paste it into a note, or save it as a skill. Next week you start from there.' }
   ],
+
+  /* ------------------------------------------------------------ check everything
+     The one rule above the list. Tips give only the checks particular to
+     their job. */
+  checkRule: {
+    eyebrow: 'One rule for every tip',
+    title: 'Check everything',
+    lede: 'AI tools get things wrong, and they sound just as sure when they do. Treat every answer as a lead, not a fact, and check it against the source before you use it.',
+    points: [
+      'Quotes against the recording.',
+      'Figures against the document they came from.',
+      'Places against a map.',
+      'Anything from the web against the page it cites.'
+    ],
+    close: 'You are responsible for what you publish, not the tool.'
+  },
 
   /* ------------------------------------------------------------ the ladder */
   ladder: {
@@ -181,7 +208,7 @@ window.SITE = {
       { q: 'Which councils have issued one since 2018, and why?', rung: 2, why: 'Several parts, and it needs many searches at once. AI Mode runs them and lets you follow up.' },
       { q: 'What does this budget report say caused the gap? Cite the page.', rung: 3, why: 'You want what your source says and nothing else, with the passage to prove it. Notebook, with the report added.' },
       { q: 'How does this council’s gap compare with similar councils?', rung: 4, why: 'It needs your document and figures from outside it. The Gemini app, with the report attached, and asked to say which figures came from where.' },
-      { q: 'Brief me on how council funding works, with sources.', rung: 4, why: 'A long job that needs the web and a strong model. The Gemini app, using Deep Research (tip 13), while you do something else.' },
+      { q: 'Brief me on how council funding works, with sources.', rung: 4, why: 'A long job that needs the web and a strong model. The Gemini app, using Deep Research, while you do something else.' },
       { q: 'Is 3.6% a big rise in council tax?', rung: 2, why: 'Needs context from many sources, but no files of yours. AI Mode.' }
     ]
   },
@@ -189,6 +216,8 @@ window.SITE = {
   /* ------------------------------------------------------------ sources
      status: 'brief' = listed and checked in the project brief, 22 to 23
      October 2026. 'guardian' = from the Guardian's internal Gemini FAQ.
+     'research' = found for the research list, 26 October 2026, mostly
+     read through search summaries rather than the page itself.
      'todo' = still to be supplied. */
   sources: {
     'google-gemini-faq': { t: 'Gemini for Google Workspace: official FAQ', p: 'Google Workspace admin help', u: 'https://support.google.com/a/answer/14130944?hl=en&co=DASHER._Family%3DBusiness-Enterprise', s: 'guardian' },
@@ -224,6 +253,21 @@ window.SITE = {
     'scheduled-actions': { t: 'Scheduled actions in Gemini', p: 'Android Authority', u: 'https://www.androidauthority.com/gemini-scheduled-actions-rollout-3565152', s: 'brief' },
     'deep-research-limits': { t: 'Deep Research for Workspace customers (2025, may be out of date)', p: 'Google Workspace Updates', u: 'https://workspaceupdates.googleblog.com/2025/03/gemini-gems-deep-research-available-for-more-google-workspace-customers.html', s: 'brief' },
     'vibecoding-deck': { t: 'Vibecoding workshop deck', p: 'Chris Moran', u: 'https://peter-guillam123.github.io/vibecoding-workshop/', s: 'brief' },
+    'bellingcat-2026': { t: 'Can LLMs supercharge geolocation? Our tests show big improvements, but humans remain key', p: 'Bellingcat, 22 October 2026', u: 'https://www.bellingcat.com/resources/2026/10/22/can-llms-supercharge-geolocations-our-tests-show-big-improvements-but-humans-remain-key/', s: 'research' },
+    'ebu-geolocation': { t: 'The OSINT prompt for AI-powered image geolocation', p: 'EBU Spotlight', u: 'https://spotlight.ebu.ch/p/the-osint-prompt-for-ai-powered-image', s: 'research' },
+    'becid-osint': { t: 'AI and OSINT tool use among journalists: reverse image search used most', p: 'BECID monitoring report', u: 'https://becid.ut.ee/monitoring-report-ai-and-osint-tool-use-among-journalists/', s: 'research' },
+    'ico-foi': { t: 'Freedom of information and artificial intelligence', p: 'Information Commissioner’s Office', u: 'https://ico.org.uk/for-organisations/foi/freedom-of-information-foi-and-artificial-intelligence/', s: 'research' },
+    'foi-scotland': { t: 'Using AI to help make FOI requests', p: 'Scottish Information Commissioner', u: 'https://www.foi.scot/using-ai-help-make-foi-requests', s: 'research' },
+    'bay-city-news': { t: 'Datebook Assistant: Gemini reading meeting agendas, with page references', p: 'Bay City News', u: 'https://piedmontexedra.com/?p=1546049', s: 'research' },
+    'connecticut-public': { t: 'How Connecticut Public used AI to uncover more local stories', p: 'Local Media Association, July 2026', u: 'https://localmedia.org/2026/07/how-connecticut-public-used-ai-to-uncover-more-local-stories/', s: 'research' },
+    'hearst-meetings': { t: 'Hearst Newspapers use generative AI to expand civic coverage', p: 'INMA', u: 'https://www.inma.org/blogs/ideas/post.cfm/hearst-newspapers-use-generative-ai-to-expand-civic-coverage', s: 'research' },
+    'genai-newsroom-quotes': { t: 'NotebookLM in journalistic backgrounding: invented quotes from archives', p: 'Generative AI Newsroom', u: 'https://generative-ai-newsroom.com/investigating-notebooklms-potential-in-journalistic-backgrounding-c63a43a4b637', s: 'research' },
+    'quintype-notebooklm': { t: 'How newsrooms use NotebookLM, including Investigate Midwest', p: 'Quintype', u: 'https://blog.quintype.com/industry/notebooklm-how-are-modern-newsrooms-maximising-productivity-and-workflow', s: 'research' },
+    'medium-factcheck': { t: 'NotebookLM as a fact-check tool: comparing statements and transcripts', p: 'Medium', u: 'https://medium.com/@kombib/notebooklm-the-journalists-fact-check-tool-ee951ea93d5a', s: 'research' },
+    'bradshaw-ideas': { t: 'Using generative AI for story ideas', p: 'Paul Bradshaw, Online Journalism Blog, July 2024', u: 'https://onlinejournalismblog.com/2024/07/10/investigative-journalism-and-chatgpt-using-generative-ai-for-story-ideas/', s: 'research' },
+    'bradshaw-prompts': { t: 'Seven prompt design techniques every journalist should know', p: 'Paul Bradshaw, Online Journalism Blog, February 2025', u: 'https://onlinejournalismblog.com/2025/02/19/7-prompt-design-techniques-for-generative-ai-every-journalist-should-know/', s: 'research' },
+    'bradshaw-sheets': { t: 'Using generative AI as a spreadsheet and data cleaning assistant', p: 'Paul Bradshaw, Online Journalism Blog, September 2024', u: 'https://onlinejournalismblog.com/2024/09/26/using-generative-ai-as-a-spreadsheet-and-data-cleaning-assistant/', s: 'research' },
+    'nieman-three-newsrooms': { t: 'How three newsrooms are charting different paths for AI use, including BBC Style Assist', p: 'Nieman Lab, July 2026', u: 'https://www.niemanlab.org/2026/07/how-three-newsrooms-are-charting-different-paths-for-ai-use/', s: 'research' },
     'transcription-tool': { t: 'Guardian transcription tool: guide and access [TODO: link]', p: 'The Guardian', u: '', s: 'todo' },
     'live-transcription-tool': { t: 'Live transcription extension: install page [TODO: link]', p: '', u: '', s: 'todo' }
   }
