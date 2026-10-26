@@ -28,7 +28,7 @@
   var P = { captions: {} };
 
   /* ------------------------------------------------------------ 1 ladder */
-  P.captions.ladder = 'Rungs 1 and 2 answer from the web. Rung 3 answers only from the document you gave it, so every claim can be traced to a page. Rung 4 starts from your document and reaches beyond it. That makes it the most useful for context and the hardest to check, so ask it to say which facts came from where.';
+  P.captions.ladder = 'Rungs 1 and 2 answer from the web. Rung 3 answers only from the sources you added, so every claim can be traced to a passage. Rung 4 does the most: any question, your files, the web, and the strongest models for longer jobs. That range makes it the most capable and the hardest to check, so ask it to say where each fact came from.';
   P.ladder = function (el, ctx) {
     var L = ctx.site.ladder;
     var left = h('div');

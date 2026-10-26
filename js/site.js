@@ -116,7 +116,7 @@ window.SITE = {
      Reading order. Each has a two-sentence intro and a colour family. */
   sections: [
     { id: 'ladder', title: 'Searching with AI', eyebrow: 'Part one',
-      intro: 'You can ask an AI a question in four places. Two answer from the web. Two start from a document you give them: Gemini Notebook sticks strictly to it, so its answers are the easiest to check, and the Gemini app reaches beyond it for comparison and context. All four take a picture as well as words. Pick a question below to see which fits; tips 1 to 5 take each in turn.',
+      intro: 'You can ask an AI a question in four places. AI Overviews and AI Mode start from the web. Gemini Notebook starts from sources you give it, such as documents, web pages and videos, and stays there, so its answers are the easiest to check. The Gemini app starts anywhere and does the most. All four take a picture as well as words. Pick a question below to see which fits; tips 1 to 5 take each in turn.',
       plate: 'ladder', plateTitle: 'Which tool reads what' },
     { id: 'find', title: 'Find anything', eyebrow: 'Part two',
       intro: 'Most of what you need is already in your inbox, your Drive or on a page you have open. These tips find it by description rather than by keyword.' },
@@ -166,21 +166,22 @@ window.SITE = {
 
   /* ------------------------------------------------------------ the ladder */
   ladder: {
-    /* Rungs 1 and 2 answer from the web. Rung 3 answers only from your
-       documents. Rung 4 starts from your documents and reaches beyond. */
-    groups: { web: 'Answers from the web', docs: 'Starts from your documents' },
+    /* Each rung is labelled by where it starts. Rungs 1 and 2 start from
+       the web. Rung 3 starts from your sources and stays there. Rung 4
+       starts anywhere and does the most. */
+    groups: { web: 'Starts from the web', sources: 'Starts from your sources', anywhere: 'Starts anywhere' },
     rungs: [
       { n: 1, group: 'web', tool: 'AI Overviews', speed: 'Instant', reads: 'The whole search index', when: 'A quick general question you’d have Googled anyway', toolId: 'search', entry: 'ai-overviews' },
       { n: 2, group: 'web', tool: 'AI Mode', speed: 'Seconds', reads: 'The search index, many searches at once', when: 'Questions with several parts, follow-ups, comparisons', toolId: 'search', entry: 'ai-mode' },
-      { n: 3, group: 'docs', tool: 'Gemini Notebook', speed: 'Slower', reads: 'Only the documents you give it', when: 'You want what the document says, with the page to prove it', toolId: 'notebook', entry: 'gemini-notebook' },
-      { n: 4, group: 'docs', tool: 'Gemini app', speed: 'Slower', reads: 'Your document, plus the web and what it already knows', when: 'You want your document in context: compared, explained, checked against others', toolId: 'gemini', entry: 'gemini-app' }
+      { n: 3, group: 'sources', tool: 'Gemini Notebook', speed: 'Slower', reads: 'Only the sources you add: documents, web pages, YouTube videos', when: 'You want what your sources say, with the passage to prove it', toolId: 'notebook', entry: 'gemini-notebook' },
+      { n: 4, group: 'anywhere', tool: 'Gemini app', speed: 'Slower', reads: 'The web, your files, your Workspace and what it already knows', when: 'General questions, your document in context, and longer jobs on its strongest models', toolId: 'gemini', entry: 'gemini-app' }
     ],
     examples: [
       { q: 'What is a section 114 notice?', rung: 1, why: 'A general question with a settled answer. The overview at the top of the results will do.' },
       { q: 'Which councils have issued one since 2018, and why?', rung: 2, why: 'Several parts, and it needs many searches at once. AI Mode runs them and lets you follow up.' },
-      { q: 'What does this budget report say caused the gap? Cite the page.', rung: 3, why: 'You want what the document says and nothing else, with the page to prove it. Notebook, with the report loaded.' },
+      { q: 'What does this budget report say caused the gap? Cite the page.', rung: 3, why: 'You want what your source says and nothing else, with the passage to prove it. Notebook, with the report added.' },
       { q: 'How does this council’s gap compare with similar councils?', rung: 4, why: 'It needs your document and figures from outside it. The Gemini app, with the report attached, and asked to say which figures came from where.' },
-      { q: 'Compare this year’s report with last year’s.', rung: 3, why: 'Two documents you have, and the answer must come only from them. Notebook.' },
+      { q: 'Brief me on how council funding works, with sources.', rung: 4, why: 'A long job that needs the web and a strong model. The Gemini app, using Deep Research (tip 13), while you do something else.' },
       { q: 'Is 3.6% a big rise in council tax?', rung: 2, why: 'Needs context from many sources, but no files of yours. AI Mode.' }
     ]
   },
