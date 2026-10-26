@@ -23,14 +23,25 @@ window.SITE = {
 
   /* ------------------------------------------------------------ why these
      The panel under the tool cards. Plain paragraphs, in order. */
+  /* Six rules, each a heading and one line, with the detail behind a
+     click. Keep `short` to one line; the detail can run longer. */
   whyThese: {
-    title: 'Why these tools, and not others',
-    paragraphs: [
-      'The point of Google Workspace is privacy. It gives you a place to work on your documents and emails with an AI model under the Guardian’s existing agreement with Google, amended to cover Gemini. Your content is not used for training outside the Guardian’s domain, and your conversations are not reviewed by anyone outside the Guardian.',
-      'Gemini is switched on for you only once you have completed the AI Essentials training and read the GenAI acceptable use policy. If you cannot see the Gemini icon, that is probably why [TODO: link to the training].',
-      'Do not use free or personal accounts for work: no free Claude, no personal ChatGPT, no Gemini on a private Google account. They sit outside the Guardian’s agreements, and what you paste in may be kept and used for training.',
-      'The usual rule still applies. If you would not store something in Drive or send it by email (a confidential source, a sensitive document), do not put it into an AI tool either. And three rules from the data privacy team: do not use it to form opinions about individuals; do not use it to make decisions about individuals without talking to the privacy team first; when you research with it, know where the information came from so you can credit it.',
-      'If you want a tool that is not on this list, you need budget for it and approval through Tech Council before you use it with Guardian material [TODO: link or contact for Tech Council].'
+    eyebrow: 'Before you start',
+    title: 'Why using approved tools matters',
+    lede: 'Google Workspace gives you somewhere to use AI on your documents and emails with the same privacy you already have in Drive and Gmail. Personal and free tools do not. Six things to know.',
+    rules: [
+      { h: 'Your work stays the Guardian’s', short: 'Workspace runs under the Guardian’s agreement with Google.',
+        detail: 'The agreement was amended to cover Gemini. Your content is not used for training outside the Guardian’s domain, and your conversations are not reviewed by anyone outside the Guardian.' },
+      { h: 'Training switches it on', short: 'Gemini appears once you have done the AI Essentials training.',
+        detail: 'You also need to have read the GenAI acceptable use policy. If you cannot see the Gemini icon in Gmail or Docs, that is probably why [TODO: link to the training].' },
+      { h: 'No personal or free accounts', short: 'Do not use them for work, however handy they are.',
+        detail: 'That means no free Claude, no personal ChatGPT and no Gemini on a private Google account. They sit outside the Guardian’s agreements, and what you paste in may be kept and used for training.' },
+      { h: 'If it can’t go in Drive, it can’t go in AI', short: 'The usual rules for sensitive material still apply.',
+        detail: 'If you would not store something in Drive or send it by email, such as a confidential source or a sensitive document, do not put it into an AI tool either.' },
+      { h: 'Take care with people', short: 'Do not use AI to judge or decide about individuals.',
+        detail: 'Do not use it to form opinions about individuals: the opinion may be wrong, and it counts as personal data. Do not use it to make decisions about individuals without talking to the data privacy team first. And when you research with it, know where the information came from so you can credit it.' },
+      { h: 'New tools need approval', short: 'Budget first, then Tech Council.',
+        detail: 'If you want a tool that is not on this list, you need budget for it and approval through Tech Council before you use it with Guardian material [TODO: link or contact for Tech Council].' }
     ],
     links: [
       { t: 'GenAI acceptable use policy', u: 'https://drive.google.com/file/d/1jfDUXAipKcMfY_h0aHCyl3R4OVotIRK9/view' },
@@ -57,10 +68,10 @@ window.SITE = {
      or 'anyone' (open to anyone, no account needed). `access` is a short note
      shown on the card when a tool is not available to everyone. */
   toolGroups: [
-    { id: 'workspace', title: 'Inside Google Workspace', line: 'The apps you already use, working as normal. Gemini is built into each one, usually as a side panel (the star icon, top right) or a button. Same account, same privacy as the app itself. It appears once you have done the AI Essentials training.' },
-    { id: 'general', title: 'General AI tools', line: 'Chat and research tools that are not tied to one app. The Gemini ones are under the Guardian’s Google agreement; ChatGPT Enterprise under its own.' },
-    { id: 'guardian', title: 'Built by the Guardian', line: 'Our own tools, made for our work. Where one of these does the job, it is the one to use.' },
-    { id: 'anyone', title: 'Open to anyone', line: 'Public tools that need no Guardian account. Fine for public material only.' }
+    { id: 'workspace', icon: 'workspace', short: 'The apps you already use, with Gemini built in.', title: 'Inside Google Workspace', line:'The apps you already use, working as normal. Gemini is built into each one, usually as a side panel (the star icon, top right) or a button. Same account, same privacy as the app itself. It appears once you have done the AI Essentials training.' },
+    { id: 'general', icon: 'general', short: 'Chat and research tools not tied to one app.', title: 'General AI tools', line:'Chat and research tools that are not tied to one app. The Gemini ones are under the Guardian’s Google agreement; ChatGPT Enterprise under its own.' },
+    { id: 'guardian', icon: 'guardian', short: 'Our own tools, made for our work.', title: 'Built by the Guardian', line:'Our own tools, made for our work. Where one of these does the job, it is the one to use.' },
+    { id: 'anyone', icon: 'anyone', short: 'Public tools. Fine for public material only.', title: 'Open to anyone', line:'Public tools that need no Guardian account. Fine for public material only.' }
   ],
 
   tools: [

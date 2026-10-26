@@ -27,7 +27,12 @@ not built yet.
   (Ask the Guardian, House, Guardian Angles, the two transcription tools)
   and open to anyone (Google Search, YouTube). Tools with no tips get no
   filter chip.
-- The "why these" panel says: Workspace runs under the Guardian's Google
+- Readable at a glance, detail on demand: prefer a short summary with the
+  detail behind a disclosure (a button with aria-expanded, or
+  details/summary) over long visible text. The tools section shows four
+  group cards; clicking one opens its apps in a panel placed under that
+  card's row. The rules panel shows six headings with one line each.
+- The rules panel is titled "Why using approved tools matters". It says: Workspace runs under the Guardian's Google
   agreement, amended for Gemini; content is not used for training outside
   the Guardian's domain and conversations are not reviewed outside it
   (wording from the internal Gemini FAQ: don't overstate it); Gemini only

@@ -88,32 +88,81 @@
   }
 
   /* ------------------------------------------------------------ tool cards */
+  var GICONS = {
+    workspace: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>',
+    general: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c.6 4.6 3.4 7.4 9 9-5.6 1.6-8.4 4.4-9 9-.6-4.6-3.4-7.4-9-9 5.6-1.6 8.4-4.4 9-9z"/></svg>',
+    guardian: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.5"/><path d="M7 8h10M7 12h4M7 16h4M14 12h3v4h-3z"/></svg>',
+    anyone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.6 2.6 14.4 0 17M12 3.5c-2.6 2.6-2.6 14.4 0 17"/></svg>'
+  };
+
+  function toolCard(t) {
+    var n = E.filter(function (e) { return e.tool === t.id; }).length;
+    var card = h('div', { class: 'tool-card' });
+    card.innerHTML = '<b>' + rich(t.label) + '</b>' +
+      (t.access ? '<span class="tool-card__access">' + rich(t.access) + '</span>' : '') +
+      '<span>' + rich(t.line) + '</span>' +
+      '<span class="k">' + (n ? n + (n === 1 ? ' tip' : ' tips') : 'No tips yet') + '</span>';
+    return card;
+  }
+
   function renderTools() {
     var wrap = $('#tool-cards');
-    if (wrap) (S.toolGroups || [{ id: null }]).forEach(function (g) {
-      var mine = (S.tools || []).filter(function (t) { return !g.id || t.group === g.id; });
-      if (!mine.length) return;
-      if (g.id) {
-        var head = h('div', { class: 'tools__head' });
-        head.innerHTML = '<h3>' + esc(g.title) + '</h3>' + (g.line ? '<p>' + esc(g.line) + '</p>' : '');
-        wrap.appendChild(head);
+    if (wrap) {
+      /* Four group cards. Clicking one opens its apps in a panel placed
+         after the last card in the clicked card's row, so it opens beside
+         what you clicked at every width. */
+      var grid = h('div', { class: 'tgroups' });
+      var panel = h('div', { class: 'tgroup-panel', id: 'tgroup-panel', role: 'region', hidden: '' });
+      var cards = [], open = null;
+      function place(btn) {
+        grid.appendChild(panel);
+        var top = btn.offsetTop, last = btn;
+        cards.forEach(function (c) { if (c.offsetTop === top) last = c; });
+        last.after(panel);
       }
-      var grid = h('div', { class: 'tools' });
-      mine.forEach(function (t) {
-        var n = E.filter(function (e) { return e.tool === t.id; }).length;
-        var card = h('div', { class: 'tool-card' });
-        card.innerHTML = '<b>' + rich(t.label) + '</b>' +
-          (t.access ? '<span class="tool-card__access">' + rich(t.access) + '</span>' : '') +
-          '<span>' + rich(t.line) + '</span>' +
-          '<span class="k">' + (n ? n + (n === 1 ? ' tip' : ' tips') : 'No tips yet') + '</span>';
-        grid.appendChild(card);
+      function show(g, btn) {
+        if (open === g.id) { open = null; panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); return; }
+        open = g.id;
+        cards.forEach(function (c) { c.setAttribute('aria-expanded', String(c === btn)); });
+        var mine = (S.tools || []).filter(function (t) { return t.group === g.id; });
+        panel.innerHTML = '<p class="tgroup-panel__line">' + rich(g.line || '') + '</p>';
+        panel.setAttribute('aria-label', g.title);
+        var tg = h('div', { class: 'tools' });
+        mine.forEach(function (t) { tg.appendChild(toolCard(t)); });
+        panel.appendChild(tg);
+        panel.hidden = false;
+        place(btn);
+      }
+      (S.toolGroups || []).forEach(function (g) {
+        var mine = (S.tools || []).filter(function (t) { return t.group === g.id; });
+        if (!mine.length) return;
+        var names = mine.map(function (t) { return plain(t.label); }).join(' · ');
+        var b = h('button', { class: 'tgroup', type: 'button', 'aria-expanded': 'false', 'aria-controls': 'tgroup-panel' });
+        b.innerHTML = (GICONS[g.icon] || '') + '<b>' + esc(g.title) + '</b><span class="tgroup__line">' + esc(g.short || '') + '</span>' +
+          '<span class="tgroup__names">' + esc(names) + '</span>' +
+          '<span class="tgroup__more"><span class="tgroup__open">Show the ' + mine.length + ' tools</span><span class="tgroup__close">Hide</span></span>';
+        b.addEventListener('click', function () { show(g, b); });
+        grid.appendChild(b); cards.push(b);
       });
+      grid.appendChild(panel);
       wrap.appendChild(grid);
-    });
+      var rt;
+      window.addEventListener('resize', function () {
+        clearTimeout(rt);
+        rt = setTimeout(function () { var b = cards.filter(function (c) { return c.getAttribute('aria-expanded') === 'true'; })[0]; if (b) place(b); }, 120);
+      });
+    }
+
     var why = $('#why-these');
     var W = S.whyThese;
     if (why && W) {
-      why.innerHTML = '<span class="k">' + esc(W.title || 'Why these, and not others') + '</span>' + (W.paragraphs || []).map(function (p) { return '<p>' + rich(p) + '</p>'; }).join('') +
+      why.innerHTML = (W.eyebrow ? '<p class="eyebrow">' + esc(W.eyebrow) + '</p>' : '') +
+        '<h3>' + esc(W.title || '') + '</h3>' +
+        (W.lede ? '<p class="why__lede">' + rich(W.lede) + '</p>' : '') +
+        '<ol class="rules">' + (W.rules || []).map(function (r) {
+          return '<li><details class="rule"><summary><b>' + rich(r.h) + '</b><span>' + rich(r.short) + '</span></summary>' +
+            '<div class="rule__body"><p>' + rich(r.detail) + '</p></div></details></li>';
+        }).join('') + '</ol>' +
         (W.links && W.links.length ? '<p class="why__links"><span class="k">Read the rules</span>' + W.links.map(function (l) { return l.u ? '<a href="' + esc(l.u) + '" rel="noopener" target="_blank">' + rich(l.t) + '</a>' : '<span>' + rich(l.t) + '</span>'; }).join('') + '</p>' : '');
     }
   }
