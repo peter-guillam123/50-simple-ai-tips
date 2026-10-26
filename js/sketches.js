@@ -128,22 +128,56 @@
   CAP['search/trace'] = 'Following a figure back through the reports that repeat it to the document it came from';
   F.search = function (v, e) {
     var q = short(e.prompt, 44);
-    var out = rect(16, 16, 288, 26, 'sk-win', 13) + '<circle class="sk-stroke" cx="31" cy="29" r="5"/><path class="sk-stroke" d="M35 33l3 3"/>' + text(44, 33, q, 'sk-t sk-t--body');
     if (v === 'overview') {
-      out += rect(16, 54, 288, 66, 'sk-hi-soft', 6) + spark(30, 68) + text(40, 72, 'AI Overview', 'sk-t sk-t--head') + greek(28, 86, 262, 3, { gap: 10 });
-      out += rect(16, 130, 288, 1, 'sk-rule-fill', 0) + greek(16, 146, 200, 1, { cls: 'sk-greek sk-greek--blue' }) + greek(16, 158, 288, 2, { gap: 9 }) + greek(16, 184, 180, 1, { cls: 'sk-greek sk-greek--blue' });
-      return svg(out, CAP[v]);
+      /* Drawn from a real results page: search bar, tab row, the overview
+         with a source chip and key facts, a column of source cards, the
+         "Show more" pill, then the ordinary results underneath. */
+      var o = rect(8, 4, 304, 192, 'sk-win', 6) + rect(16, 10, 196, 22, 'sk-card', 11) + text(26, 24, q, 'sk-t sk-t--body') +
+        '<path class="sk-stroke" d="M178 18l5 5M183 18l-5 5"/>' + rect(191, 16, 4, 7, 'sk-soft-fill', 2) + '<circle class="sk-stroke" cx="204" cy="21" r="3"/>';
+      /* tabs */
+      var tabs = ['AI Mode', 'All', 'Images', 'News', 'Videos'], tx = 16;
+      tabs.forEach(function (t, i) { o += text(tx, 46, t, 'sk-t sk-t--chip' + (i === 1 ? ' sk-t--ink' : '')); if (i === 1) o += '<path class="sk-stroke" d="M' + tx + ' 50h' + (t.length * 5) + '"/>'; tx += t.length * 5.2 + 12; });
+      o += '<path class="sk-rule" d="M16 52h288"/>';
+      /* overview label, highlighted as the thing to notice */
+      o += rect(16, 58, 72, 14, 'sk-hi', 7) + spark(26, 65, 4) + text(34, 68, 'AI Overview', 'sk-t sk-t--chip sk-on-hi');
+      /* paragraph: a bold term, then prose, then a source chip */
+      o += '<line class="sk-greek sk-greek--ink" x1="16" y1="82" x2="60" y2="82"/>' + '<line class="sk-greek" x1="66" y1="82" x2="190" y2="82"/>' + greek(16, 91, 174, 2, { gap: 9 }) + rect(96, 102, 94, 12, 'sk-card', 6) + '<circle class="sk-acc" cx="104" cy="108" r="2.5"/>' + text(110, 111.5, 'Institute for Gov +2', 'sk-t sk-t--chip');
+      /* key facts */
+      o += text(16, 126, 'Key facts', 'sk-t sk-t--head');
+      [0, 1].forEach(function (i) { var y = 136 + i * 9; o += '<circle class="sk-ink" cx="19" cy="' + y + '" r="1.5"/><line class="sk-greek sk-greek--ink" x1="25" y1="' + y + '" x2="58" y2="' + y + '"/><line class="sk-greek" x1="64" y1="' + y + '" x2="' + (190 - i * 30) + '" y2="' + y + '"/>'; });
+      /* show more pill */
+      o += rect(16, 152, 174, 14, 'sk-card', 7) + text(103, 162, 'Show more ⌄', 'sk-t sk-t--chip', 'middle');
+      /* ordinary results below */
+      o += '<path class="sk-rule" d="M16 174h174"/>' + '<circle class="sk-soft-fill" cx="21" cy="183" r="4"/>' + '<line class="sk-greek sk-greek--thin" x1="29" y1="182" x2="90" y2="182"/>' + '<line class="sk-greek sk-greek--blue" x1="16" y1="191" x2="140" y2="191"/>';
+      /* source cards on the right */
+      o += rect(222, 58, 82, 114, 'sk-card', 5);
+      [0, 1].forEach(function (i) { var y = 66 + i * 38; o += '<circle class="sk-soft-fill" cx="231" cy="' + (y + 3) + '" r="3"/>' + '<line class="sk-greek sk-greek--thin" x1="237" y1="' + (y + 3) + '" x2="270" y2="' + (y + 3) + '"/>' + greek(227, y + 13, 46, 2, { gap: 7, cls: 'sk-greek sk-greek--thin' }) + rect(280, y, 18, 22, 'sk-soft', 2) + (i === 0 ? '<path class="sk-rule" d="M227 ' + (y + 30) + 'h72"/>' : ''); });
+      o += rect(228, 148, 70, 14, 'sk-soft', 7) + text(263, 158, 'Show all', 'sk-t sk-t--chip', 'middle');
+      return svg(o, CAP[v]);
     }
+    var out = rect(16, 16, 288, 26, 'sk-win', 13) + '<circle class="sk-stroke" cx="31" cy="29" r="5"/><path class="sk-stroke" d="M35 33l3 3"/>' + text(44, 33, q, 'sk-t sk-t--body');
     if (v === 'aimode') {
-      out += text(16, 60, 'All', 'sk-t sk-t--chip') + text(44, 60, 'AI Mode', 'sk-t sk-t--chip sk-t--acc') + '<path class="sk-acc-line" d="M44 64h42"/>';
-      out += answer(16, 80, 160, 5, { gap: 10 });
-      for (var i = 0; i < 4; i++) {
-        var cx = 196 + (i % 2) * 56, cy = 76 + Math.floor(i / 2) * 50;
-        out += rect(cx, cy, 50, 42, 'sk-card', 3) + greek(cx + 6, cy + 10, 38, 3, { gap: 8, cls: 'sk-greek sk-greek--thin' });
-        out += '<path class="sk-dash" d="M' + 176 + ' ' + 96 + 'Q' + (cx - 10) + ' ' + (cy + 20) + ' ' + cx + ' ' + (cy + 20) + '"/>';
-      }
-      out += text(249, 184, 'many searches at once', 'sk-t sk-t--cap', 'middle');
-      return svg(out, CAP[v]);
+      /* Drawn from a real AI Mode page: the tab row with AI Mode chosen,
+         the question as a bubble on the right, a prose answer with a
+         source chip, a table, and the "Ask anything" box at the foot. */
+      var a = rect(8, 4, 304, 192, 'sk-win', 6);
+      var tabs2 = ['AI Mode', 'All', 'Images', 'Videos', 'News'], tx2 = 16;
+      tabs2.forEach(function (t, i) { a += text(tx2, 20, t, 'sk-t sk-t--chip' + (i === 0 ? ' sk-t--ink' : '')); if (i === 0) a += '<path class="sk-stroke" d="M' + tx2 + ' 24h' + (t.length * 5) + '"/>'; tx2 += t.length * 5.2 + 12; });
+      a += '<path class="sk-rule" d="M16 27h288"/>';
+      var qlines = wrap(short(e.prompt, 70), 36);
+      a += rect(112, 34, 192, 7 + qlines.length * 11, 'sk-soft', 8);
+      qlines.forEach(function (l, i) { a += text(120, 46 + i * 11, l, 'sk-t sk-t--body'); });
+      var ay = 46 + qlines.length * 11 + 10;
+      a += '<line class="sk-greek" x1="16" y1="' + ay + '" x2="70" y2="' + ay + '"/><line class="sk-greek sk-greek--ink" x1="76" y1="' + ay + '" x2="230" y2="' + ay + '"/><line class="sk-greek" x1="236" y1="' + ay + '" x2="304" y2="' + ay + '"/>' + greek(16, ay + 9, 288, 2, { gap: 9 });
+      a += rect(186, ay + 21, 118, 12, 'sk-card', 6) + '<circle class="sk-acc" cx="194" cy="' + (ay + 27) + '" r="2.5"/>' + text(200, ay + 30.5, 'House of Commons +4', 'sk-t sk-t--chip');
+      var ty = ay + 44;
+      a += text(16, ty, 'Council', 'sk-t sk-t--cap') + text(104, ty, 'Year', 'sk-t sk-t--cap') + text(140, ty, 'Reasons given', 'sk-t sk-t--cap') + '<path class="sk-rule" d="M16 ' + (ty + 4) + 'h288"/>';
+      [['2018', 0], ['2020', 1]].forEach(function (r, i) {
+        var y = ty + 14 + i * 17;
+        a += '<line class="sk-greek sk-greek--blue" x1="16" y1="' + y + '" x2="' + (70 + (i % 2) * 14) + '" y2="' + y + '"/>' + text(104, y + 3, r[0], 'sk-t sk-t--chip') + greek(140, y, 164, 2, { gap: 7, cls: 'sk-greek sk-greek--thin' }) + '<path class="sk-rule" d="M16 ' + (y + 11) + 'h288"/>';
+      });
+      a += rect(16, 172, 288, 20, 'sk-card', 10) + '<circle class="sk-stroke" cx="30" cy="182" r="5"/><path class="sk-stroke" d="M30 179.5v5M27.5 182h5"/>' + text(42, 185, 'Ask anything', 'sk-t sk-t--chip') + rect(290, 177, 4, 7, 'sk-soft-fill', 2) + '<path class="sk-stroke" d="M288 183a4 4 0 0 0 8 0"/>';
+      return svg(a, CAP[v]);
     }
     /* trace */
     out += rect(236, 62, 68, 30, 'sk-hi', 15) + text(270, 81, '10,000', 'sk-t sk-t--big sk-on-hi', 'middle');

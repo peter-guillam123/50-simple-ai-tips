@@ -398,6 +398,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--red); }
 .sketch .sk-t--chip { font-size: 9px; fill: var(--ink-2); }
 .sketch .sk-t--cap { font-size: 8.5px; letter-spacing: .04em; text-transform: uppercase; fill: var(--ink-3); }
 .sketch .sk-t--acc { fill: var(--red); font-weight: 700; }
+.sketch .sk-t--ink { fill: var(--ink); font-weight: 700; }
 .sketch .sk-t--onink { font-size: 9px; font-weight: 700; fill: var(--paper); }
 .sketch .sk-t--mono { font-family: var(--f-mono); font-size: 8.5px; fill: var(--ink); }
 .sketch .sk-t--big { font-family: var(--f-display); font-weight: 700; font-size: 13px; fill: var(--ink); }
