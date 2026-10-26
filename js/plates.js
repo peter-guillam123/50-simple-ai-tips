@@ -187,17 +187,17 @@
   };
 
   /* ------------------------------------------------------------ diff (19) */
-  P.captions.diff = 'Three kinds of change, three colours. Added text is green, deleted text is red and struck through, reworded text is yellow. The reworded ones are the ones to read twice: "will" became "aims to", which is a different promise.';
+  P.captions.diff = 'Three kinds of change, three colours. Added text is green, deleted text is red and struck through, reworded text is yellow. The reworded ones are the ones to read twice: "will" became "aim to", which is a different promise.';
   P.diff = function (el, ctx) {
     var left = [
-      ['The council will deliver 1,200 new homes by 2028, of which at least 40% will be affordable.', 'rew'],
-      ['A new leisure centre will open in Northfield in 2027.', 'del'],
-      ['Bus services on routes 14 and 22 will run every 15 minutes at peak times.', 'same']
+      ['We will cut leakage by 20% by 2028.', 'rew'],
+      ['A new reservoir will open in 2029.', 'del'],
+      ['Sewage spills will be reported within an hour of starting.', 'same']
     ];
     var right = [
-      ['The council aims to deliver 1,200 new homes by 2029, of which at least 35% will be affordable.', 'rew'],
-      ['Bus services on routes 14 and 22 will run every 15 minutes at peak times.', 'same'],
-      ['A feasibility study on the Northfield leisure centre will report in 2027.', 'add']
+      ['We aim to cut leakage by 20% by 2030.', 'rew'],
+      ['Sewage spills will be reported within an hour of starting.', 'same'],
+      ['A feasibility study on the new reservoir will report in 2027.', 'add']
     ];
     var wrap = h('div', { class: 'df' });
     function col(title, list) {
@@ -206,11 +206,11 @@
       list.forEach(function (x) { c.appendChild(h('p', { class: 'df__p', 'data-k': x[1], text: x[0] })); });
       return c;
     }
-    wrap.appendChild(col('2025 plan', left)); wrap.appendChild(col('2026 plan', right));
+    wrap.appendChild(col('2025 report', left)); wrap.appendChild(col('2026 report', right));
     var summary = h('ul', { class: 'df__sum', hidden: '' });
-    summary.innerHTML = '<li><span class="tag tag--add">New</span> A feasibility study replaces the leisure centre itself.</li>' +
-      '<li><span class="tag tag--del">Gone</span> The commitment to open a leisure centre in 2027.</li>' +
-      '<li><span class="tag tag--rew">Reworded</span> "Will deliver" is now "aims to deliver". 2028 is now 2029. 40% affordable is now 35%.</li>';
+    summary.innerHTML = '<li><span class="tag tag--add">New</span> A feasibility study replaces the reservoir itself.</li>' +
+      '<li><span class="tag tag--del">Gone</span> The commitment to open a reservoir in 2029.</li>' +
+      '<li><span class="tag tag--rew">Reworded</span> "Will cut" is now "aim to cut". 2028 is now 2030.</li>';
     var controls = h('div', { class: 'plate__controls' });
     var btn = h('button', { class: 'btn', type: 'button', 'aria-pressed': 'false', text: 'Show the changes' });
     btn.addEventListener('click', function () {
@@ -222,7 +222,7 @@
     });
     controls.appendChild(btn);
     el.appendChild(wrap); el.appendChild(summary); el.appendChild(controls);
-    note(el, 'Illustrative plans, not a real council\u2019s.');
+    note(el, 'Illustrative commitments, not a real company\u2019s.');
   };
 
   /* ------------------------------------------------------------ moment (27) */
@@ -260,22 +260,22 @@
   };
 
   /* ------------------------------------------------------------ rows (34) */
-  P.captions.rows = 'One formula, dragged down the column, and every row gets a tag. The tags are guesses, and they are usually right. That is why the third step says spot-check five rows: row 6 here is the one to look at twice.';
+  P.captions.rows = 'One formula, dragged down the column, and every row gets a tag. The tags are guesses, and they are usually right. That is why the third step says spot-check five rows: row 7 here is the one to look at twice.';
   P.rows = function (el, ctx) {
     var data = [
-      ['Two-storey rear extension to dwelling', 'Residential'],
-      ['Change of use from retail (Class E) to hot food takeaway', 'Commercial'],
-      ['Erection of 14 dwellings with access and landscaping', 'Residential'],
-      ['Installation of 5G telecommunications mast', 'Other'],
-      ['New shopfront and illuminated signage', 'Commercial'],
-      ['Conversion of barn to holiday let and farm shop', 'Other'],
-      ['Loft conversion with rear dormer', 'Residential'],
-      ['Demolition of warehouse and erection of 3 industrial units', 'Commercial']
+      ['£2,500 for an article in a national newspaper', 'Paid work'],
+      ['Two tickets to a Premier League match, value £450', 'Gift'],
+      ['£10,000 to my constituency party from a property company', 'Donation'],
+      ['Flights and hotel for a conference in Washington DC', 'Visit'],
+      ['£4,000 a month as an adviser to a consultancy', 'Paid work'],
+      ['Use of a flat in central London, value not stated', 'Other'],
+      ['Hospitality at Wimbledon, value £1,100', 'Gift'],
+      ['Visit to Taiwan paid for by its government', 'Visit']
     ];
     var wrap = h('div', { class: 'rw' });
     var table = h('table', { class: 'rw__table' });
     table.innerHTML = '<thead><tr><th class="rw__corner"></th><th>A</th><th>B</th></tr></thead><tbody>' +
-      '<tr><th>1</th><td class="rw__head">Description</td><td class="rw__head rw__formula">=AI("Is this planning application residential, commercial or other?", A2)</td></tr>' +
+      '<tr><th>1</th><td class="rw__head">Description</td><td class="rw__head rw__formula">=AI("Is this a donation, a gift or hospitality, paid work, an overseas visit or other?", A2)</td></tr>' +
       data.map(function (r, i) { return '<tr><th>' + (i + 2) + '</th><td>' + esc(r[0]) + '</td><td class="rw__cell" data-v="' + esc(r[1]) + '"></td></tr>'; }).join('') + '</tbody>';
     var controls = h('div', { class: 'plate__controls' });
     var btn = h('button', { class: 'btn', type: 'button', text: 'Fill the column' });
@@ -298,14 +298,14 @@
     controls.appendChild(btn); controls.appendChild(clear);
     wrap.appendChild(table);
     el.appendChild(wrap); el.appendChild(controls);
-    note(el, 'Illustrative applications, not a real register. Row 6 is a barn that is both a holiday let and a shop: the formula says "Other", and you might not.');
+    note(el, 'Illustrative entries, not from the real register. Row 7 is a flat lent for free: the formula says "Other", and you might call it a gift.');
   };
 
   /* ------------------------------------------------------------ skill (47) */
   P.captions.skill = 'The skill does not change. The text does. You wrote the rules once on Monday, and every day after that the check costs you one click. The output is a list of problems with fixes, not a rewrite.';
   P.skill = function (el, ctx) {
     var days = [
-      { d: 'Mon', input: 'The council spent 12 per cent more than planned, the Chief Executive said on Tues.', out: ['"12 per cent": write "12%".', '"Chief Executive": lower case, "chief executive".', '"Tues": write "Tuesday" in full.'] },
+      { d: 'Mon', input: 'The department spent 12 per cent more than planned, the Permanent Secretary said on Tues.', out: ['"12 per cent": write "12%".', '"Permanent Secretary": lower case, "permanent secretary".', '"Tues": write "Tuesday" in full.'] },
       { d: 'Tue', input: 'Around 2,000 people attended the protest in Trafalgar square.', out: ['"Trafalgar square": "Trafalgar Square", capital S.'] },
       { d: 'Wed', input: 'The MP, who was elected in 2024, said the bill would be "a disaster".', out: ['No problems found.'] },
       { d: 'Thu', input: 'Figures show 1 in 5 pupils missed school last autumn, up from 1 in 7.', out: ['"1 in 5", "1 in 7": write "one in five", "one in seven".'] },

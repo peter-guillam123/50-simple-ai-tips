@@ -74,6 +74,12 @@ not built yet.
 - The in-house transcription tool is always the recommended tool for
   transcription.
 - Examples use real, public UK material. Political examples stay balanced.
+- The Guardian doesn't do local news. Examples are national or international:
+  select committees, public inquiries, government departments, regulators,
+  national datasets, with US congressional and Australian Senate equivalents
+  where they fit. Council finances are fine as a national story (section 114
+  notices, the ladder's budget example); council meetings, agendas, planning
+  applications and "your patch" are not.
 - Do not invent interface labels. Mark anything unconfirmed `[VERIFY]` and
   anything only Chris can supply `[TODO: ...]`. Readers never see markers;
   `?review` shows them.

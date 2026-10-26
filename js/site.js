@@ -55,7 +55,7 @@ window.SITE = {
   /* The nine jobs. Each is also a section of the list, in this order,
      after "Searching with AI". `line` shows on the job tile at the top. */
   jobs: [
-    { id: 'find-story', label: 'Find a story', icon: 'find-story', line: 'Reports, agendas, meetings and releases, read for what matters.' },
+    { id: 'find-story', label: 'Find a story', icon: 'find-story', line: 'Reports, hearings, evidence and releases, read for what matters.' },
     { id: 'research', label: 'Research a subject', icon: 'research', line: 'Get up to speed: judgments, papers, filings, a new beat.' },
     { id: 'documents', label: 'Get through documents', icon: 'documents', line: 'Long reports, piles of files, FOI responses.' },
     { id: 'numbers', label: 'Work with numbers', icon: 'numbers', line: 'Formulas, messy data, tables trapped in PDFs, sums.' },
@@ -121,7 +121,7 @@ window.SITE = {
       intro: 'You can ask an AI a question in four places. AI Overviews and AI Mode start from the web. Gemini Notebook starts from sources you give it, such as documents, web pages and videos, and stays there, so its answers are the easiest to check. The Gemini app starts anywhere and does the most. All four take a picture as well as words. Pick a question below to see which fits; tips 1 to 5 take each in turn.',
       plate: 'ladder', plateTitle: 'Which tool reads what' },
     { id: 'find-story', title: 'Find a story', eyebrow: 'Part two',
-      intro: 'Reports, agendas and meetings land faster than anyone can read them. These tips point you to the parts worth reading. You still read them.' },
+      intro: 'Reports, hearings and evidence land faster than anyone can read them. These tips point you to the parts worth reading. You still read them.' },
     { id: 'research', title: 'Research a subject', eyebrow: 'Part three',
       intro: 'Getting up to speed on a judgment, a study, a company or a new beat. Each tip says where the answer came from, so you can go and read it.' },
     { id: 'documents', title: 'Get through documents', eyebrow: 'Part four',
