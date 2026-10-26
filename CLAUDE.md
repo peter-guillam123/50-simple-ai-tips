@@ -51,6 +51,11 @@ not built yet.
   are introduced. The ladder plate opens that section (`plate` on the
   section in site.js) and each rung links to its tip. No separate
   searching section above the list.
+- Ladder order: 1 AI Overviews and 2 AI Mode answer from the web; 3 Gemini
+  Notebook answers only from your document (easiest to check); 4 the Gemini
+  app starts from your document and reaches beyond it (context and
+  comparison, hardest to check, so ask it to say which facts came from
+  where). All Notebook tips carry rung 3 and all Gemini app tips rung 4.
 - Evidence panels (`panels` in site.js) sit after an entry and carry
   figures with sources. The AI Overviews reliability panel follows tip 1;
   its figures come from the AI working group deck's "True enough?" slide.

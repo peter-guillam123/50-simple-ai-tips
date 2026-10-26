@@ -92,56 +92,57 @@ window.ENTRIES = [
   },
 
   {
-    id: 'gemini-app',
-    number: 3,
-    section: 'ladder',
-    title: 'When to use the Gemini app',
-    accent: 'Gemini app',
-    why: 'The Gemini app is Google’s chat, the equivalent of ChatGPT. It is the place for long working sessions: your own files, your Workspace, a conversation that builds. Some websites block it from reading their pages.',
-    tool: 'gemini',
-    rung: 3,
-    where: 'gemini.google.com, signed in with your Guardian account.',
-    steps: [
-      'Go to gemini.google.com and check the account in the top corner is your Guardian one.',
-      'Attach a file with the + button, or paste the text straight in.',
-      'Ask, then keep asking. This is a conversation, not a search.'
-    ],
-    prompt: 'Explain the funding gap in this council budget report in plain English and list the five biggest savings.',
-    alsoWorks: 'AI Mode, for shorter questions with no files.',
-    tip: 'Some sites block it from reading their pages [VERIFY: name one or two], so paste the text in rather than the link.',
-    jobs: ['find', 'interrogate'],
-    material: 'question',
-    effort: '1min',
-    sketch: 'chat/file',
-    availability: { status: 'check', note: 'Find one or two common sites that block Gemini so the entry can name them.' },
-    sources: []
-  },
-
-  {
     id: 'gemini-notebook',
-    number: 4,
+    number: 3,
     section: 'ladder',
     title: 'When to use Gemini Notebook',
     accent: 'Gemini Notebook',
-    why: 'Gemini Notebook is a research tool that answers only from documents you give it, and footnotes every answer. Nothing from the wider web creeps in, so every claim can be traced to a page.',
+    why: 'Gemini Notebook is a research tool that answers only from documents you give it, and footnotes every answer. Nothing from the wider web creeps in, so every claim can be traced to a page. Start with one document: a budget report, a court ruling, an inquiry.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'notebooklm.google (it redirects) > New notebook > add sources.',
     steps: [
       'Go to notebooklm.google. It redirects to Gemini Notebook: same tool, new name.',
-      'Click New notebook and add your sources: upload the PDFs, or paste links.',
+      'Click New notebook and upload the document.',
       'Ask in the chat panel. Every answer carries numbered citations.',
       'Click a citation to see the passage it came from.'
     ],
-    prompt: 'What did councillors say about the funding gap?',
+    prompt: 'What does this report say caused the funding gap? Cite the page for each reason.',
     alsoWorks: '',
-    tip: 'It only knows what you gave it. If the answer is not in the sources, it should say so.',
+    tip: 'It only knows what you gave it. If the answer is not in the document, it should say so, and that is useful too.',
     jobs: ['interrogate'],
     material: 'document',
     effort: '5min',
     sketch: 'notebook/sources',
     availability: { status: 'ok', note: '' },
     sources: ['notebook-rename']
+  },
+
+  {
+    id: 'gemini-app',
+    number: 4,
+    section: 'ladder',
+    title: 'When to use the Gemini app',
+    accent: 'Gemini app',
+    why: 'The Gemini app is Google’s chat, the equivalent of ChatGPT. Give it a document and it can go beyond it, bringing in the web and what it already knows. That makes it the place for context: how your document compares, and what is unusual about it.',
+    tool: 'gemini',
+    rung: 4,
+    where: 'gemini.google.com, signed in with your Guardian account.',
+    steps: [
+      'Go to gemini.google.com and check the account in the top corner is your Guardian one.',
+      'Attach the document with the + button.',
+      'Ask a question that needs the document and the world beyond it.',
+      'Ask it to say which facts came from your document and which from elsewhere. Check the outside ones.'
+    ],
+    prompt: 'Here is this council’s budget report. How does its funding gap compare with other English councils of a similar size, and is the reason it gives for the gap typical? Say which figures come from the report and which from elsewhere.',
+    alsoWorks: 'AI Mode, with the report uploaded through the + button, for a quicker answer with fewer follow-ups.',
+    tip: 'Some sites block it from reading their pages [VERIFY: name one or two], so paste the text in rather than the link.',
+    jobs: ['interrogate', 'explain'],
+    material: 'document',
+    effort: '5min',
+    sketch: 'chat/file',
+    availability: { status: 'check', note: 'Find one or two common sites that block Gemini so the entry can name them.' },
+    sources: []
   },
 
   {
@@ -152,7 +153,7 @@ window.ENTRIES = [
     accent: 'Flash or Thinking',
     why: 'Most AI tools offer more than one model, the engine behind the answers. In Gemini you choose between Flash, which is fast and fine for simple jobs, and Thinking, which is slower but works through numbers, logic and comparisons step by step.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The model picker at the top of the Gemini app.',
     steps: [
       'Open the model picker at the top of the chat. The two you need are Flash and Thinking [VERIFY the exact labels].',
@@ -183,7 +184,7 @@ window.ENTRIES = [
     accent: 'email, chat and Drive',
     why: 'One question pulls together the emails, Chat messages and documents you have on a story, without opening three apps.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'Gemini app > Settings > Apps. Then ask.',
     steps: [
       'In the Gemini app, open Settings, then Apps [VERIFY].',
@@ -361,7 +362,7 @@ window.ENTRIES = [
     accent: 'ten minutes',
     why: 'Deep Research is a mode in the Gemini app. Give it a topic and it reads dozens of sources and writes a briefing with citations while you do something else. Ten minutes rather than a morning.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'Gemini app > Tools (or +) > Deep Research.',
     steps: [
       'In the Gemini app, click Tools (or +) and choose Deep Research [VERIFY].',
@@ -392,7 +393,7 @@ window.ENTRIES = [
     accent: 'anything',
     why: 'Answers in seconds from a document you would otherwise skim, with the page each one came from.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'Gemini Notebook > New notebook > upload the PDF > ask in the chat.',
     steps: [
       'Open Gemini Notebook, click New notebook and upload the PDF.',
@@ -419,7 +420,7 @@ window.ENTRIES = [
     accent: 'receipt',
     why: 'Every answer in Gemini Notebook carries numbered citations. Click one and it shows the exact passage the answer came from, so checking takes seconds rather than a search through the PDF.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'Click any numbered citation in a Notebook answer.',
     steps: [
       'Ask any question in a notebook.',
@@ -472,7 +473,7 @@ window.ENTRIES = [
     accent: 'data table',
     why: 'Gemini Notebook can turn a document into a table: you name the columns, it finds the facts. Commitments scattered through a white paper become rows you can sort and export to Sheets.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'Notebook > Studio panel > Data table, then describe the columns.',
     steps: [
       'In a notebook with the document loaded, open the Studio panel.',
@@ -499,7 +500,7 @@ window.ENTRIES = [
     accent: 'in a speech',
     why: 'Gemini Notebook can run small programs to count things exactly rather than guess. Counting is the difference between a figure you can print and one you cannot.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'The Notebook chat, after adding the speech text.',
     steps: [
       'Add the speech as a source: paste the text, or upload the transcript.',
@@ -525,7 +526,7 @@ window.ENTRIES = [
     accent: 'changed',
     why: 'Compare this year’s report with last year’s, or a draft with the final text.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'A notebook with both documents loaded.',
     steps: [
       'Make a notebook with both documents as sources.',
@@ -552,7 +553,7 @@ window.ENTRIES = [
     accent: 'timeline',
     why: 'An instant chronology for a long-running story, with every date pointing back to the cutting it came from.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'A notebook with the cuttings as sources.',
     steps: [
       'Add the cuttings as sources: paste each article’s text, or its link.',
@@ -578,7 +579,7 @@ window.ENTRIES = [
     accent: 'Map',
     why: 'Gemini Notebook can draw a mind map of a document: its chapters and themes as a branching diagram. It shows the shape of a report before you read it, so you know which chapter to read properly.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'Notebook > Studio > Mind map.',
     steps: [
       'In a notebook with the report loaded, open the Studio panel.',
@@ -604,7 +605,7 @@ window.ENTRIES = [
     accent: 'Listen',
     why: 'An Audio Overview is a spoken summary of your sources, done as a conversation between two synthetic voices. Twelve minutes on your report during the commute beats not having opened it.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'Notebook > Studio > Audio Overview > Customise.',
     steps: [
       'In the Studio panel, find Audio Overview.',
@@ -630,7 +631,7 @@ window.ENTRIES = [
     accent: 'interviewee',
     why: 'Load cuttings, past interviews and speeches, then build your questions from them.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'A new notebook, one per interviewee.',
     steps: [
       'Start a new notebook, one per interviewee.',
@@ -657,7 +658,7 @@ window.ENTRIES = [
     accent: 'Quiz',
     why: 'Gemini Notebook can make flashcards or a quiz from your sources, and only your sources. A way to make the facts stick before you walk in.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'The same notebook > Studio > Flashcards or Quiz.',
     steps: [
       'In the interviewee notebook, open the Studio panel.',
@@ -683,7 +684,7 @@ window.ENTRIES = [
     accent: 'your beat',
     why: 'A standing notebook you feed weekly with minutes, agendas and releases. By spring it answers questions nobody else on the desk can.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'One notebook per patch. Add sources as they arrive.',
     steps: [
       'Make one notebook for your patch and name it.',
@@ -765,7 +766,7 @@ window.ENTRIES = [
     accent: 'Paste the link',
     why: 'Works on public videos when the button is not there, including most committee streams and press conferences.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The Gemini app. Paste the YouTube address into the prompt.',
     steps: [
       'Copy the video’s address from the browser bar.',
@@ -791,7 +792,7 @@ window.ENTRIES = [
     accent: 'notebook source',
     why: 'Add a hearing or press conference to a notebook, question it alongside your documents, and quote it by timestamp.',
     tool: 'notebook',
-    rung: 4,
+    rung: 3,
     where: 'Notebook > Add source > YouTube link.',
     steps: [
       'In a notebook, click Add source and choose YouTube [VERIFY].',
@@ -1002,7 +1003,7 @@ window.ENTRIES = [
     accent: 'PDF table',
     why: 'Screenshot a table from a report and get rows you can paste.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The Gemini app. Paste or upload the screenshot.',
     steps: [
       'Screenshot the table (Shift+Cmd+4 on a Mac, Windows+Shift+S on Windows).',
@@ -1033,7 +1034,7 @@ window.ENTRIES = [
     accent: 'get the text',
     why: 'A printed notice, agenda or book page becomes editable text.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The Gemini app on your phone > camera or upload.',
     steps: [
       'Open the Gemini app on your phone.',
@@ -1136,7 +1137,7 @@ window.ENTRIES = [
     accent: 'I’m new',
     why: 'Get up to speed on a new beat’s jargon.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The Gemini app.',
     steps: [
       'Open the Gemini app.',
@@ -1163,7 +1164,7 @@ window.ENTRIES = [
     accent: 'in another language',
     why: 'Understand a foreign report or article for background.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The Gemini app. Paste the text or upload the file.',
     steps: [
       'Paste the text, or upload the file, into the Gemini app.',
@@ -1189,7 +1190,7 @@ window.ENTRIES = [
     accent: 'missing',
     why: 'Lists the unanswered questions in your own notes before you file or call back. It is the colleague who reads your notes and asks the obvious thing.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The Gemini app, with your notes pasted in.',
     steps: [
       'Paste your notes into the Gemini app. Nothing confidential: no source names.',
@@ -1215,7 +1216,7 @@ window.ENTRIES = [
     accent: 'on a walk',
     why: 'Gemini Live is the spoken version of the Gemini app: you talk, it talks back. A sounding board for testing your angle out loud.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'The Gemini app on your phone > Live.',
     steps: [
       'Open the Gemini app on your phone and tap Live.',
@@ -1272,7 +1273,7 @@ window.ENTRIES = [
     accent: 'skill',
     why: 'A skill is a saved set of instructions you can run whenever you need it, like a recipe. Write it once, use it every week.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'Gemini app > Skills. Workspace skills are separate and called with an @mention.',
     steps: [
       'In the Gemini app, open Skills [VERIFY path] and click New.',
@@ -1299,7 +1300,7 @@ window.ENTRIES = [
     accent: 'news digest',
     why: 'A scheduled action is a prompt the Gemini app runs for you at a set time, without you asking. A rough digest of your patch, every weekday, before you get in.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'Ask in the Gemini app (“every weekday at 7am…”). Manage at gemini.google.com/scheduled.',
     steps: [
       'In the Gemini app, put the schedule in the prompt itself: “Every weekday at 7am…”',
@@ -1326,7 +1327,7 @@ window.ENTRIES = [
     accent: 'inbox and diary',
     why: 'The same idea as tip 48, pointed at your own inbox and calendar instead of the news.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'A scheduled action in the Gemini app. Needs Gmail and Calendar connected (tip 6).',
     steps: [
       'Connect Gmail and Calendar first (tip 6).',
@@ -1352,7 +1353,7 @@ window.ENTRIES = [
     accent: 'tiny tool',
     why: 'Canvas is a mode in the Gemini app that builds a small working app from a sentence. No code to write.',
     tool: 'gemini',
-    rung: 3,
+    rung: 4,
     where: 'Gemini app > + > Canvas.',
     steps: [
       'In the Gemini app, click + and choose Canvas [VERIFY].',

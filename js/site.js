@@ -116,7 +116,7 @@ window.SITE = {
      Reading order. Each has a two-sentence intro and a colour family. */
   sections: [
     { id: 'ladder', title: 'Searching with AI', eyebrow: 'Part one',
-      intro: 'You can ask an AI a question in four places, and they differ in what they read: the whole web, your own files, or only documents you chose. The less a tool reads, the easier its answer is to check. All four take a picture as well as words. Pick a question below to see which fits; tips 1 to 5 take each in turn.',
+      intro: 'You can ask an AI a question in four places. Two answer from the web. Two start from a document you give them: Gemini Notebook sticks strictly to it, so its answers are the easiest to check, and the Gemini app reaches beyond it for comparison and context. All four take a picture as well as words. Pick a question below to see which fits; tips 1 to 5 take each in turn.',
       plate: 'ladder', plateTitle: 'Which tool reads what' },
     { id: 'find', title: 'Find anything', eyebrow: 'Part two',
       intro: 'Most of what you need is already in your inbox, your Drive or on a page you have open. These tips find it by description rather than by keyword.' },
@@ -147,7 +147,7 @@ window.SITE = {
         { n: '56%', t: 'of those right answers linked to sources that did not fully back them up.', src: 'Same study.', link: 'oumi-nyt' },
         { n: '89%', t: 'of 98,000 claims from trending US searches matched the pages cited. 2.7% were contradicted by them.', src: 'Washington University in St Louis, May 2026, not yet peer reviewed.', link: 'wustl-aio' }
       ],
-      outro: 'A Guardian investigation in January 2026 found health overviews giving advice the opposite of expert guidance. So: fine for orientation on a general question, not a source. Click through before you rely on anything, and for anything that matters, go down the ladder.',
+      outro: 'A Guardian investigation in January 2026 found health overviews giving advice the opposite of expert guidance. So: fine for orientation on a general question, not a source. Click through before you rely on anything, and for anything that matters, use a tool that shows you the page an answer came from, such as Gemini Notebook (tip 3).',
       links: ['guardian-aio-health', 'ai-working-group']
     }
   ],
@@ -166,21 +166,23 @@ window.SITE = {
 
   /* ------------------------------------------------------------ the ladder */
   ladder: {
+    /* Rungs 1 and 2 answer from the web. Rung 3 answers only from your
+       documents. Rung 4 starts from your documents and reaches beyond. */
+    groups: { web: 'Answers from the web', docs: 'Starts from your documents' },
     rungs: [
-      { n: 1, tool: 'AI Overviews', speed: 'Instant', reads: 'The whole search index', when: 'A quick general question you’d have Googled anyway', toolId: 'search', entry: 'ai-overviews' },
-      { n: 2, tool: 'AI Mode', speed: 'Seconds', reads: 'The search index, many searches at once, plus PDFs you upload', when: 'Multi-part questions, follow-ups, comparisons', toolId: 'search', entry: 'ai-mode' },
-      { n: 3, tool: 'Gemini app', speed: 'Slower', reads: 'The web (some sites block it), your uploads, your Workspace', when: 'Your own files, long back-and-forth, Deep Research', toolId: 'gemini', entry: 'gemini-app' },
-      { n: 4, tool: 'Gemini Notebook', speed: 'Slower', reads: 'Only the sources you give it', when: 'Answers you can trace to a page, from documents you chose', toolId: 'notebook', entry: 'gemini-notebook' }
+      { n: 1, group: 'web', tool: 'AI Overviews', speed: 'Instant', reads: 'The whole search index', when: 'A quick general question you’d have Googled anyway', toolId: 'search', entry: 'ai-overviews' },
+      { n: 2, group: 'web', tool: 'AI Mode', speed: 'Seconds', reads: 'The search index, many searches at once', when: 'Questions with several parts, follow-ups, comparisons', toolId: 'search', entry: 'ai-mode' },
+      { n: 3, group: 'docs', tool: 'Gemini Notebook', speed: 'Slower', reads: 'Only the documents you give it', when: 'You want what the document says, with the page to prove it', toolId: 'notebook', entry: 'gemini-notebook' },
+      { n: 4, group: 'docs', tool: 'Gemini app', speed: 'Slower', reads: 'Your document, plus the web and what it already knows', when: 'You want your document in context: compared, explained, checked against others', toolId: 'gemini', entry: 'gemini-app' }
     ],
     examples: [
       { q: 'What is a section 114 notice?', rung: 1, why: 'A general question with a settled answer. The overview at the top of the results will do.' },
       { q: 'Which councils have issued one since 2018, and why?', rung: 2, why: 'Several parts, and it needs many searches at once. AI Mode runs them and lets you follow up.' },
-      { q: 'Explain the funding gap in this budget PDF I’ve uploaded.', rung: 3, why: 'It’s your file, and you’ll want to keep asking. The Gemini app.' },
-      { q: 'What did councillors say about the gap? Cite the page.', rung: 4, why: 'You want an answer you can trace to a page in documents you chose. Notebook, with the minutes loaded.' },
-      { q: 'Compare this year’s report with last year’s.', rung: 4, why: 'Two documents you have, and the answer must come only from them.' },
+      { q: 'What does this budget report say caused the gap? Cite the page.', rung: 3, why: 'You want what the document says and nothing else, with the page to prove it. Notebook, with the report loaded.' },
+      { q: 'How does this council’s gap compare with similar councils?', rung: 4, why: 'It needs your document and figures from outside it. The Gemini app, with the report attached, and asked to say which figures came from where.' },
+      { q: 'Compare this year’s report with last year’s.', rung: 3, why: 'Two documents you have, and the answer must come only from them. Notebook.' },
       { q: 'Is 3.6% a big rise in council tax?', rung: 2, why: 'Needs context from many sources, but no files of yours. AI Mode.' }
-    ],
-    message: 'The further down the ladder you go, the less the tool reads, and the easier its answer is to check.'
+    ]
   },
 
   /* ------------------------------------------------------------ sources

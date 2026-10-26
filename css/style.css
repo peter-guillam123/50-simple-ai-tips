@@ -341,7 +341,10 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--red); }
 .rung__reads, .rung__when { font-size: .88rem; line-height: 1.45; color: var(--ink-2); margin: 0; }
 .rung__reads .k, .rung__when .k { margin-right: .35rem; }
 .rung.is-lit { border-color: var(--red); background: var(--yellow-soft); transform: translateX(4px); }
-.rung__go { grid-column: 2; justify-self: start; font-family: var(--f-ui); font-weight: 700; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; min-height: 40px; display: inline-flex; align-items: center; margin: -.4rem 0 -.6rem; }
+.rung-group { font-family: var(--f-ui); font-weight: 700; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); padding: .5rem 0 .1rem; display: flex; align-items: center; gap: .6rem; }
+.rung-group:first-child { padding-top: 0; }
+.rung-group::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.rung__go {grid-column: 2; justify-self: start; font-family: var(--f-ui); font-weight: 700; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; min-height: 40px; display: inline-flex; align-items: center; margin: -.4rem 0 -.6rem; }
 .plate--section { margin: 0 0 clamp(1.6rem, 4vw, 2.4rem); }
 .plate--section[hidden] { display: none; }
 .rung.is-lit .rung__n { color: var(--red); }

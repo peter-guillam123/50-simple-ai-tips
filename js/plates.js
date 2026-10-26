@@ -28,7 +28,7 @@
   var P = { captions: {} };
 
   /* ------------------------------------------------------------ 1 ladder */
-  P.captions.ladder = 'Rungs 1 and 2 read the whole web. Rung 3 reads your files too. Rung 4 reads only what you gave it. The further down you go, the less the tool reads, and the easier its answer is to check.';
+  P.captions.ladder = 'Rungs 1 and 2 answer from the web. Rung 3 answers only from the document you gave it, so every claim can be traced to a page. Rung 4 starts from your document and reaches beyond it. That makes it the most useful for context and the hardest to check, so ask it to say which facts came from where.';
   P.ladder = function (el, ctx) {
     var L = ctx.site.ladder;
     var left = h('div');
@@ -37,17 +37,21 @@
     var why = h('p', { class: 'ladder__why', 'aria-live': 'polite' });
     var right = h('div');
     var rungs = h('ol', { class: 'ladder__rungs', 'aria-label': 'The four rungs' });
+    var lastGroup = null;
     L.rungs.forEach(function (r) {
+      if (r.group && r.group !== lastGroup && L.groups && L.groups[r.group]) {
+        rungs.appendChild(h('li', { class: 'rung-group', 'aria-hidden': 'true', text: L.groups[r.group] }));
+        lastGroup = r.group;
+      }
       var li = h('li', { class: 'rung', 'data-rung': r.n });
       li.innerHTML = '<span class="rung__n">' + r.n + '</span>' +
         '<span class="rung__tool">' + esc(r.tool) + '<small>' + esc(r.speed) + '</small></span>' +
-        '<p class="rung__reads"><span class="k">Reads</span>' + esc(r.reads) + '</p>' +
+        '<p class="rung__reads"><span class="k">Reads</span>' + esc(r.reads) + (r.group && L.groups ? '<span class="vh">. ' + esc(L.groups[r.group]) + '</span>' : '') + '</p>' +
         '<p class="rung__when"><span class="k">Reach for it when</span>' + esc(r.when) + '</p>' +
         (r.entry ? '<a class="rung__go" href="#' + esc(r.entry) + '">Read tip ' + r.n + '</a>' : '');
       rungs.appendChild(li);
     });
     right.appendChild(rungs);
-    right.appendChild(h('p', { class: 'ladder__axis' }, '<span>Reads everything</span><span>Reads only what you chose</span>'));
 
     var btns = [];
     function pick(i) {
