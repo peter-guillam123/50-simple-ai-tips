@@ -104,8 +104,9 @@ window.SITE = {
   /* ------------------------------------------------------------ sections
      Reading order. Each has a two-sentence intro and a colour family. */
   sections: [
-    { id: 'ladder', title: 'Pick the right tool', eyebrow: 'Part one',
-      intro: 'There are four places to ask an AI a question, and they read different things. The less a tool reads, the easier it is to check what it says. All four take a picture as well as words.' },
+    { id: 'ladder', title: 'Searching with AI', eyebrow: 'Part one',
+      intro: 'You can ask an AI a question in four places, and they differ in what they read: the whole web, your own files, or only documents you chose. The less a tool reads, the easier its answer is to check. All four take a picture as well as words. Pick a question below to see which fits; tips 1 to 5 take each in turn.',
+      plate: 'ladder', plateTitle: 'Which tool reads what' },
     { id: 'find', title: 'Find anything', eyebrow: 'Part two',
       intro: 'Most of what you need is already in your inbox, your Drive or on a page you have open. These tips find it by description rather than by keyword.' },
     { id: 'documents', title: 'Get through documents', eyebrow: 'Part three',
@@ -126,7 +127,7 @@ window.SITE = {
   panels: [
     {
       id: 'aio-reliability',
-      after: 2,
+      after: 1,
       eyebrow: 'The evidence',
       title: 'How reliable are AI Overviews?',
       intro: 'Nobody outside Google has a full answer, and Google has never published an error rate. Two independent tests give a rough shape.',
@@ -155,10 +156,10 @@ window.SITE = {
   /* ------------------------------------------------------------ the ladder */
   ladder: {
     rungs: [
-      { n: 1, tool: 'AI Overviews', speed: 'Instant', reads: 'The whole search index', when: 'A quick general question you’d have Googled anyway', toolId: 'search' },
-      { n: 2, tool: 'AI Mode', speed: 'Seconds', reads: 'The search index, many searches at once, plus PDFs you upload', when: 'Multi-part questions, follow-ups, comparisons', toolId: 'search' },
-      { n: 3, tool: 'Gemini app', speed: 'Slower', reads: 'The web (some sites block it), your uploads, your Workspace', when: 'Your own files, long back-and-forth, Deep Research', toolId: 'gemini' },
-      { n: 4, tool: 'Gemini Notebook', speed: 'Slower', reads: 'Only the sources you give it', when: 'Answers you can trace to a page, from documents you chose', toolId: 'notebook' }
+      { n: 1, tool: 'AI Overviews', speed: 'Instant', reads: 'The whole search index', when: 'A quick general question you’d have Googled anyway', toolId: 'search', entry: 'ai-overviews' },
+      { n: 2, tool: 'AI Mode', speed: 'Seconds', reads: 'The search index, many searches at once, plus PDFs you upload', when: 'Multi-part questions, follow-ups, comparisons', toolId: 'search', entry: 'ai-mode' },
+      { n: 3, tool: 'Gemini app', speed: 'Slower', reads: 'The web (some sites block it), your uploads, your Workspace', when: 'Your own files, long back-and-forth, Deep Research', toolId: 'gemini', entry: 'gemini-app' },
+      { n: 4, tool: 'Gemini Notebook', speed: 'Slower', reads: 'Only the sources you give it', when: 'Answers you can trace to a page, from documents you chose', toolId: 'notebook', entry: 'gemini-notebook' }
     ],
     examples: [
       { q: 'What is a section 114 notice?', rung: 1, why: 'A general question with a settled answer. The overview at the top of the results will do.' },

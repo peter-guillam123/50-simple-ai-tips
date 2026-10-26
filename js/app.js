@@ -118,14 +118,6 @@
     }
   }
 
-  /* ---------------------------------------------------------------- ladder */
-  function renderLadder() {
-    var el = $('#ladder');
-    if (!el || !PL.ladder) return;
-    PL.ladder(el, { reduced: reduced, site: S, entry: null });
-    var cap = $('#ladder-cap'); if (cap) cap.textContent = PL.captions.ladder || '';
-  }
-
   /* ---------------------------------------------------------------- filters */
   var FACETS = ['job', 'tool', 'material', 'effort'];
   var state = { job: [], tool: [], material: [], effort: [] };
@@ -206,6 +198,7 @@
       var any = E.some(function (e) { return e.section === s.id && matches(e); });
       if (s._el) s._el.hidden = !any;
       if (s._habit) s._habit.hidden = !any || !!anyFilter();
+      if (s._plate) s._plate.hidden = !!anyFilter();
     });
     FACETS.forEach(function (f) {
       chipEls[f].forEach(function (b) {
@@ -397,6 +390,17 @@
       var head = h('div', { class: 'tipsec__head' });
       head.innerHTML = '<p class="eyebrow">' + esc(sec.eyebrow || '') + '</p><h2 id="sec-' + sec.id + '-title">' + esc(sec.title) + '</h2><p class="tipsec__intro">' + rich(sec.intro || '') + '</p>';
       section.appendChild(head);
+      /* A section can open with a plate (part one opens with the ladder). */
+      if (sec.plate && PL[sec.plate]) {
+        var fig = h('figure', { class: 'plate plate--section rv', id: 'plate-' + sec.plate, 'aria-labelledby': 'plate-' + sec.plate + '-title' });
+        fig.innerHTML = '<div class="plate__head"><span class="plate__no">Plate 1</span><h3 class="plate__title" id="plate-' + sec.plate + '-title">' + esc(sec.plateTitle || '') + '</h3></div>';
+        var fbody = h('div', { class: 'plate__body ' + sec.plate, id: sec.plate });
+        fig.appendChild(fbody);
+        fig.appendChild(h('figcaption', { class: 'plate__cap' }, '<strong>What to notice</strong> ' + esc(PL.captions[sec.plate] || '')));
+        section.appendChild(fig);
+        sec._plate = fig;
+        try { PL[sec.plate](fbody, { reduced: reduced, site: S, entry: null }); } catch (err) { if (window.console) console.error('Plate failed:', sec.plate, err); }
+      }
       mine.forEach(function (e) {
         var el = renderEntry(e, sec); e._el = el; section.appendChild(el);
         (S.panels || []).forEach(function (p) { if (p.after === e.number) { var pe = renderPanel(p, sec); e._panel = pe; section.appendChild(pe); } });
@@ -489,7 +493,6 @@
     initTheme();
     renderMasthead();
     renderTools();
-    renderLadder();
     renderPicker();
     buildChips();
     renderEntries();
@@ -497,12 +500,18 @@
     readState();
     apply({ silent: true });
     initChrome();
-    /* An entry hidden by a filter should still open from its anchor. */
-    if (location.hash) {
-      var t = $(location.hash);
-      if (t && t.classList.contains('tip') && t.hidden) { reset(); }
-      if (t) setTimeout(function () { t.scrollIntoView({ block: 'start', behavior: 'auto' }); }, 50);
+    /* An entry hidden by a filter should still open from its anchor, on
+       arrival and when a link on the page points at it. */
+    function openHash(onLoad) {
+      if (!location.hash) return;
+      var t; try { t = $(location.hash); } catch (e) { t = null; }
+      if (!t) return;
+      var hidden = t.classList.contains('tip') && t.hidden;
+      if (hidden) reset();
+      if (onLoad || hidden) setTimeout(function () { t.scrollIntoView({ block: 'start', behavior: 'auto' }); }, 50);
     }
+    openHash(true);
+    window.addEventListener('hashchange', function () { openHash(false); });
   }
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', boot); else boot();
 })();

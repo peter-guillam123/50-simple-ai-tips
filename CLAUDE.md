@@ -42,8 +42,12 @@ not built yet.
   expert (policy). Notebooks can be shared with colleagues. Don't teach
   Slides image generation. Gems are retired but Skills are the same idea
   and tip 47 teaches them.
+- Part one, "Searching with AI", is the only place the four search tools
+  are introduced. The ladder plate opens that section (`plate` on the
+  section in site.js) and each rung links to its tip. No separate
+  searching section above the list.
 - Evidence panels (`panels` in site.js) sit after an entry and carry
-  figures with sources. The AI Overviews reliability panel follows tip 2;
+  figures with sources. The AI Overviews reliability panel follows tip 1;
   its figures come from the AI working group deck's "True enough?" slide.
   Neutral tone: give the figures, name the caveats, no advocacy.
 - Multimodal: say where a tool takes a picture as well as words (tips 1,

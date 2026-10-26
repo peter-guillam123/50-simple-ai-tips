@@ -42,7 +42,8 @@
       li.innerHTML = '<span class="rung__n">' + r.n + '</span>' +
         '<span class="rung__tool">' + esc(r.tool) + '<small>' + esc(r.speed) + '</small></span>' +
         '<p class="rung__reads"><span class="k">Reads</span>' + esc(r.reads) + '</p>' +
-        '<p class="rung__when"><span class="k">Reach for it when</span>' + esc(r.when) + '</p>';
+        '<p class="rung__when"><span class="k">Reach for it when</span>' + esc(r.when) + '</p>' +
+        (r.entry ? '<a class="rung__go" href="#' + esc(r.entry) + '">Read tip ' + r.n + '</a>' : '');
       rungs.appendChild(li);
     });
     right.appendChild(rungs);
