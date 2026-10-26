@@ -1,8 +1,7 @@
 /* app.js: the page engine.
  *
  * Vanilla JS, no dependencies. Content comes from js/site.js (window.SITE)
- * and js/entries.js (window.ENTRIES). Drawings from js/sketches.js,
- * interactive plates from js/plates.js.
+ * and js/entries.js (window.ENTRIES). Interactive plates from js/plates.js.
  *
  * Address options:
  *   ?job=find-story,verify&tool=gmail&material=email-chat&effort=1min
@@ -18,7 +17,6 @@
 
   var S = window.SITE || {};
   var E = (window.ENTRIES || []).slice().sort(function (a, b) { return a.number - b.number; });
-  var SK = window.SKETCHES || {};
   var PL = window.PLATES || { captions: {} };
   var doc = document, root = doc.documentElement;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -410,7 +408,7 @@
   function renderEntry(entry, sec) {
     var tool = byId(S.tools || [], entry.tool) || { label: entry.tool };
     var effort = byId(S.efforts || [], entry.effort) || { label: entry.effort };
-    var hasArt = !!(entry.plate && PL[entry.plate]) || !!(entry.sketch && SK.has && SK.has(entry.sketch));
+    var hasArt = !!(entry.plate && PL[entry.plate]);
     var art = h('article', { class: 'tip' + (hasArt ? '' : ' tip--noart'), id: entry.id, 'data-number': entry.number, style: '--sec: var(--s-' + sec.id + ')' });
 
     var main = h('div', { class: 'tip__main' });
@@ -447,25 +445,15 @@
 
     if (hasArt) {
       var side = h('div', { class: 'tip__side' });
-      if (entry.plate && PL[entry.plate]) {
-        plateNo++;
-        var fig = h('figure', { class: 'plate plate--inline', 'aria-labelledby': 'plate-' + entry.plate + '-title' });
-        fig.innerHTML = '<div class="plate__head"><span class="plate__no">Plate ' + plateNo + '</span><h4 class="plate__title" id="plate-' + entry.plate + '-title">' + esc(plain(entry.title)) + '</h4></div>';
-        var body = h('div', { class: 'plate__body' });
-        fig.appendChild(body);
-        var cap = h('figcaption', { class: 'plate__cap' }, '<strong>What to notice</strong> ' + esc(PL.captions[entry.plate] || ''));
-        fig.appendChild(cap);
-        side.appendChild(fig);
-        try { PL[entry.plate](body, { reduced: reduced, site: S, entry: entry }); } catch (e) { if (window.console) console.error('Plate failed:', entry.plate, e); }
-      } else if (entry.sketch && SK.has(entry.sketch)) {
-        var drawn = SK.draw(entry.sketch, entry);
-        if (drawn) {
-          var sk = h('div', { class: 'sketch' }, drawn);
-          var capText = SK.caption(entry.sketch);
-          if (capText) sk.appendChild(h('p', { class: 'sketch__cap', text: capText }));
-          side.appendChild(sk);
-        }
-      }
+      plateNo++;
+      var fig = h('figure', { class: 'plate plate--inline', 'aria-labelledby': 'plate-' + entry.plate + '-title' });
+      fig.innerHTML = '<div class="plate__head"><span class="plate__no">Plate ' + plateNo + '</span><h4 class="plate__title" id="plate-' + entry.plate + '-title">' + esc(plain(entry.title)) + '</h4></div>';
+      var body = h('div', { class: 'plate__body' });
+      fig.appendChild(body);
+      var cap = h('figcaption', { class: 'plate__cap' }, '<strong>What to notice</strong> ' + esc(PL.captions[entry.plate] || ''));
+      fig.appendChild(cap);
+      side.appendChild(fig);
+      try { PL[entry.plate](body, { reduced: reduced, site: S, entry: entry }); } catch (e) { if (window.console) console.error('Plate failed:', entry.plate, e); }
       art.appendChild(side);
     }
     return art;

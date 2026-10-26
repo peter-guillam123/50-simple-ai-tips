@@ -79,14 +79,12 @@ not built yet.
   `?review` shows them.
 - Taxonomy ids in `js/site.js` are fixed. Do not add values without asking.
 - Entry text 80 to 120 words across why, steps and tip. Three or four steps.
-- Plates and drawings are code, never screenshots, never Google's logos. Their
-  text is illustrative and says so.
-- Drawings come from ten frames in `js/sketches.js` (search, chat, notebook,
-  mail, drive, sheet, doc, player, meet, phone), each with variants. An entry
-  points at one with `sketch: 'frame/variant'`. Add a variant to an existing
-  frame rather than a new one-off drawing. Rules: 320 by 200 canvas, 1.5px
-  strokes, text as grey bars, one yellow highlight, one red mark, text on
-  yellow gets `sk-on-hi`. Every drawing has a caption.
+- Plates are code, never screenshots, never Google's logos. Their text is
+  illustrative and says so.
+- No static drawings. Chris removed them on 26 October 2026 because they
+  weren't adding anything; the nine interactive plates stay. Don't add
+  pictures back without asking. The old drawings (`js/sketches.js`) are in
+  git history if ever wanted.
 
 - Nine jobs, which are also the sections after "Searching with AI", in this
   order: Find a story, Research a subject, Get through documents, Work with
@@ -108,7 +106,7 @@ not built yet.
 
 - `js/entries.js`: the entries. Chris edits this directly; keep it readable.
 - `js/site.js`: taxonomy, tools, sections, habits, ladder, "why these", sources.
-- `js/app.js`, `js/plates.js`, `js/sketches.js`, `js/gate.js`, `css/style.css`.
+- `js/app.js`, `js/plates.js`, `js/gate.js`, `css/style.css`.
 - `about.html`: About page with the diary. Add an entry with each significant
   change, newest first, in Chris's voice.
 - Run: `python3 -m http.server 8765`. Check in a real browser before saying done.

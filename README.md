@@ -11,7 +11,6 @@ Built by Chris Moran with Claude, an AI model made by Anthropic. The About page 
   - `js/site.js`: everything else that is words: the masthead, tool cards, the nine jobs, section intros, habits, the check-everything rule, the ladder and the sources.
   - `js/app.js`: draws the page, runs the filters, keeps them in the address, copies prompts.
   - `js/plates.js`: the nine interactive plates.
-  - `js/sketches.js`: the small static drawings.
   - `js/gate.js`: an optional password gate, off by default.
 - `about.html`: what the guide is, how it was made, what to distrust, and the diary.
 - `.github/workflows/pages.yml`: deploys to GitHub Pages on a push to `main`, once Pages is switched on for the repository.
