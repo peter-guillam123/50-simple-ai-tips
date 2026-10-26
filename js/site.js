@@ -68,10 +68,10 @@ window.SITE = {
      or 'anyone' (open to anyone, no account needed). `access` is a short note
      shown on the card when a tool is not available to everyone. */
   toolGroups: [
-    { id: 'workspace', icon: 'workspace', short: 'The apps you already use, with Gemini built in.', title: 'Inside Google Workspace', line:'The apps you already use, working as normal. Gemini is built into each one, usually as a side panel (the star icon, top right) or a button. Same account, same privacy as the app itself. It appears once you have done the AI Essentials training.' },
-    { id: 'general', icon: 'general', short: 'Chat and research tools not tied to one app.', title: 'General AI tools', line:'Chat and research tools that are not tied to one app. The Gemini ones are under the Guardian’s Google agreement; ChatGPT Enterprise under its own.' },
-    { id: 'guardian', icon: 'guardian', short: 'Our own tools, made for our work.', title: 'Built by the Guardian', line:'Our own tools, made for our work. Where one of these does the job, it is the one to use.' },
-    { id: 'anyone', icon: 'anyone', short: 'Public tools. Fine for public material only.', title: 'Open to anyone', line:'Public tools that need no Guardian account. Fine for public material only.' }
+    { id: 'workspace', icon: 'workspace', short: 'The apps you already use, with Gemini built in.', title: 'Inside Google Workspace', line: 'Each app works as normal. Gemini sits in a side panel (the star icon, top right) or behind a button. Same account, same privacy as the app itself, and it appears once you have done the AI Essentials training.' },
+    { id: 'general', icon: 'general', short: 'Chat and research tools not tied to one app.', title: 'General AI tools', line: 'The Gemini tools come under the Guardian’s Google agreement. ChatGPT Enterprise comes under its own, and only some staff have it.' },
+    { id: 'guardian', icon: 'guardian', short: 'Our own tools, made for our work.', title: 'Built by the Guardian', line: 'Where one of these does the job, it is the one to use.' },
+    { id: 'anyone', icon: 'anyone', short: 'Public tools. Fine for public material only.', title: 'Open to anyone', line: 'They need no Guardian account. Treat them as you would any public website: put nothing into them you would not post.' }
   ],
 
   tools: [
