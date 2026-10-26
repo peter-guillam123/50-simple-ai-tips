@@ -40,7 +40,14 @@ not built yet.
   policy, GenAI principles, Editorial Code, Spike security guide.
 - From the FAQ: external-facing translation must be checked by a human
   expert (policy). Notebooks can be shared with colleagues. Don't teach
-  Gems or Slides image generation.
+  Slides image generation. Gems are retired but Skills are the same idea
+  and tip 47 teaches them.
+- Evidence panels (`panels` in site.js) sit after an entry and carry
+  figures with sources. The AI Overviews reliability panel follows tip 2;
+  its figures come from the AI working group deck's "True enough?" slide.
+  Neutral tone: give the figures, name the caveats, no advocacy.
+- Multimodal: say where a tool takes a picture as well as words (tips 1,
+  2, 37, 38, the ladder intro).
 - Nothing that writes articles or publishable copy. Nothing that raises
   responsible-use questions (images of real people, voice cloning,
   confidential source material in external tools).

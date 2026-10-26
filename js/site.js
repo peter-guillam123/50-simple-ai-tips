@@ -105,7 +105,7 @@ window.SITE = {
      Reading order. Each has a two-sentence intro and a colour family. */
   sections: [
     { id: 'ladder', title: 'Pick the right tool', eyebrow: 'Part one',
-      intro: 'There are four places to ask an AI a question, and they read different things. The less a tool reads, the easier it is to check what it says.' },
+      intro: 'There are four places to ask an AI a question, and they read different things. The less a tool reads, the easier it is to check what it says. All four take a picture as well as words.' },
     { id: 'find', title: 'Find anything', eyebrow: 'Part two',
       intro: 'Most of what you need is already in your inbox, your Drive or on a page you have open. These tips find it by description rather than by keyword.' },
     { id: 'documents', title: 'Get through documents', eyebrow: 'Part three',
@@ -118,6 +118,26 @@ window.SITE = {
       intro: 'Small jobs that eat an afternoon: notes into tables, a photo into text, jargon into English. None of them touch the copy you file.' },
     { id: 'automate', title: 'Make it automatic', eyebrow: 'Part seven',
       intro: 'Once a job works, make it run on its own. Standing instructions, saved skills and a digest that arrives before you do.' }
+  ],
+
+  /* ------------------------------------------------------------ panels
+     Short evidence boxes that sit after a given entry. Figures and sources
+     from the AI working group deck (slide "True enough?"). */
+  panels: [
+    {
+      id: 'aio-reliability',
+      after: 2,
+      eyebrow: 'The evidence',
+      title: 'How reliable are AI Overviews?',
+      intro: 'Nobody outside Google has a full answer, and Google has never published an error rate. Two independent tests give a rough shape.',
+      figures: [
+        { n: '91%', t: 'right on 4,326 hard factual questions, up from 85% before Google moved it to its newer model.', src: 'Oumi for the New York Times, October 2025 and February 2026. Google disputes the test set.', link: 'oumi-nyt' },
+        { n: '56%', t: 'of those right answers linked to sources that did not fully back them up.', src: 'Same study.', link: 'oumi-nyt' },
+        { n: '89%', t: 'of 98,000 claims from trending US searches matched the pages cited. 2.7% were contradicted by them.', src: 'Washington University in St Louis, May 2026, not yet peer reviewed.', link: 'wustl-aio' }
+      ],
+      outro: 'A Guardian investigation in January 2026 found health overviews giving advice the opposite of expert guidance. So: fine for orientation on a general question, not a source. Click through before you rely on anything, and for anything that matters, go down the ladder.',
+      links: ['guardian-aio-health', 'ai-working-group']
+    }
   ],
 
   /* ------------------------------------------------------------ habits
@@ -162,6 +182,10 @@ window.SITE = {
     'editorial-code': { t: 'Editorial code of practice and guidance 2023', p: 'The Guardian', u: 'https://www.theguardian.com/about/2023/jul/07/guardian-editorial-code-of-practice-and-guidance-2023', s: 'guardian' },
     'gemini-features': { t: 'Gemini for Workspace: full list of features', p: 'The Guardian (internal spreadsheet)', u: 'https://docs.google.com/spreadsheets/d/1wmWJShvJHdLV_d8yIpyyCfCA-8Yp4fyqtp6-wE4PNsU/edit?usp=sharing', s: 'guardian' },
     'gemini-faq-internal': { t: 'Google Gemini FAQs for Workspaces', p: 'The Guardian (internal) [TODO: link on Spike]', u: '', s: 'guardian' },
+    'oumi-nyt': { t: 'Oumi’s study of AI Overviews for the New York Times: 91% correct, 56% of correct answers not fully backed by their sources', p: 'Oumi blog, 14 April 2026. The NYT report of 7 April is paywalled. Google says the test set has errors.', u: 'https://oumi.ai/blog/oumis-study-finds-50-of-ai-overviews', s: 'deck' },
+    'wustl-aio': { t: 'How well do AI Overviews cite their sources? 98,020 claims from trending US searches', p: 'Xu, Iqbal and Montgomery, Washington University in St Louis, preprint, 13 May 2026', u: 'https://arxiv.org/html/2605.14021v1', s: 'deck' },
+    'guardian-aio-health': { t: 'Google AI Overviews risk harm with misleading health information', p: 'The Guardian, 2 January 2026', u: 'https://www.theguardian.com/technology/2026/jan/02/google-ai-overviews-risk-harm-misleading-health-information', s: 'deck' },
+    'ai-working-group': { t: 'AI working group deck: the evidence on accuracy', p: 'Chris Moran', u: 'https://peter-guillam123.github.io/ai-working-group/', s: 'deck' },
     'notebook-rename': { t: 'NotebookLM renamed Gemini Notebook', p: 'Google Workspace Updates', u: 'https://workspaceupdates.googleblog.com/2026/07/notebooklm-now-gemini-notebook.html', s: 'brief' },
     'notebook-sync': { t: 'Notebook and Gemini app sync', p: 'Android Authority', u: 'https://www.androidauthority.com/gemini-notebook-3688235/', s: 'brief' },
     'notebook-code': { t: 'Notebook code execution and new outputs', p: 'Google blog', u: 'https://blog.google/innovation-and-ai/products/notebooklm/better-research-notebooklm/', s: 'brief' },

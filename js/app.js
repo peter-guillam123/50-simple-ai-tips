@@ -199,6 +199,7 @@
     E.forEach(function (e) {
       var ok = matches(e);
       if (e._el) e._el.hidden = !ok;
+      if (e._panel) e._panel.hidden = !ok || !!anyFilter();
       if (ok) shown++;
     });
     (S.sections || []).forEach(function (s) {
@@ -375,6 +376,18 @@
     return art;
   }
 
+  /* An evidence panel that sits after an entry. */
+  function renderPanel(p, sec) {
+    var aside = h('aside', { class: 'panel', id: p.id, 'aria-labelledby': p.id + '-title', style: '--sec: var(--s-' + sec.id + ')' });
+    var srcLink = function (id) { var s = (S.sources || {})[id]; return s && s.u ? ' <a class="panel__src" href="' + esc(s.u) + '" rel="noopener" target="_blank">source</a>' : ''; };
+    aside.innerHTML = '<p class="eyebrow">' + esc(p.eyebrow || '') + '</p><h3 id="' + p.id + '-title">' + esc(p.title) + '</h3>' +
+      (p.intro ? '<p class="panel__intro">' + rich(p.intro) + '</p>' : '') +
+      '<ol class="ev">' + (p.figures || []).map(function (f) { return '<li><span class="ev__n">' + esc(f.n) + '</span><div><p>' + rich(f.t) + '</p><p class="ev__src">' + rich(f.src) + srcLink(f.link) + '</p></div></li>'; }).join('') + '</ol>' +
+      (p.outro ? '<p class="panel__outro">' + rich(p.outro) + '</p>' : '') +
+      ((p.links || []).length ? '<p class="panel__links">' + p.links.map(function (id) { var s = (S.sources || {})[id]; return s ? '<a href="' + esc(s.u) + '" rel="noopener" target="_blank">' + rich(s.t) + '</a>' : ''; }).join('') + '</p>' : '');
+    return aside;
+  }
+
   function renderEntries() {
     var wrap = $('#entries');
     if (!wrap) return;
@@ -384,7 +397,10 @@
       var head = h('div', { class: 'tipsec__head' });
       head.innerHTML = '<p class="eyebrow">' + esc(sec.eyebrow || '') + '</p><h2 id="sec-' + sec.id + '-title">' + esc(sec.title) + '</h2><p class="tipsec__intro">' + rich(sec.intro || '') + '</p>';
       section.appendChild(head);
-      mine.forEach(function (e) { var el = renderEntry(e, sec); e._el = el; section.appendChild(el); });
+      mine.forEach(function (e) {
+        var el = renderEntry(e, sec); e._el = el; section.appendChild(el);
+        (S.panels || []).forEach(function (p) { if (p.after === e.number) { var pe = renderPanel(p, sec); e._panel = pe; section.appendChild(pe); } });
+      });
       sec._el = section;
       wrap.appendChild(section);
       var habit = (S.habits || [])[i];
@@ -402,9 +418,12 @@
     var ol = $('#sources-list');
     if (!ol || !S.sources) return;
     var order = [];
-    E.forEach(function (e) { (e.sources || []).forEach(function (id) { if (order.indexOf(id) === -1) order.push(id); }); });
+    E.forEach(function (e) {
+      (e.sources || []).forEach(function (id) { if (order.indexOf(id) === -1) order.push(id); });
+      (S.panels || []).forEach(function (p) { if (p.after === e.number) { (p.figures || []).map(function (f) { return f.link; }).concat(p.links || []).forEach(function (id) { if (id && order.indexOf(id) === -1) order.push(id); }); } });
+    });
     Object.keys(S.sources).forEach(function (id) { if (order.indexOf(id) === -1) order.push(id); });
-    var labels = { brief: 'Checked', guardian: 'From the Gemini FAQ', todo: 'Still to add' };
+    var labels = { brief: 'Checked', guardian: 'From the Gemini FAQ', deck: 'Read for the AI working group deck', todo: 'Still to add' };
     order.forEach(function (id, i) {
       var s = S.sources[id];
       if (!s) return;
