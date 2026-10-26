@@ -113,7 +113,8 @@
     var why = $('#why-these');
     var W = S.whyThese;
     if (why && W) {
-      why.innerHTML = '<span class="k">' + esc(W.title || 'Why these, and not others') + '</span>' + (W.paragraphs || []).map(function (p) { return '<p>' + rich(p) + '</p>'; }).join('');
+      why.innerHTML = '<span class="k">' + esc(W.title || 'Why these, and not others') + '</span>' + (W.paragraphs || []).map(function (p) { return '<p>' + rich(p) + '</p>'; }).join('') +
+        (W.links && W.links.length ? '<p class="why__links"><span class="k">Read the rules</span>' + W.links.map(function (l) { return l.u ? '<a href="' + esc(l.u) + '" rel="noopener" target="_blank">' + rich(l.t) + '</a>' : '<span>' + rich(l.t) + '</span>'; }).join('') + '</p>' : '');
     }
   }
 
@@ -403,7 +404,7 @@
     var order = [];
     E.forEach(function (e) { (e.sources || []).forEach(function (id) { if (order.indexOf(id) === -1) order.push(id); }); });
     Object.keys(S.sources).forEach(function (id) { if (order.indexOf(id) === -1) order.push(id); });
-    var labels = { brief: 'Checked', todo: 'Still to add' };
+    var labels = { brief: 'Checked', guardian: 'From the Gemini FAQ', todo: 'Still to add' };
     order.forEach(function (id, i) {
       var s = S.sources[id];
       if (!s) return;
@@ -411,7 +412,7 @@
       var li = h('li', { id: 'src-' + id });
       li.innerHTML = '<span class="n">' + (i + 1) + '</span><span>' +
         (s.u ? '<a href="' + esc(s.u) + '" rel="noopener" target="_blank">' + rich(s.t) + '</a>' : rich(s.t)) +
-        '<span class="m">' + esc(s.p || '') + (used.length ? '. Tip' + (used.length > 1 ? 's ' : ' ') + used.join(', ') : '') +
+        '<span class="m">' + rich(s.p || '') + (used.length ? '. Tip' + (used.length > 1 ? 's ' : ' ') + used.join(', ') : '') +
         ' <span class="chk chk--' + esc(s.s || 'brief') + '">' + (labels[s.s] || 'Checked') + '</span></span></span>';
       ol.appendChild(li);
     });

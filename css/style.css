@@ -268,6 +268,11 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--red); }
 .why p { margin: 0; max-width: 48rem; }
 .why p + p { margin-top: .6em; }
 .why .k { font-family: var(--f-ui); font-weight: 700; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: .5rem; }
+.why__links { display: flex; flex-wrap: wrap; gap: .4rem .5rem; align-items: center; margin-top: 1rem !important; }
+.why__links .k { display: inline; margin: 0 .3rem 0 0; }
+.why__links a, .why__links > span:not(.k) { font-family: var(--f-ui); font-size: .8rem; border: 1px solid var(--rule); background: var(--paper-3); border-radius: 999px; padding: .4rem .75rem; min-height: 40px; display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); }
+.why__links a:hover { border-color: var(--ink); }
+.why__links > span:not(.k) { color: var(--ink-3); }
 
 /* -------------------------------------------------------------------------
    Plates
@@ -477,6 +482,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--red); }
 .chk { font-family: var(--f-ui); font-weight: 700; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; display: inline-block; margin-top: .15rem; }
 .chk::before { content: ""; display: inline-block; width: .5em; height: .5em; border-radius: 50%; margin-right: .4em; background: currentColor; }
 .chk--brief { color: var(--green); }
+.chk--guardian { color: var(--blue); }
 .chk--todo { color: var(--red); }
 .src-key { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin: 1rem 0 0; padding: 0; list-style: none; font-size: .82rem; color: var(--ink-2); }
 

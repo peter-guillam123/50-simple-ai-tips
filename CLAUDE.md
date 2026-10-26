@@ -27,10 +27,20 @@ not built yet.
   (Ask the Guardian, House, Guardian Angles, the two transcription tools)
   and open to anyone (Google Search, YouTube). Tools with no tips get no
   filter chip.
-- The "why these" panel says: Workspace gives the same privacy as Drive and
-  Gmail; never use free or personal accounts for work; anything you wouldn't
-  keep in Drive or email doesn't go into an AI tool; new tools need budget
-  and Tech Council approval.
+- The "why these" panel says: Workspace runs under the Guardian's Google
+  agreement, amended for Gemini; content is not used for training outside
+  the Guardian's domain and conversations are not reviewed outside it
+  (wording from the internal Gemini FAQ: don't overstate it); Gemini only
+  appears once you've done the AI Essentials training and read the
+  acceptable use policy; never use free or personal accounts for work;
+  anything you wouldn't keep in Drive or email doesn't go into an AI tool;
+  the data privacy team's three rules (no opinions about individuals, no
+  decisions about individuals without the privacy team, know your sources);
+  new tools need budget and Tech Council approval. Links: acceptable use
+  policy, GenAI principles, Editorial Code, Spike security guide.
+- From the FAQ: external-facing translation must be checked by a human
+  expert (policy). Notebooks can be shared with colleagues. Don't teach
+  Gems or Slides image generation.
 - Nothing that writes articles or publishable copy. Nothing that raises
   responsible-use questions (images of real people, voice cloning,
   confidential source material in external tools).

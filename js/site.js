@@ -26,10 +26,17 @@ window.SITE = {
   whyThese: {
     title: 'Why these tools, and not others',
     paragraphs: [
-      'The point of Google Workspace is privacy. It gives you a place to work on your documents and emails with an AI model under the same terms that already cover Drive and Gmail. What you put in stays the Guardian’s and is not used to train the model.',
+      'The point of Google Workspace is privacy. It gives you a place to work on your documents and emails with an AI model under the Guardian’s existing agreement with Google, amended to cover Gemini. Your content is not used for training outside the Guardian’s domain, and your conversations are not reviewed by anyone outside the Guardian.',
+      'Gemini is switched on for you only once you have completed the AI Essentials training and read the GenAI acceptable use policy. If you cannot see the Gemini icon, that is probably why [TODO: link to the training].',
       'Do not use free or personal accounts for work: no free Claude, no personal ChatGPT, no Gemini on a private Google account. They sit outside the Guardian’s agreements, and what you paste in may be kept and used for training.',
-      'The usual rule still applies. If you would not store something in Drive or send it by email (a confidential source, a sensitive document), do not put it into an AI tool either.',
+      'The usual rule still applies. If you would not store something in Drive or send it by email (a confidential source, a sensitive document), do not put it into an AI tool either. And three rules from the data privacy team: do not use it to form opinions about individuals; do not use it to make decisions about individuals without talking to the privacy team first; when you research with it, know where the information came from so you can credit it.',
       'If you want a tool that is not on this list, you need budget for it and approval through Tech Council before you use it with Guardian material [TODO: link or contact for Tech Council].'
+    ],
+    links: [
+      { t: 'GenAI acceptable use policy', u: 'https://drive.google.com/file/d/1jfDUXAipKcMfY_h0aHCyl3R4OVotIRK9/view' },
+      { t: 'The Guardian’s approach to generative AI', u: 'https://www.theguardian.com/help/insideguardian/2023/jun/16/the-guardians-approach-to-generative-ai' },
+      { t: 'Editorial code of practice', u: 'https://www.theguardian.com/about/2023/jul/07/guardian-editorial-code-of-practice-and-guidance-2023' },
+      { t: 'Working securely on Google (on Spike) [TODO: link]', u: '' }
     ]
   },
 
@@ -50,7 +57,7 @@ window.SITE = {
      or 'anyone' (open to anyone, no account needed). `access` is a short note
      shown on the card when a tool is not available to everyone. */
   toolGroups: [
-    { id: 'workspace', title: 'Inside Google Workspace', line: 'The apps you already use, working as normal. Gemini is built into each one, usually as a side panel (the star icon, top right) or a button. Same account, same privacy as the app itself.' },
+    { id: 'workspace', title: 'Inside Google Workspace', line: 'The apps you already use, working as normal. Gemini is built into each one, usually as a side panel (the star icon, top right) or a button. Same account, same privacy as the app itself. It appears once you have done the AI Essentials training.' },
     { id: 'general', title: 'General AI tools', line: 'Chat and research tools that are not tied to one app. The Gemini ones are under the Guardian’s Google agreement; ChatGPT Enterprise under its own.' },
     { id: 'guardian', title: 'Built by the Guardian', line: 'Our own tools, made for our work. Where one of these does the job, it is the one to use.' },
     { id: 'anyone', title: 'Open to anyone', line: 'Public tools that need no Guardian account. Fine for public material only.' }
@@ -146,8 +153,15 @@ window.SITE = {
 
   /* ------------------------------------------------------------ sources
      status: 'brief' = listed and checked in the project brief, 22 to 23
-     October 2026. 'todo' = still to be supplied. */
+     October 2026. 'guardian' = from the Guardian's internal Gemini FAQ.
+     'todo' = still to be supplied. */
   sources: {
+    'google-gemini-faq': { t: 'Gemini for Google Workspace: official FAQ', p: 'Google Workspace admin help', u: 'https://support.google.com/a/answer/14130944?hl=en&co=DASHER._Family%3DBusiness-Enterprise', s: 'guardian' },
+    'acceptable-use': { t: 'GenAI acceptable use policy', p: 'The Guardian (internal)', u: 'https://drive.google.com/file/d/1jfDUXAipKcMfY_h0aHCyl3R4OVotIRK9/view', s: 'guardian' },
+    'genai-principles': { t: 'The Guardian’s approach to generative AI', p: 'The Guardian', u: 'https://www.theguardian.com/help/insideguardian/2023/jun/16/the-guardians-approach-to-generative-ai', s: 'guardian' },
+    'editorial-code': { t: 'Editorial code of practice and guidance 2023', p: 'The Guardian', u: 'https://www.theguardian.com/about/2023/jul/07/guardian-editorial-code-of-practice-and-guidance-2023', s: 'guardian' },
+    'gemini-features': { t: 'Gemini for Workspace: full list of features', p: 'The Guardian (internal spreadsheet)', u: 'https://docs.google.com/spreadsheets/d/1wmWJShvJHdLV_d8yIpyyCfCA-8Yp4fyqtp6-wE4PNsU/edit?usp=sharing', s: 'guardian' },
+    'gemini-faq-internal': { t: 'Google Gemini FAQs for Workspaces', p: 'The Guardian (internal) [TODO: link on Spike]', u: '', s: 'guardian' },
     'notebook-rename': { t: 'NotebookLM renamed Gemini Notebook', p: 'Google Workspace Updates', u: 'https://workspaceupdates.googleblog.com/2026/07/notebooklm-now-gemini-notebook.html', s: 'brief' },
     'notebook-sync': { t: 'Notebook and Gemini app sync', p: 'Android Authority', u: 'https://www.androidauthority.com/gemini-notebook-3688235/', s: 'brief' },
     'notebook-code': { t: 'Notebook code execution and new outputs', p: 'Google blog', u: 'https://blog.google/innovation-and-ai/products/notebooklm/better-research-notebooklm/', s: 'brief' },

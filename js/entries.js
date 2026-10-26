@@ -692,7 +692,7 @@ window.ENTRIES = [
     ],
     prompt: 'What has the council said about the leisure centre since January?',
     alsoWorks: '',
-    tip: 'There is a limit on sources per notebook [VERIFY the number], so start a fresh one each year.',
+    tip: 'Share it with your desk, so everyone asks the same pile of documents [VERIFY the sharing setting]. There is a limit on sources per notebook [VERIFY the number], so start a fresh one each year.',
     jobs: ['prepare', 'find'],
     material: 'document',
     effort: 'setup',
@@ -1168,7 +1168,7 @@ window.ENTRIES = [
     steps: [
       'Paste the text, or upload the file, into the Gemini app.',
       'Ask for a translation and for the parts that matter to you.',
-      'For anything you will quote, get a human translator to check.'
+      'For anything you will quote or publish, get a human expert to check it. That is Guardian policy, not a suggestion.'
     ],
     prompt: 'Translate this Le Monde article and tell me which parts concern the UK.',
     alsoWorks: 'Gemini in Chrome, on the page itself.',
@@ -1178,7 +1178,7 @@ window.ENTRIES = [
     effort: '1min',
     sketch: 'chat/translate',
     availability: { status: 'ok', note: '' },
-    sources: []
+    sources: ['gemini-faq-internal']
   },
 
   {
