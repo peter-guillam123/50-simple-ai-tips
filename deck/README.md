@@ -34,7 +34,29 @@ card copies on click.
 - Hosting: GitHub Pages, behind the light password gate the vibecoding
   deck uses, or internal only.
 
+## Sources for slide 5
+
+Checked through search on 23 November 2026, not by reading each page in full.
+
+- Court order to keep ChatGPT chats, deleted ones included (May 2025; the
+  duty to keep new chats ended on 9 October 2025):
+  [Malwarebytes](https://www.malwarebytes.com/blog/news/2025/06/openai-forced-to-preserve-chatgpt-chats),
+  [Simon Willison](https://simonwillison.net/2025/Jun/5/openai-court-order).
+- Shared ChatGPT chats in Google results (July to August 2025):
+  [TechCrunch](https://techcrunch.com/2025/07/31/your-public-chatgpt-queries-are-getting-indexed-by-google-and-other-search-engines),
+  [Fast Company](https://www.fastcompany.com/91376687/google-indexing-chatgpt-conversations).
+- Human review and retention on consumer Gemini:
+  [Gemini Apps privacy hub](https://support.google.com/gemini/answer/13594961).
+- What the Workspace agreement promises:
+  [Generative AI in Google Workspace privacy hub](https://support.google.com/a/answer/15706919).
+
 ## Changelog
+
+**23 November 2026, night.** Slide 5 now says what can actually go wrong
+on a free account: training, people reading your chats, chats kept after
+you delete them, shared chats turning up in Google, and data protection.
+Each is a real thing that happened or a company's own policy, not a
+scare. The Guardian account sits beside them as the alternative.
 
 **23 November 2026, evening.** Slide 4 now has four kinds of tool, not
 three. The Gemini tools outside Workspace get their own card, because

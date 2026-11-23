@@ -4254,3 +4254,21 @@ body.map-open deck-stage { filter: blur(2px); }
 .aims--four .aim h3 { font-size: 40px; }
 .aims--four .aim p { font-size: 23px; }
 .aims--four .aim .aim-note { margin-top: auto; font-size: 19px; color: var(--ink-mute); border-top: 1px solid var(--hairline); padding-top: 14px; }
+
+/* Beginner's guide · Risk split. A ledger of what can go wrong on the
+   left, the safe alternative in a green-ruled panel on the right
+   (7 + 5 columns). */
+.risk-split { display: grid; grid-template-columns: 7fr 5fr; gap: 72px; align-items: start; }
+.risk-list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+.risk-list li { display: grid; grid-template-columns: 330px 1fr; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--hairline); align-items: baseline; }
+.risk-list strong { font-family: var(--display); font-weight: 500; font-size: 30px; line-height: 1.15; color: var(--news-red); }
+.risk-list span { font-family: var(--body); font-size: 22px; line-height: 1.45; color: var(--ink-soft); }
+.safe-panel { background: var(--paper-deep); border: 1px solid var(--hairline); border-top: 6px solid var(--eco-green); box-shadow: var(--shadow-card); padding: 36px 40px 40px; }
+.safe-panel .safe-tag { font-family: var(--sans, var(--mono)); font-size: 20px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--eco-green); margin: 0 0 14px; }
+.safe-panel h3 { font-family: var(--display); font-weight: 500; font-size: 48px; line-height: 1.05; margin: 0 0 20px; color: var(--ink); }
+.safe-panel p { font-family: var(--body); font-size: 25px; line-height: 1.45; color: var(--ink-soft); margin: 0; }
+.safe-panel .safe-check { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--hairline); color: var(--ink); font-weight: 700; font-size: 23px; }
+.slide .risk-split { margin-top: -12px; }
+.risk-list li { grid-template-columns: 300px 1fr; padding: 13px 0; }
+.risk-list strong { font-size: 28px; }
+.risk-list span { font-size: 21px; line-height: 1.4; }
