@@ -1,4 +1,4 @@
-# The Beginner's guide to AI in the newsroom: deck rules
+# The beginner's guide to AI in the newsroom: deck rules
 
 Kind: Work
 Audience: Guardian journalists with almost no experience of AI or confidence with it. Presented by Chris in a one-hour session (45 minutes of content, 15 of questions).
@@ -18,8 +18,8 @@ Design: Guardian (the deck kit below)
   reviewed outside it. Don't overstate it.
 - Examples are national or international, never local news.
 - Screenshots are placeholders until Chris supplies real ones.
-- Chris's title is "The Beginner's guide to AI in the newsroom", capital B
-  as he wrote it, unless he changes it.
+- The title is "The beginner's guide to AI in the newsroom", sentence case
+  (Chris capped "beginner's" down on 23 November 2026).
 
 This repo is the second-edition Guardian deck kit. Three files are load-
 bearing and shared across every deck built from it; one file is yours.

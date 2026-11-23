@@ -1,4 +1,4 @@
-# The Beginner's guide to AI in the newsroom
+# The beginner's guide to AI in the newsroom
 
 A deck for a one-hour session: 45 minutes of content, 15 of questions. For
 Guardian journalists with little or no experience of AI.
@@ -35,6 +35,12 @@ card copies on click.
   deck uses, or internal only.
 
 ## Changelog
+
+**23 November 2026, later.** Reworked the cover. "Beginner's" is lower
+case now, the title is smaller so it sits on two calm lines, and the line
+under it is about the person rather than the contents: AI is moving so fast
+that it can feel impossible to know where to start, and this is the first
+step. The kicker no longer repeats the title.
 
 **23 November 2026.** First cut. Sixteen slides: cover, running order,
 part one on the tools and the rules, part two on four ways to search, an

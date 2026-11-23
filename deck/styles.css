@@ -4228,3 +4228,17 @@ body.map-open deck-stage { filter: blur(2px); }
   margin: 4px 0 0;
 }
 @media (max-width: 1024px) { .have-pic { box-shadow: none !important; } }
+
+
+/* ----------------------------------------------------------------
+   Beginner's guide · Long cover. The kit's wordmark is sized for a
+   two-word title; this one runs to seven words over two lines, so it
+   comes down in size and the framing sits directly under it, larger,
+   rather than stranded at the foot of the slide.
+   ---------------------------------------------------------------- */
+.cover--long .wordmark { font-size: 132px; line-height: 1; letter-spacing: -0.025em; }
+.cover--long .cover-head .kicker { margin-bottom: 40px; }
+.cover--long .cover-framing { font-size: 38px; line-height: 1.4; max-width: 1180px; margin-top: 64px; color: var(--ink-soft); }
+.cover--long .cover-meta-row { grid-template-columns: 1fr; }
+.cover--long .cover-head { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 40px; }
+.cover--long .cover-head .wordmark { margin: 0; }

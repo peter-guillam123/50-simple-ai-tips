@@ -116,7 +116,7 @@ not built yet.
 - `about.html`: About page with the diary. Add an entry with each significant
   change, newest first, in Chris's voice.
 - Run: `python3 -m http.server 8765`. Check in a real browser before saying done.
-- `deck/`: a separate one-hour training deck, "The Beginner's guide to AI in the
+- `deck/`: a separate one-hour training deck, "The beginner's guide to AI in the
   newsroom", built on the Guardian deck kit. It has its own CLAUDE.md, README
   and About page.
 
