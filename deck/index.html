@@ -270,6 +270,7 @@
 
     <p class="kicker" data-fx="rise" style="--d:60ms">Part two · Which one when</p>
     <h2 class="slide-title" data-split>Start from what you <em>have</em>.</h2>
+    <p class="slide-subtitle" data-fx="rise" style="--d:220ms">Each one reads something different. That decides what it can answer, and what you check the answer against.</p>
 
     <div class="slide-body">
       <div class="framework">
@@ -277,6 +278,7 @@
           <div class="fw-what">
             <h3><span class="fw-num">01</span>AI Overviews</h3>
             <p>A quick question you would Google anyway. The answer sits at the top of the results.</p>
+            <p class="fw-reads">Reads: The web, through Google’s search results</p>
           </div>
           <div class="example-bubble" data-fx="spring-up" style="--d:500ms"><p>"What is a section 114 notice?"</p></div>
         </div>
@@ -284,6 +286,7 @@
           <div class="fw-what">
             <h3><span class="fw-num">02</span>AI Mode</h3>
             <p>A question with several parts, and follow-ups. A conversation, not a list of links.</p>
+            <p class="fw-reads">Reads: The web, many searches at once, plus anything you upload</p>
           </div>
           <div class="example-bubble" data-fx="spring-up" style="--d:630ms"><p>"Which councils have issued one since 2018, and why?"</p></div>
         </div>
@@ -291,6 +294,7 @@
           <div class="fw-what">
             <h3><span class="fw-num">03</span>Gemini in Chrome</h3>
             <p>A question about the web page you are reading, or the tabs you have open.</p>
+            <p class="fw-reads">Reads: The page in front of you, and tabs you point it at</p>
           </div>
           <div class="example-bubble" data-fx="spring-up" style="--d:760ms"><p>"Compare the eligibility rules on these three gov.uk pages."</p></div>
         </div>
@@ -298,6 +302,7 @@
           <div class="fw-what">
             <h3><span class="fw-num">04</span>Gemini in YouTube</h3>
             <p>A question about a long video: what it covers, and where something is said.</p>
+            <p class="fw-reads">Reads: The words spoken in the video</p>
           </div>
           <div class="example-bubble" data-fx="spring-up" style="--d:890ms"><p>"When does the minister talk about prisons?"</p></div>
         </div>
@@ -326,6 +331,7 @@
         <p class="kicker" data-fx="rise" style="--d:80ms">Part two · 01 · AI Overviews</p>
         <h2 class="slide-title" data-split data-split-base="160">The answer above the <em>links</em>.</h2>
         <p class="slide-subtitle" data-fx="rise" style="--d:340ms">When you search Google, an AI-written summary often appears at the top. That is an AI Overview: good for getting your bearings on a term, a date or a name. You can search with a picture too, using the camera icon in the search box.</p>
+        <p class="reads" data-fx="rise" style="--d:400ms"><span class="reads-k">What it reads</span><span class="reads-v">The web, through Google’s search results. It sums up the pages it found and links to them.</span></p>
         <div class="prompt-box" data-copy data-fx="rise" style="--d:460ms">
           <div class="prompt-head">
             <p class="prompt-label">Type into Google</p>
@@ -412,6 +418,7 @@
     <p class="slide-subtitle" data-fx="rise" style="--d:240ms">AI Mode is a separate tab on Google that answers in a conversation instead of a list of links. Find it on the results page, or go to google.com/aimode. It can read a PDF or a photo you upload, too.</p>
 
     <div class="slide-body">
+      <p class="reads" data-fx="rise" style="--d:320ms"><span class="reads-k">What it reads</span><span class="reads-v">The web, through many Google searches run at once, plus any PDF or photo you upload.</span></p>
       <div class="prompt-box" data-copy data-fx="rise" style="--d:400ms">
         <div class="prompt-head">
           <p class="prompt-label">Try this in AI Mode</p>
@@ -451,6 +458,7 @@
     <p class="slide-subtitle" data-fx="rise" style="--d:260ms">Gemini in Chrome sits in your browser. It can read the page in front of you, or several open tabs at once, so you don’t have to copy anything out.</p>
 
     <div class="slide-body">
+      <p class="reads" data-fx="rise" style="--d:280ms"><span class="reads-k">What it reads</span><span class="reads-v">The page you have open, and other tabs if you name them. Not pages behind a login you haven’t opened.</span></p>
       <div class="ai-choice">
         <article class="choice-card" data-fx="rise" style="--d:320ms">
           <span class="choice-num">01</span>
@@ -484,11 +492,12 @@
   <!-- ============================================================
        13 — Gemini in YouTube
        ============================================================ -->
-  <section class="slide slide--ql" data-label="Gemini in YouTube">
+  <section class="slide slide--ql slide--ql-reads" data-label="Gemini in YouTube">
     <div class="rule-band"></div>
 
     <p class="kicker" data-fx="rise" style="--d:60ms">Part two · 04 · Gemini in YouTube</p>
     <h2 class="slide-title" data-split>Ask a video a <em>question</em>.</h2>
+    <p class="reads" data-fx="rise" style="--d:240ms"><span class="reads-k">What it reads</span><span class="reads-v">The words spoken in the video, so it can tell you what was said and when. Public videos only.</span></p>
 
     <div class="slide-body">
       <div class="ql-frame" data-fx="photo" style="--d:200ms">

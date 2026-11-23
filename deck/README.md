@@ -52,6 +52,13 @@ Checked through search on 23 November 2026, not by reading each page in full.
 
 ## Changelog
 
+**23 November 2026, late.** Every search slide now says what the tool
+reads: the web through Google's results, the page you have open, or the
+words spoken in a video. It's the idea the written guide's ladder was
+built on, and it was missing here. Slide 8 lines all four up, and its new
+standfirst says why it matters: what a tool reads decides what it can
+answer, and what you check the answer against.
+
 **23 November 2026, night.** Slide 5 now says what can actually go wrong
 on a free account: training, people reading your chats, chats kept after
 you delete them, shared chats turning up in Google, and data protection.

@@ -4272,3 +4272,18 @@ body.map-open deck-stage { filter: blur(2px); }
 .risk-list li { grid-template-columns: 300px 1fr; padding: 13px 0; }
 .risk-list strong { font-size: 28px; }
 .risk-list span { font-size: 21px; line-height: 1.4; }
+
+/* Beginner's guide · What it reads. One line on each search slide naming
+   the material the tool works from: a blue rule and a mono label, so it
+   reads as the same fact in the same place on every slide. */
+.reads { display: flex; gap: 20px; align-items: baseline; margin: 0; padding: 14px 20px; border-left: 4px solid var(--guardian-blue); background: rgba(5, 41, 98, 0.06); }
+.reads-k { flex: none; font-family: var(--mono); font-size: 17px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--guardian-blue); }
+.reads-v { font-family: var(--body); font-size: 23px; line-height: 1.4; color: var(--ink); }
+.prompt-col .reads { margin: 0 0 24px; }
+.slide--choice .reads { margin-bottom: 28px; }
+.ql-points .reads { margin-bottom: 8px; }
+.fw-what .fw-reads { margin-top: 6px; font-family: var(--mono); font-size: 16px; letter-spacing: 0.04em; color: var(--guardian-blue); }
+.slide--ql-reads > .reads { margin: 4px 0 8px; max-width: 1300px; }
+.slide--ql-reads .ql-point { padding-top: 16px; }
+.slide--ql-reads .ql-point h3 { margin-bottom: 8px; }
+.fw-what .fw-reads { font-size: 19px; }
