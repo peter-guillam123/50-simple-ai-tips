@@ -36,6 +36,12 @@ card copies on click.
 
 ## Changelog
 
+**23 November 2026, evening.** Slide 4 now has four kinds of tool, not
+three. The Gemini tools outside Workspace get their own card, because
+they're covered by the same agreement even though they sit outside it, and
+Google Search and YouTube get the fourth, because they're covered by
+nothing.
+
 **23 November 2026, later.** Reworked the cover. "Beginner's" is lower
 case now, the title is smaller so it sits on two calm lines, and the line
 under it is about the person rather than the contents: AI is moving so fast
