@@ -4242,3 +4242,7 @@ body.map-open deck-stage { filter: blur(2px); }
 .cover--long .cover-meta-row { grid-template-columns: 1fr; }
 .cover--long .cover-head { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 40px; }
 .cover--long .cover-head .wordmark { margin: 0; }
+
+/* Beginner's guide · Openers' standfirsts balance their lines, so a
+   longer dek never leaves one word stranded on the last line. */
+.section-opener .section-dek { text-wrap: pretty; }
