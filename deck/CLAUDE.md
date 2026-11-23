@@ -18,6 +18,10 @@ Design: Guardian (the deck kit below)
   reviewed outside it. Don't overstate it.
 - Examples are national or international, never local news.
 - Screenshots are placeholders until Chris supplies real ones.
+- Videos go in `videos/`: crop off browser chrome (tabs, bookmarks, address
+  bar), encode H.264 CRF 22, 30fps, no audio, `+faststart`, plus a `.jpg`
+  poster. Check every frame for anything internal before committing: the
+  repo is public. `deck-video.js` plays a video when its slide is active.
 - The title is "The beginner's guide to AI in the newsroom", sentence case
   (Chris capped "beginner's" down on 23 November 2026).
 

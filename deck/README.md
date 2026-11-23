@@ -27,8 +27,7 @@ card copies on click.
 ## Still to do
 
 - Part three, Gemini Notebook.
-- Real screenshots for slide 9 (an AI Overview) and slide 13 (the Ask
-  button under a YouTube video). They go in `images/`.
+- A real screenshot or recording for slide 9 (an AI Overview).
 - Check on a staff account: that Gemini in Chrome is switched on for us,
   and that the Ask button shows under YouTube videos in the UK.
 - Hosting: GitHub Pages, behind the light password gate the vibecoding
@@ -50,7 +49,22 @@ Checked through search on 23 November 2026, not by reading each page in full.
 - What the Workspace agreement promises:
   [Generative AI in Google Workspace privacy hub](https://support.google.com/a/answer/15706919).
 
+## Videos
+
+Screen recordings live in `videos/`, one per slide, named after what they
+show. Each is cropped to the page itself (no browser tabs or bookmarks),
+squeezed to H.264 at 30 frames a second with no sound, and given a poster
+frame (`.jpg`) for anyone who asks for reduced motion. `deck-video.js`
+starts a video from the top when its slide comes up and stops it when you
+move on. The repo is public, so recordings show public material only.
+
 ## Changelog
+
+**23 November 2026, late.** The first recording is in: the Ask panel on
+a UK Parliament video of PMQs, asked whether Brexit came up. It replaces
+the placeholder on slide 13 and takes the larger share of the slide, so
+the panel's text reads from the back of the room. I cropped off the
+browser's tabs and bookmarks bar first.
 
 **23 November 2026, late.** Every search slide now says what the tool
 reads: the web through Google's results, the page you have open, or the

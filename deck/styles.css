@@ -4287,3 +4287,12 @@ body.map-open deck-stage { filter: blur(2px); }
 .slide--ql-reads .ql-point { padding-top: 16px; }
 .slide--ql-reads .ql-point h3 { margin-bottom: 8px; }
 .fw-what .fw-reads { font-size: 19px; }
+
+/* Beginner's guide · Screen recordings. A video takes the larger share of
+   a picture-and-points slide, because its interface text has to be
+   readable from the back of the room. */
+.slide--ql-video .slide-body { grid-template-columns: 1.45fr 1fr; gap: 56px; }
+.slide--ql-video .ql-points { gap: 28px; }
+.slide--ql-video .ql-point h3 { font-size: 34px; }
+.slide--ql-video .ql-point p { font-size: 22px; }
+video.ql-img { background: var(--paper-deep); }
