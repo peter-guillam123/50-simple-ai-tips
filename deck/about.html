@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="en-GB"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About · The Beginner's guide to AI in the newsroom</title>
+<meta name="description" content="What the Beginner's guide deck is, how it was made, and a diary of what changed and why.">
+<link rel="preconnect" href="https://assets.guim.co.uk" crossorigin>
+<style>
+  /* The deck's stylesheet is built around a fixed 1920×1080 stage, so
+     this page carries its own layout. The fonts, the palette and the
+     editorial register are deliberately the same. */
+
+  @font-face {
+    font-family: 'GH Guardian Headline';
+    src: url('https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'GH Guardian Headline';
+    src: url('https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Bold.woff2') format('woff2');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'GuardianTextEgyptian';
+    src: url('https://assets.guim.co.uk/static/frontend/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'GuardianTextEgyptian';
+    src: url('https://assets.guim.co.uk/static/frontend/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Bold.woff2') format('woff2');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'GuardianTextSans';
+    src: url('https://assets.guim.co.uk/static/frontend/fonts/guardian-textsans/noalts-not-hinted/GuardianTextSans-Bold.woff2') format('woff2');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+
+  :root {
+    --paper: #F4EFE6;
+    --paper-deep: #E8DFD0;
+    --paper-rule: #D0C4AE;
+    --ink: #121212;
+    --ink-soft: #3d3a35;
+    --ink-mute: #6f6b63;
+    --guardian-blue: #052962;
+    --guardian-yellow: #FFE500;
+    --news-red: #C70000;
+    --eco-green: #22874d;
+    --display: 'GH Guardian Headline', Georgia, 'Times New Roman', serif;
+    --body: 'GuardianTextEgyptian', Georgia, 'Times New Roman', serif;
+    --ui: 'GuardianTextSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --mono: 'Menlo', 'SF Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 19px;
+    line-height: 1.62;
+  }
+
+  .band { height: 8px; display: flex; }
+  .band i { flex: 1; }
+  .band i:first-child { background: var(--guardian-blue); flex: 3; }
+  .band i:last-child { background: var(--guardian-yellow); }
+
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 24px 96px; }
+
+  header.masthead { padding: 56px 0 34px; border-bottom: 2px solid var(--ink); margin-bottom: 40px; }
+  .eyebrow {
+    font-family: var(--ui);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--news-red);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(38px, 7vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    margin: 0 0 18px;
+  }
+  h1 em { color: var(--news-red); font-style: italic; }
+  .standfirst {
+    font-size: clamp(19px, 2.4vw, 22px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 34rem;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(26px, 4vw, 33px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 48px 0 14px;
+  }
+  h3 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(21px, 3vw, 25px);
+    line-height: 1.15;
+    margin: 32px 0 10px;
+  }
+  p { margin: 0 0 18px; }
+  a { color: var(--guardian-blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--news-red); }
+  a:focus-visible { outline: 3px solid var(--news-red); outline-offset: 3px; }
+  strong { font-weight: 700; }
+  code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--paper-deep);
+    padding: 2px 6px;
+    border-radius: 3px;
+    word-break: break-word;
+  }
+
+  .lede-panel {
+    background: var(--paper-deep);
+    border-left: 5px solid var(--guardian-blue);
+    padding: 22px 26px 6px;
+    margin: 0 0 20px;
+  }
+
+  ul.plain { list-style: none; margin: 0 0 20px; padding: 0; }
+  ul.plain li {
+    padding: 11px 0 11px 26px;
+    border-top: 1px solid var(--paper-rule);
+    position: relative;
+  }
+  ul.plain li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 21px;
+    width: 9px; height: 9px;
+    background: var(--news-red);
+  }
+
+  /* The diary */
+  .entry { padding-top: 34px; margin-top: 34px; border-top: 1px solid var(--paper-rule); }
+  .entry:first-of-type { border-top: 2px solid var(--ink); }
+  .entry-meta {
+    font-family: var(--ui);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0 0 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .tag {
+    color: var(--paper);
+    background: var(--eco-green);
+    padding: 3px 9px;
+    letter-spacing: 0.1em;
+  }
+  .tag.milestone { background: var(--news-red); }
+  .entry h3 { margin-top: 0; }
+
+  footer.foot {
+    margin-top: 64px;
+    padding-top: 22px;
+    border-top: 2px solid var(--ink);
+    font-family: var(--ui);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+  }
+
+  @media (max-width: 480px) {
+    body { font-size: 17px; }
+    .wrap { padding-bottom: 64px; }
+    header.masthead { padding-top: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="band" aria-hidden="true"><i></i><i></i></div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">About this deck</p>
+    <h1>The Beginner's guide to AI in the <em>newsroom.</em></h1>
+    <p class="standfirst">A one-hour session for Guardian journalists with little or no experience of AI: 45 minutes of slides and demonstrations, then 15 for questions. This page says what the deck is, how it's made, and what changed and why.</p>
+  </header>
+
+  <h2>What this is</h2>
+
+  <div class="lede-panel">
+    <p>A deck for people who have barely used AI and aren't sure they're allowed to. It starts with the rules, because they're short and they're what people worry about, then shows four ways to search with AI, then spends the biggest part on Gemini Notebook.</p>
+  </div>
+
+  <p>It's driven by hand: arrow keys or space to advance, nothing on a timer. Every prompt card copies on click, so the prompts typed live come off the slide itself.</p>
+
+  <h2>How it's made</h2>
+
+  <p>Plain HTML and CSS, no build step. It's built from the <a href="https://github.com/peter-guillam123/guardian-deck-template">Guardian deck template</a>, with the extra components from the <a href="https://peter-guillam123.github.io/vibecoding-workshop/">vibecoding workshop</a>. The words in part one come from the written guide to AI at work that sits beside it, cut down for a room.</p>
+
+  <p>Like everything else here, it was built by describing it in English to Claude Code and letting it do the typing.</p>
+
+  <h2>Diary</h2>
+
+  <article class="entry">
+    <p class="entry-meta"><span class="tag milestone">Milestone</span><span>23 November 2026</span></p>
+    <h3>From a written guide to an hour in a room</h3>
+
+    <p>The written guide grew to 74 tips, which is the right size for something you dip into and the wrong size for a session. So this is the other half: an hour, called the Beginner's guide, for people with almost no experience or confidence. I'm not using everything from the guide. The start carries over: what you're allowed to use, why it matters which account you're signed in to, and the four ways to search.</p>
+    <p>The first cut has sixteen slides. A cover and a running order; part one on the tools and the rules; part two on AI Overviews, AI Mode, Gemini in Chrome and Gemini in YouTube, with the evidence on how reliable AI Overviews are and one slide that says to check everything; then an opener for part three, Gemini Notebook, which gets the most time and is still to write. Screenshots are placeholders until I take real ones.</p>
+  </article>
+
+  <footer class="foot">
+    <p>Chris Moran · Guardian · <a href="./">Open the deck</a></p>
+  </footer>
+
+</div>
+
+</body></html>

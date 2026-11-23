@@ -1,0 +1,554 @@
+<!DOCTYPE html><html lang="en-GB"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Beginner's guide to AI in the newsroom</title>
+<link rel="preconnect" href="https://assets.guim.co.uk" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ================================================================
+     THE BEGINNER'S GUIDE TO AI IN THE NEWSROOM
+     A one-hour session: 45 minutes of content, 15 of questions.
+     Built from the Guardian deck template, second edition, with the
+     vibecoding workshop's components. House rules in CLAUDE.md.
+
+     Driven by hand. Nothing advances itself. Every prompt card copies
+     on click (prompt-copy.js), so the prompts you type live come off
+     the slide.
+
+     Part three, Gemini Notebook, is an opener only for now.
+     ================================================================ -->
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============================================================
+       01 — Cover
+       ============================================================ -->
+  <section class="slide cover" data-label="Cover">
+    <div class="rule-band"></div>
+
+    <div>
+      <p class="kicker" data-fx="rise" style="--d:80ms"><span class="group-tag">Training</span>AI in the newsroom · One hour</p>
+      <h1 class="wordmark" data-split data-split-base="300" data-split-step="60">The Beginner's guide<br>to AI in the <em>newsroom<span class="q-mark">.</span></em></h1>
+    </div>
+
+    <div class="cover-meta-row">
+      <p class="cover-framing" data-fx="rise" style="--d:900ms">An hour on the AI tools the Guardian already gives you: which ones you can use, how to search with them, and how to get answers from your own documents. Bring a question you would normally Google.</p>
+      <div class="cover-stat-block" data-fx="rise" style="--d:1020ms">
+        <p class="cover-note-wrap"><span class="cover-note">No experience needed</span></p>
+      </div>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">01 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       02 — The session
+       ============================================================ -->
+  <section class="slide case" data-label="The session">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">The session</p>
+    <h2 class="slide-title" data-split>Forty-five minutes, then <em>questions</em>.</h2>
+
+    <div class="slide-body">
+      <p class="case-lede" data-fx="rise" style="--d:220ms"><strong>The rules first, because they are short. Then most of the hour on the tools themselves.</strong></p>
+
+      <ol class="runsheet">
+        <li data-fx="rise" style="--d:300ms">
+          <span class="rs-part">Part one</span>
+          <span class="rs-time">5 minutes</span>
+          <span class="rs-what">The tools you can use, and why it matters which</span>
+        </li>
+        <li data-fx="rise" style="--d:370ms">
+          <span class="rs-part">Part two</span>
+          <span class="rs-time">15 minutes</span>
+          <span class="rs-what">Searching with AI: four ways to ask a question</span>
+        </li>
+        <li data-fx="rise" style="--d:440ms">
+          <span class="rs-part">Part three</span>
+          <span class="rs-time"><mark>25 minutes</mark></span>
+          <span class="rs-what">Gemini Notebook: answers from your own documents</span>
+        </li>
+        <li data-fx="rise" style="--d:510ms">
+          <span class="rs-part">Questions</span>
+          <span class="rs-time">15 minutes</span>
+          <span class="rs-what">Anything you like</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">02 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       03 — Part one opener
+       ============================================================ -->
+  <section class="slide ink section-opener" data-label="Part one">
+    <div class="rule-band"></div>
+    <span class="chapter-ghost" aria-hidden="true" data-fx="ghost" style="--d:150ms">01</span>
+
+    <div class="chapter-num" data-fx="rise" style="--d:100ms">Part one</div>
+    <h1 data-split data-split-base="260" data-split-step="50">The tools you can <em>use.</em></h1>
+    <p class="section-dek" data-fx="rise" style="--d:780ms">The Guardian already pays for these, and your work stays inside its agreements. That is not true of the free tools on your phone.</p>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">03 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       04 — Three kinds of tool
+       ============================================================ -->
+  <section class="slide" data-label="Three kinds of tool">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part one · What you have</p>
+    <h2 class="slide-title" data-split>Three kinds of <em>tool</em>.</h2>
+    <p class="slide-subtitle" data-fx="rise" style="--d:240ms">Plus Google Search and YouTube, which anyone can use. Fine for public material, and nothing more.</p>
+
+    <div class="slide-body">
+      <div class="aims">
+        <div class="aim" data-fx="rise" style="--d:320ms">
+          <span class="aim-num">01</span>
+          <h3>Inside Google Workspace</h3>
+          <p>Gmail, Drive, Docs, Sheets, Meet and Chat, with Gemini built in. Look for the star icon, top right. Same account, same privacy as the app itself.</p>
+        </div>
+        <div class="aim" data-fx="rise" style="--d:440ms">
+          <span class="aim-num">02</span>
+          <h3>General AI tools</h3>
+          <p>The Gemini app, Gemini Notebook and Gemini in Chrome, all under the Guardian’s Google agreement. ChatGPT Enterprise too, if you are on the list.</p>
+        </div>
+        <div class="aim" data-fx="rise" style="--d:560ms">
+          <span class="aim-num">03</span>
+          <h3>Built by the Guardian</h3>
+          <p>Ask the Guardian, House, Guardian Angles and our own transcription tools. Where one of these does the job, use it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">04 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       05 — Use the Guardian's account
+       ============================================================ -->
+  <section class="slide" data-label="The Guardian's account">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part one · Why it matters</p>
+    <h2 class="slide-title" data-split>Use the Guardian’s <em>account</em>.</h2>
+    <p class="slide-subtitle" data-fx="rise" style="--d:220ms">Workspace runs under the Guardian’s agreement with Google, amended to cover Gemini. Your content is not used for training outside the Guardian’s domain, and your conversations are not reviewed outside it.</p>
+
+    <div class="slide-body">
+      <div class="duo">
+        <div class="duo-side" data-fx="rise" style="--d:340ms">
+          <p class="duo-tag">Never</p>
+          <h3>A free or personal account</h3>
+          <p class="duo-body">Free Claude, personal ChatGPT, Gemini on your own Google account. They sit outside the Guardian’s agreements, and what you paste in may be kept and used for training.</p>
+        </div>
+        <div class="duo-divider" data-fx="bar-v" style="--d:260ms"></div>
+        <div class="duo-side" data-fx="rise" style="--d:500ms">
+          <p class="duo-tag">Always</p>
+          <h3>Your Guardian account</h3>
+          <p class="duo-body">Gemini signed in with your Guardian email. Check the account in the top corner before you paste anything in.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">05 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       06 — Four more things
+       ============================================================ -->
+  <section class="slide slide--rules" data-label="Four more things">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part one · The rest of the rules</p>
+    <h2 class="slide-title" data-split>Four more things to <em>know</em>.</h2>
+
+    <div class="slide-body">
+      <ul class="rules-list">
+        <li class="rule-row" data-fx="rise" style="--d:200ms">
+          <span class="rule-tag">Rule 01</span>
+          <div>
+            <h3>No Gemini icon? Do the training</h3>
+            <p>Gemini appears once you have done the AI Essentials training and read the GenAI acceptable use policy.</p>
+          </div>
+        </li>
+        <li class="rule-row" data-fx="rise" style="--d:320ms">
+          <span class="rule-tag">Rule 02</span>
+          <div>
+            <h3>If it can’t go in Drive, it can’t go in AI</h3>
+            <p>A confidential source or a sensitive document stays out of AI tools, for the same reasons it stays out of email.</p>
+          </div>
+        </li>
+        <li class="rule-row" data-fx="rise" style="--d:440ms">
+          <span class="rule-tag">Rule 03</span>
+          <div>
+            <h3>Take care with people</h3>
+            <p>Don’t use AI to form opinions about individuals, or to make decisions about them without the data privacy team. Know where your information came from.</p>
+          </div>
+        </li>
+        <li class="rule-row" data-fx="rise" style="--d:560ms">
+          <span class="rule-tag">Rule 04</span>
+          <div>
+            <h3>New tools need approval</h3>
+            <p>Want something that isn’t here? You need budget, then Tech Council approval, before it touches Guardian material.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">06 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       07 — Part two opener
+       ============================================================ -->
+  <section class="slide ink section-opener" data-label="Part two">
+    <div class="rule-band"></div>
+    <span class="chapter-ghost" aria-hidden="true" data-fx="ghost" style="--d:150ms">02</span>
+
+    <div class="chapter-num" data-fx="rise" style="--d:100ms">Part two</div>
+    <h1 data-split data-split-base="260" data-split-step="50">Searching with <em>AI.</em></h1>
+    <p class="section-dek" data-fx="rise" style="--d:780ms">Four ways to ask a question. Which one you pick depends on what you start with: a question, a web page or a video.</p>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">07 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       08 — Which one when
+       ============================================================ -->
+  <section class="slide slide--framework" data-label="Which one when">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part two · Which one when</p>
+    <h2 class="slide-title" data-split>Start from what you <em>have</em>.</h2>
+
+    <div class="slide-body">
+      <div class="framework">
+        <div class="fw-row" data-fx="rise" style="--d:200ms">
+          <div class="fw-what">
+            <h3><span class="fw-num">01</span>AI Overviews</h3>
+            <p>A quick question you would Google anyway. The answer sits at the top of the results.</p>
+          </div>
+          <div class="example-bubble" data-fx="spring-up" style="--d:500ms"><p>"What is a section 114 notice?"</p></div>
+        </div>
+        <div class="fw-row" data-fx="rise" style="--d:330ms">
+          <div class="fw-what">
+            <h3><span class="fw-num">02</span>AI Mode</h3>
+            <p>A question with several parts, and follow-ups. A conversation, not a list of links.</p>
+          </div>
+          <div class="example-bubble" data-fx="spring-up" style="--d:630ms"><p>"Which councils have issued one since 2018, and why?"</p></div>
+        </div>
+        <div class="fw-row" data-fx="rise" style="--d:460ms">
+          <div class="fw-what">
+            <h3><span class="fw-num">03</span>Gemini in Chrome</h3>
+            <p>A question about the web page you are reading, or the tabs you have open.</p>
+          </div>
+          <div class="example-bubble" data-fx="spring-up" style="--d:760ms"><p>"Compare the eligibility rules on these three gov.uk pages."</p></div>
+        </div>
+        <div class="fw-row" data-fx="rise" style="--d:590ms">
+          <div class="fw-what">
+            <h3><span class="fw-num">04</span>Gemini in YouTube</h3>
+            <p>A question about a long video: what it covers, and where something is said.</p>
+          </div>
+          <div class="example-bubble" data-fx="spring-up" style="--d:890ms"><p>"When does the minister talk about prisons?"</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">08 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       09 — AI Overviews
+       ============================================================ -->
+  <section class="slide slide--prompt" data-label="AI Overviews">
+    <div class="rule-band"></div>
+
+    <div class="slide-body">
+      <div class="isw-frame" data-fx="photo" style="--d:180ms">
+        <div class="frame-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+        <img class="isw-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='560'%3E%3Crect width='100%25' height='100%25' fill='%23DCD2BF'/%3E%3Ctext x='400' y='290' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='28' fill='%237a766e'%3EScreenshot to come: an AI Overview on a results page%3C/text%3E%3C/svg%3E" alt="An AI Overview at the top of a Google results page.">
+      </div>
+
+      <div class="prompt-col">
+        <p class="kicker" data-fx="rise" style="--d:80ms">Part two · 01 · AI Overviews</p>
+        <h2 class="slide-title" data-split data-split-base="160">The answer above the <em>links</em>.</h2>
+        <p class="slide-subtitle" data-fx="rise" style="--d:340ms">When you search Google, an AI-written summary often appears at the top. That is an AI Overview: good for getting your bearings on a term, a date or a name. You can search with a picture too, using the camera icon in the search box.</p>
+        <div class="prompt-box" data-copy data-fx="rise" style="--d:460ms">
+          <div class="prompt-head">
+            <p class="prompt-label">Type into Google</p>
+            <div class="frame-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="prompt-body">
+            <p class="prompt-text"><span class="typed" data-type-delay="1100">What is a section 114 notice?</span><span class="caret"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">09 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       10 — How reliable are AI Overviews
+       Figures from the AI working group deck ("True enough?").
+       Neutral: the figures and their caveats, no verdict.
+       ============================================================ -->
+  <section class="slide slide--appendix" data-label="How reliable">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part two · How far to trust it</p>
+    <h2 class="slide-title" data-split>How reliable are AI <em>Overviews</em>?</h2>
+
+    <div class="slide-body">
+      <div class="ax-pair">
+        <article class="ax-card" data-fx="rise" style="--d:200ms">
+          <p class="ax-card-eyebrow">Right on hard factual questions</p>
+          <p class="ax-card-figure" data-count="91" data-count-suffix="%" data-count-delay="500" data-count-dur="900">91%</p>
+          <p class="ax-card-body">An independent test of 4,326 questions for the New York Times. Google disputes the test set.</p>
+        </article>
+        <article class="ax-card" data-fx="rise" style="--d:320ms">
+          <p class="ax-card-eyebrow">Of those right answers, not fully backed by their sources</p>
+          <p class="ax-card-figure" data-count="56" data-count-suffix="%" data-count-delay="620" data-count-dur="900">56%</p>
+          <p class="ax-card-body">The answer was right, but the pages it linked to did not fully show it.</p>
+        </article>
+      </div>
+
+      <h3 class="ax-frictions-head" data-fx="rise" style="--d:480ms">So use it to get your <em>bearings</em>.</h3>
+
+      <ul class="ax-frictions">
+        <li data-fx="rise" style="--d:600ms">
+          <div>
+            <strong>Fine for orientation</strong>
+            <span>A term, a date, a name: things you would check anyway.</span>
+          </div>
+        </li>
+        <li data-fx="rise" style="--d:700ms">
+          <div>
+            <strong>Not a source</strong>
+            <span>Click through to the page it cites before you use anything.</span>
+          </div>
+        </li>
+        <li data-fx="rise" style="--d:800ms">
+          <div>
+            <strong>Weakest where it matters</strong>
+            <span>A Guardian investigation in January 2026 found health overviews giving advice the opposite of expert guidance.</span>
+          </div>
+        </li>
+      </ul>
+
+      <p class="ax-source" data-fx="fade" style="--d:950ms">Oumi for the New York Times, October 2025 and February 2026. A second study, from Washington University in St Louis in May 2026 and not yet peer reviewed, found 89% of 98,000 claims matched the pages cited. The Guardian, 2 January 2026.</p>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">10 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       11 — AI Mode
+       ============================================================ -->
+  <section class="slide slide--prompt-solo slide--spread" data-label="AI Mode">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part two · 02 · AI Mode</p>
+    <h2 class="slide-title" data-split>Ask the whole <em>question</em>.</h2>
+    <p class="slide-subtitle" data-fx="rise" style="--d:240ms">AI Mode is a separate tab on Google that answers in a conversation instead of a list of links. Find it on the results page, or go to google.com/aimode. It can read a PDF or a photo you upload, too.</p>
+
+    <div class="slide-body">
+      <div class="prompt-box" data-copy data-fx="rise" style="--d:400ms">
+        <div class="prompt-head">
+          <p class="prompt-label">Try this in AI Mode</p>
+          <div class="frame-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+        <div class="prompt-body">
+          <p class="prompt-text">Which English councils have issued section 114 notices <span class="pin">since 2018, and what reasons did each give?</span> Put it in a table <span class="pin-2">with a link to the source for each one.</span></p>
+        </div>
+      </div>
+
+      <ol class="annot" data-fx="rise" style="--d:560ms">
+        <li>
+          <p class="annot-bit">"since 2018, and what reasons did each give?"</p>
+          <p class="annot-why"><strong>Ask every part in one go.</strong> AI Mode runs many searches at once, so a question you would have split into five searches becomes one.</p>
+        </li>
+        <li>
+          <p class="annot-bit">"with a link to the source for each one"</p>
+          <p class="annot-why"><strong>Ask for the sources and you can check every line.</strong> Then follow up in the same box. It remembers the conversation.</p>
+        </li>
+      </ol>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">11 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       12 — Gemini in Chrome
+       ============================================================ -->
+  <section class="slide slide--choice" data-label="Gemini in Chrome">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part two · 03 · Gemini in Chrome</p>
+    <h2 class="slide-title" data-split>Ask the page you’re <em>on</em>.</h2>
+    <p class="slide-subtitle" data-fx="rise" style="--d:260ms">Gemini in Chrome sits in your browser. It can read the page in front of you, or several open tabs at once, so you don’t have to copy anything out.</p>
+
+    <div class="slide-body">
+      <div class="ai-choice">
+        <article class="choice-card" data-fx="rise" style="--d:320ms">
+          <span class="choice-num">01</span>
+          <h3>Open the page</h3>
+          <p>In Chrome, signed in with your Guardian account. If the site needs a login, log in first.</p>
+        </article>
+        <article class="choice-card" data-fx="rise" style="--d:440ms">
+          <span class="choice-num">02</span>
+          <h3>Click the Gemini icon</h3>
+          <p>At the top of Chrome. Or right-click anywhere on the page and choose Ask Gemini.</p>
+        </article>
+        <article class="choice-card" data-fx="rise" style="--d:560ms">
+          <span class="choice-num">03</span>
+          <h3>Ask, then check</h3>
+          <p>Ask about this page, or name your other tabs. Check the answer against the page itself.</p>
+        </article>
+      </div>
+
+      <aside class="ai-meta" data-fx="rise" style="--d:820ms">
+        <p class="ai-meta-eyebrow">In practice</p>
+        <p class="ai-meta-body"><em>Three gov.uk pages open?</em> Ask it to compare the eligibility rules on all three. One answer instead of three careful reads.</p>
+      </aside>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">12 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       13 — Gemini in YouTube
+       ============================================================ -->
+  <section class="slide slide--ql" data-label="Gemini in YouTube">
+    <div class="rule-band"></div>
+
+    <p class="kicker" data-fx="rise" style="--d:60ms">Part two · 04 · Gemini in YouTube</p>
+    <h2 class="slide-title" data-split>Ask a video a <em>question</em>.</h2>
+
+    <div class="slide-body">
+      <div class="ql-frame" data-fx="photo" style="--d:200ms">
+        <img class="ql-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='560'%3E%3Crect width='100%25' height='100%25' fill='%23DCD2BF'/%3E%3Ctext x='400' y='290' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='28' fill='%237a766e'%3EScreenshot to come: the Ask button under a YouTube video%3C/text%3E%3C/svg%3E" alt="The Ask button under a YouTube video.">
+      </div>
+      <div class="ql-points">
+        <div class="ql-point" data-fx="rise" style="--d:480ms">
+          <span class="point-num">01</span>
+          <h3>What does it cover?</h3>
+          <p>Click Ask under the video and ask for a summary with timestamps. You know in a minute whether a two-hour hearing is worth watching.</p>
+        </div>
+        <div class="ql-point" data-fx="rise" style="--d:620ms">
+          <span class="point-num">02</span>
+          <h3>Where is it said?</h3>
+          <p>Ask when the minister talks about prisons. Click the timestamp and listen to the exact words before you quote them.</p>
+        </div>
+        <div class="ql-point" data-fx="rise" style="--d:760ms">
+          <span class="point-num">03</span>
+          <h3>No Ask button?</h3>
+          <p>It shows on some videos and not others. Paste the link into the Gemini app and ask there instead.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">13 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       14 — Check everything
+       ============================================================ -->
+  <section class="slide ink slide--research" data-label="Check everything">
+    <div class="rule-band"></div>
+
+    <p class="research-eyebrow" data-fx="rise" style="--d:80ms">One rule for all four</p>
+    <p class="research-quote" data-split data-split-base="220" data-split-step="26"><span class="research-mark no-split" data-fx="fade" style="--d:120ms">“</span>Treat every answer as a lead, not a fact, and <em>click through</em> before you use it.</p>
+    <p class="research-sub" data-fx="rise" style="--d:1300ms">Quotes against the recording · figures against the document · everything else against the page it came from</p>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">14 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       15 — Part three opener. Gemini Notebook: to come.
+       ============================================================ -->
+  <section class="slide ink section-opener" data-label="Part three">
+    <div class="rule-band"></div>
+    <span class="chapter-ghost" aria-hidden="true" data-fx="ghost" style="--d:150ms">03</span>
+
+    <div class="chapter-num" data-fx="rise" style="--d:100ms">Part three</div>
+    <h1 data-split data-split-base="260" data-split-step="50">Gemini <em>Notebook.</em></h1>
+    <p class="section-dek" data-fx="rise" style="--d:780ms">Answers that come only from the documents you give it, with the page for every one.</p>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">15 / NN</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       16 — Questions
+       ============================================================ -->
+  <section class="slide ink slide--research slide--thanks" data-label="Questions">
+    <div class="rule-band"></div>
+
+    <p class="research-eyebrow" data-fx="rise" style="--d:80ms">That's the 45 minutes</p>
+    <p class="research-quote" data-split data-split-base="220" data-split-step="26"><em>Questions?</em></p>
+    <p class="research-sub" data-fx="rise" style="--d:900ms">Every prompt in this deck copies when you click it. Take them with you.</p>
+
+    <div class="slide-foot">
+      <span class="wm">The Beginner's guide to AI in the newsroom</span>
+      <span class="num">16 / NN</span>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+<script src="prompt-copy.js"></script>
+<script src="motion.js"></script>
+<script src="grid-overlay.js"></script>
+
+</body></html>
